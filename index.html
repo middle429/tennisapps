@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d4a2a">
+<title>テニス練習管理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --green1:#1a5c3a;--green2:#2d8a5a;--green3:#3db37a;--green4:#6ecf9e;
+  --glass:rgba(255,255,255,0.08);--glass-border:rgba(255,255,255,0.15);
+  --text:#f0f7f3;--text2:rgba(240,247,243,0.7);--text3:rgba(240,247,243,0.45);
+  --card-bg:rgba(255,255,255,0.07);--card-border:rgba(255,255,255,0.12);
+  --danger:#e86060;--amber:#e8b060;
+}
+html,body{height:100%;overflow:hidden;background:#061e14}
+body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-items:center}
+.app-wrap{
+  width:100%;max-width:430px;height:100%;height:100dvh;
+  background:linear-gradient(160deg,#0d4a2a 0%,#0a3520 40%,#061e14 100%);
+  display:flex;flex-direction:column;position:relative;overflow:hidden;
+}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:80px;-webkit-overflow-scrolling:touch}
+.screen::-webkit-scrollbar{display:none}
+
+/* Bottom Nav */
+.bottom-nav{
+  position:absolute;bottom:0;left:0;right:0;
+  height:calc(64px + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(6,30,20,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--glass-border);
+  display:flex;align-items:flex-start;justify-content:space-around;padding-top:8px;
+}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;background:none;border:none;cursor:pointer;color:var(--text3);transition:color 0.2s;-webkit-appearance:none}
+.nav-btn.active{color:var(--green3)}
+.nav-btn svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.nav-label{font-size:10px;font-weight:500;font-family:'DM Sans',sans-serif}
+.nav-dot{width:4px;height:4px;border-radius:50%;background:var(--green3);opacity:0;margin-top:2px}
+.nav-btn.active .nav-dot{opacity:1}
+
+/* Tabs */
+.tab{display:none}.tab.active{display:block}
+
+/* Header */
+.header{padding:max(20px, calc(env(safe-area-inset-top) + 16px)) 20px 12px;background:linear-gradient(180deg,rgba(13,74,42,0.8) 0%,transparent 100%)}
+.greeting{font-size:13px;color:var(--text2);margin-bottom:2px}
+.greeting-name{font-size:22px;font-weight:600;color:var(--text);letter-spacing:-0.3px}
+.goal-chip{display:inline-flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:6px 12px;margin-top:10px;font-size:12px;color:var(--text2)}
+.goal-chip svg{width:14px;height:14px;stroke:var(--green3);fill:none;stroke-width:2}
+
+/* FAB */
+.fab{position:absolute;bottom:calc(76px + env(safe-area-inset-bottom));right:16px;z-index:100}
+.fab-ball{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#d4e84a,#a8c224);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.5),inset 0 2px 4px rgba(255,255,255,0.3);transition:transform 0.15s;-webkit-appearance:none}
+.fab-ball:active{transform:scale(0.93)}
+.fab-ball svg{width:22px;height:22px;stroke:#2a4a00;fill:none;stroke-width:2.5;stroke-linecap:round}
+.fab-menu{position:absolute;bottom:66px;right:0;display:flex;flex-direction:column;gap:8px;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;transform:translateY(10px)}
+.fab-menu.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.fab-item{display:flex;align-items:center;gap:8px;background:rgba(15,50,30,0.97);border:1px solid var(--glass-border);border-radius:20px;padding:10px 16px;color:var(--text);font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;backdrop-filter:blur(10px)}
+.fab-item svg{width:16px;height:16px;stroke:var(--green3);fill:none;stroke-width:2;stroke-linecap:round}
+
+/* Section */
+.section{padding:12px 16px}
+.section-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quick-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:14px;cursor:pointer;transition:background 0.2s;-webkit-tap-highlight-color:rgba(255,255,255,0.05)}
+.quick-card:active{background:rgba(255,255,255,0.12)}
+.quick-card svg{width:20px;height:20px;stroke:var(--green3);fill:none;stroke-width:1.8;stroke-linecap:round;margin-bottom:8px;display:block}
+.quick-card-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.coming-badge{font-size:9px;background:rgba(232,176,96,0.2);color:var(--amber);border-radius:6px;padding:2px 6px;font-weight:600}
+
+/* Log */
+.log-tabs{display:flex;padding:12px 16px 0;border-bottom:1px solid var(--glass-border)}
+.log-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+.log-tab.active{color:var(--green3);border-bottom-color:var(--green3)}
+.log-list{padding:12px 16px}
+.log-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:background 0.2s;-webkit-tap-highlight-color:rgba(255,255,255,0.05)}
+.log-card:active{background:rgba(255,255,255,0.1)}
+.log-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.log-card-title{font-size:15px;font-weight:500;color:var(--text);flex:1;margin-right:8px}
+.log-card-date{font-size:11px;color:var(--text3);white-space:nowrap}
+.log-card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tag{background:rgba(61,179,122,0.15);color:var(--green4);border-radius:8px;padding:3px 8px;font-size:11px;font-weight:500}
+.log-card-memo{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5}
+.carry-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:rgba(232,176,96,0.15);color:var(--amber);border-radius:6px;padding:2px 6px;margin-top:6px}
+.gear-tension{font-size:22px;font-weight:600;color:var(--green3);margin-top:4px}
+
+/* Empty */
+.empty-state{text-align:center;padding:48px 20px;color:var(--text3)}
+.empty-state svg{width:40px;height:40px;stroke:var(--text3);fill:none;margin:0 auto 12px;display:block}
+.empty-state p{font-size:14px;line-height:1.6}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:linear-gradient(160deg,#102e1e,#081a10);
+  border-radius:24px 24px 0 0;
+  padding:20px 20px calc(20px + env(safe-area-inset-bottom));
+  width:100%;max-height:92dvh;overflow-y:auto;
+  transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);
+  -webkit-overflow-scrolling:touch;
+}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--glass-border);border-radius:2px;margin:0 auto 18px}
+.modal-title{font-size:19px;font-weight:600;color:var(--text);margin-bottom:18px}
+
+/* Form */
+.form-group{margin-bottom:14px}
+.form-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:6px;display:block}
+.form-input,.form-textarea{
+  width:100%;background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:10px;padding:12px 14px;color:var(--text);
+  font-size:16px;font-family:'DM Sans',sans-serif;outline:none;
+  transition:border-color 0.2s;-webkit-appearance:none;appearance:none;
+}
+.form-input:focus,.form-textarea:focus{border-color:var(--green3)}
+.form-textarea{resize:none;min-height:90px;line-height:1.6}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text3)}
+.tag-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag-sug{background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--text2);cursor:pointer;transition:background 0.15s}
+.tag-sug.selected{background:rgba(61,179,122,0.2);border-color:var(--green3);color:var(--green4)}
+
+/* Checkbox */
+.check-row{display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;margin-bottom:14px}
+.check-box{width:22px;height:22px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.check-box.checked{background:var(--green2);border-color:var(--green3)}
+.check-box svg{width:13px;height:13px;stroke:var(--text);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.check-label{font-size:13px;color:var(--text2)}
+
+/* Carry over */
+.carry-section{background:rgba(232,176,96,0.08);border:1px solid rgba(232,176,96,0.2);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--amber);margin-bottom:14px;line-height:1.5}
+
+/* Buttons */
+.btn-row{display:flex;gap:10px;margin-top:18px}
+.btn{flex:1;padding:13px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:all 0.15s;font-family:'DM Sans',sans-serif;-webkit-appearance:none}
+.btn-primary{background:linear-gradient(135deg,var(--green2),var(--green1));color:var(--text)}
+.btn-secondary{background:var(--glass);border:1px solid var(--glass-border);color:var(--text2)}
+.btn:active{transform:scale(0.97)}
+
+/* YT chip */
+.yt-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,50,50,0.12);border:1px solid rgba(255,50,50,0.2);border-radius:10px;padding:6px 10px;font-size:12px;color:#ff8080;margin:4px 4px 0 0;word-break:break-all}
+
+/* Detail overlay */
+.detail-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:linear-gradient(160deg,#102e1e,#061e14);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);
+}
+.detail-overlay.open{transform:translateX(0)}
+.detail-header{
+  padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 12px;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--glass-border);
+  position:sticky;top:0;background:rgba(16,46,30,0.97);backdrop-filter:blur(12px);z-index:10;
+}
+.back-btn{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:8px 10px;cursor:pointer;display:flex;align-items:center;color:var(--text2);-webkit-appearance:none}
+.back-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.detail-title-wrap{flex:1}
+.detail-title{font-size:17px;font-weight:600;color:var(--text)}
+.detail-date{font-size:12px;color:var(--text3);margin-top:2px}
+.detail-body{padding:16px}
+.detail-section{margin-bottom:22px}
+.detail-section-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
+.detail-text{font-size:14px;color:var(--text2);line-height:1.7}
+
+/* Analytics */
+.analytics-wrap{padding:20px}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.stat-chip{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:12px 8px;text-align:center}
+.stat-num{font-size:24px;font-weight:600;color:var(--green3)}
+.stat-label{font-size:10px;color:var(--text3);margin-top:3px}
+.analytics-coming{text-align:center;padding:30px 20px;color:var(--text3)}
+.analytics-coming svg{width:44px;height:44px;stroke:var(--text3);fill:none;margin:0 auto 12px;display:block}
+
+/* Profile */
+.profile-wrap{padding:20px}
+.profile-avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--green2),var(--green1));display:flex;align-items:center;justify-content:center;margin:20px auto 12px;font-size:32px}
+.profile-name{text-align:center;font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px}
+.profile-sub{text-align:center;font-size:13px;color:var(--text3);margin-bottom:20px}
+.profile-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--glass-border);cursor:pointer}
+.profile-row-label{font-size:14px;color:var(--text)}
+.profile-row-value{font-size:13px;color:var(--text3)}
+
+/* Toast */
+#toast{
+  position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:rgba(20,55,35,0.97);border:1px solid var(--glass-border);
+  border-radius:20px;padding:9px 18px;font-size:13px;color:var(--text2);
+  opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;z-index:999;
+  backdrop-filter:blur(12px);max-width:90%;
+}
+
+/* Page title */
+.page-title-area{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 8px}
+.page-title{font-size:22px;font-weight:600;color:var(--text);margin-bottom:2px}
+.page-subtitle{font-size:13px;color:var(--text3)}
+
+input[type=date]{color-scheme:dark}
+</style>
+</head>
+<body>
+<div class="app-wrap" id="app">
+<div class="screen" id="screen">
+
+<!-- HOME -->
+<div class="tab active" id="tab-home">
+  <div class="header">
+    <div class="greeting">こんにちは 👋</div>
+    <div class="greeting-name">テニスプレーヤー</div>
+    <div class="goal-chip">
+      <svg viewBox="0 0 24 24"><polyline points="22,12,18,12,15,21,9,3,6,12,2,12"/></svg>
+      大目標：全国大会出場
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">クイックアクセス</div>
+    <div class="quick-grid">
+      <div class="quick-card" onclick="showToast('近日公開予定です')">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16"/><polyline points="14,2,14,8,20,8"/><path d="M20 2v16a2 2 0 0 1-2 2H8"/></svg>
+        <div class="quick-card-label">前回の振り返り</div>
+        <div><span class="coming-badge">準備中</span></div>
+      </div>
+      <div class="quick-card" onclick="showToast('近日公開予定です')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <div class="quick-card-label">自主練メニュー</div>
+        <div><span class="coming-badge">準備中</span></div>
+      </div>
+      <div class="quick-card" onclick="showToast('将来実装予定です')">
+        <svg viewBox="0 0 24 24"><polygon points="12,2,15.09,8.26,22,9.27,17,14.14,18.18,21.02,12,17.77,5.82,21.02,7,14.14,2,9.27,8.91,8.26"/></svg>
+        <div class="quick-card-label">スキルツリー</div>
+        <div><span class="coming-badge">近日公開</span></div>
+      </div>
+      <div class="quick-card" onclick="showToast('将来実装予定です')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <div class="quick-card-label">コートマッピング</div>
+        <div><span class="coming-badge">近日公開</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">最近の練習</div>
+    <div id="home-recent"></div>
+  </div>
+</div>
+
+<!-- LOG -->
+<div class="tab" id="tab-log">
+  <div class="page-title-area">
+    <div class="page-title">ログ</div>
+    <div class="page-subtitle">練習と用具の記録</div>
+  </div>
+  <div class="log-tabs">
+    <div class="log-tab active" id="log-tab-practice" onclick="switchLogTab('practice')">練習記録</div>
+    <div class="log-tab" id="log-tab-gear" onclick="switchLogTab('gear')">用具・ガット</div>
+  </div>
+  <div class="log-list" id="log-practice-list"></div>
+  <div class="log-list" id="log-gear-list" style="display:none"></div>
+</div>
+
+<!-- ANALYTICS -->
+<div class="tab" id="tab-analytics">
+  <div class="page-title-area">
+    <div class="page-title">Analytics</div>
+    <div class="page-subtitle">練習データの分析</div>
+  </div>
+  <div class="analytics-wrap">
+    <div class="stats-row" id="analytics-stats"></div>
+    <div id="analytics-tag-chart"></div>
+    <div class="analytics-coming">
+      <svg viewBox="0 0 24 24"><polyline points="22,12,18,12,15,21,9,3,6,12,2,12"/></svg>
+      <div style="font-size:15px;font-weight:500;color:var(--text2);margin-bottom:6px">グラフ機能は近日公開</div>
+      <div style="font-size:13px;line-height:1.7">練習頻度グラフ、モチベーション推移、<br>スキル分析などを実装予定です</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="tab" id="tab-profile">
+  <div class="profile-wrap">
+    <div class="profile-avatar">🎾</div>
+    <div class="profile-name">テニスプレーヤー</div>
+    <div class="profile-sub">記録を続けて成長しよう</div>
+    <div class="stats-row" id="profile-stats"></div>
+    <div class="profile-row" onclick="showToast('設定機能は近日公開です')">
+      <span class="profile-row-label">大目標</span>
+      <span class="profile-row-value">全国大会出場 ›</span>
+    </div>
+    <div class="profile-row" onclick="showToast('設定機能は近日公開です')">
+      <span class="profile-row-label">テニス歴</span>
+      <span class="profile-row-value">設定する ›</span>
+    </div>
+    <div class="profile-row" onclick="exportData()">
+      <span class="profile-row-label">データをエクスポート</span>
+      <span class="profile-row-value">JSON ›</span>
+    </div>
+    <div class="profile-row" onclick="importData()">
+      <span class="profile-row-label">データをインポート</span>
+      <span class="profile-row-value">JSON ›</span>
+    </div>
+    <div class="profile-row" onclick="showToast('通知設定は近日公開です')">
+      <span class="profile-row-label">通知設定</span>
+      <span class="profile-row-value">オフ ›</span>
+    </div>
+    <div style="margin-top:30px;text-align:center">
+      <div style="font-size:11px;color:var(--text3)">テニス練習管理アプリ v1.0</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:2px">データはこの端末に保存されます</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /screen -->
+
+<!-- FAB -->
+<div class="fab">
+  <div class="fab-menu" id="fab-menu">
+    <div class="fab-item" onclick="openModal('practice')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16"/><polyline points="14,2,14,8,20,8"/><path d="M20 2v16a2 2 0 0 1-2 2H8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      練習記録
+    </div>
+    <div class="fab-item" onclick="openModal('gear')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07,4.93a10,10,0,1,0,0,14.14"/></svg>
+      ガット張替え
+    </div>
+  </div>
+  <button class="fab-ball" id="fab-btn" onclick="toggleFab()">
+    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 2c0 5.52-3.58 10-8 10"/><path d="M12 2c0 5.52 3.58 10 8 10"/><path d="M12 22c0-5.52-3.58-10-8-10"/><path d="M12 22c0-5.52 3.58-10 8-10"/></svg>
+  </button>
+</div>
+
+<!-- PRACTICE MODAL -->
+<div class="modal-overlay" id="modal-practice">
+<div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title">練習記録を追加</div>
+  <div class="form-group">
+    <label class="form-label">日付</label>
+    <input class="form-input" type="date" id="p-date">
+  </div>
+  <div class="form-group">
+    <label class="form-label">タイトル *</label>
+    <input class="form-input" type="text" id="p-title" placeholder="例：フォアハンド集中練習">
+  </div>
+  <div class="form-group">
+    <label class="form-label">タグ（コンマ区切り）</label>
+    <input class="form-input" type="text" id="p-tags" placeholder="例：フォア,クロス,サーブ" oninput="renderTagSuggestions()">
+    <div class="tag-suggestions" id="p-tag-suggestions"></div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">振り返り・メモ</label>
+    <textarea class="form-textarea" id="p-memo" placeholder="今日の気づき、課題、良かった点など..."></textarea>
+  </div>
+  <div id="carry-over-section" style="display:none">
+    <label class="form-label">前回の継続課題</label>
+    <div class="carry-section" id="carry-over-text"></div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">YouTubeリンクを追加</label>
+    <input class="form-input" type="url" id="p-yt" placeholder="https://youtube.com/watch?v=...">
+    <div id="p-yt-list" style="margin-top:8px"></div>
+  </div>
+  <div class="check-row" onclick="toggleCarryCheck()">
+    <div class="check-box" id="carry-check">
+      <svg viewBox="0 0 14 14"><polyline points="2,7,5.5,10.5,12,3"/></svg>
+    </div>
+    <div class="check-label">この課題を次回に持ち越す</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="closeModal('practice')">キャンセル</button>
+    <button class="btn btn-primary" onclick="savePractice()">保存する</button>
+  </div>
+</div>
+</div>
+
+<!-- GEAR MODAL -->
+<div class="modal-overlay" id="modal-gear">
+<div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title">ガット張替えを記録</div>
+  <div class="form-group">
+    <label class="form-label">日付</label>
+    <input class="form-input" type="date" id="g-date">
+  </div>
+  <div class="form-group">
+    <label class="form-label">ガットの種類 *</label>
+    <input class="form-input" type="text" id="g-gut" placeholder="例：ポリツアープロ 125">
+    <div class="tag-suggestions" id="g-gut-suggestions"></div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">ラケットの種類</label>
+    <input class="form-input" type="text" id="g-racket" placeholder="例：Yonex Vcore 98">
+    <div class="tag-suggestions" id="g-racket-suggestions"></div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">テンション（ポンド）</label>
+    <input class="form-input" type="number" id="g-tension" placeholder="例：50" min="20" max="80">
+  </div>
+  <div class="form-group">
+    <label class="form-label">メモ</label>
+    <textarea class="form-textarea" id="g-memo" placeholder="打球感、弾き、スピン性能など..." style="min-height:70px"></textarea>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="closeModal('gear')">キャンセル</button>
+    <button class="btn btn-primary" onclick="saveGear()">保存する</button>
+  </div>
+</div>
+</div>
+
+<!-- PRACTICE DETAIL -->
+<div class="detail-overlay" id="detail-practice">
+<div class="detail-header">
+  <button class="back-btn" onclick="closeDetail('practice')">
+    <svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg>
+  </button>
+  <div class="detail-title-wrap">
+    <div class="detail-title" id="detail-p-title"></div>
+    <div class="detail-date" id="detail-p-date"></div>
+  </div>
+  <button class="back-btn" onclick="deleteItem('practice')" style="color:var(--danger)">
+    <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
+  </button>
+</div>
+<div class="detail-body">
+  <div class="detail-section" id="detail-p-tags-sec">
+    <div class="detail-section-label">タグ</div>
+    <div id="detail-p-tags" class="log-card-tags" style="flex-wrap:wrap;display:flex;gap:6px"></div>
+  </div>
+  <div class="detail-section" id="detail-p-carry-sec" style="display:none">
+    <div class="detail-section-label">前回の継続課題</div>
+    <div class="carry-section" id="detail-p-carry"></div>
+  </div>
+  <div class="detail-section" id="detail-p-memo-sec" style="display:none">
+    <div class="detail-section-label">振り返り・メモ</div>
+    <div class="detail-text" id="detail-p-memo"></div>
+  </div>
+  <div class="detail-section" id="detail-p-yt-sec" style="display:none">
+    <div class="detail-section-label">YouTube動画</div>
+    <div id="detail-p-yt"></div>
+  </div>
+</div>
+</div>
+
+<!-- GEAR DETAIL -->
+<div class="detail-overlay" id="detail-gear">
+<div class="detail-header">
+  <button class="back-btn" onclick="closeDetail('gear')">
+    <svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg>
+  </button>
+  <div class="detail-title-wrap">
+    <div class="detail-title" id="detail-g-title"></div>
+    <div class="detail-date" id="detail-g-date"></div>
+  </div>
+  <button class="back-btn" onclick="deleteItem('gear')" style="color:var(--danger)">
+    <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
+  </button>
+</div>
+<div class="detail-body">
+  <div class="detail-section">
+    <div class="detail-section-label">テンション</div>
+    <div style="font-size:36px;font-weight:600;color:var(--green3)" id="detail-g-tension"></div>
+  </div>
+  <div class="detail-section" id="detail-g-racket-sec" style="display:none">
+    <div class="detail-section-label">ラケット</div>
+    <div class="detail-text" id="detail-g-racket"></div>
+  </div>
+  <div class="detail-section" id="detail-g-memo-sec" style="display:none">
+    <div class="detail-section-label">メモ</div>
+    <div class="detail-text" id="detail-g-memo"></div>
+  </div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="switchTab('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22,9,12,15,12,15,22"/></svg>
+    <span class="nav-label">ホーム</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-btn" id="nav-log" onclick="switchTab('log')">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    <span class="nav-label">ログ</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-btn" id="nav-analytics" onclick="switchTab('analytics')">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    <span class="nav-label">Analytics</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-btn" id="nav-profile" onclick="switchTab('profile')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span class="nav-label">プロフィール</span>
+    <div class="nav-dot"></div>
+  </button>
+</div>
+
+</div><!-- /app -->
+
+<input type="file" id="import-input" accept=".json" style="display:none" onchange="handleImport(event)">
+
+<script>
+const STORAGE_KEY='tennis_app_data';
+let practices=[];
+let gears=[];
+let logSubTab='practice';
+let carryChecked=false;
+let ytLinks=[];
+let toastTimer=null;
+let currentDetailId=null;
+
+// ---- Storage ----
+function saveStorage(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify({practices,gears}));}catch(e){}
+}
+function loadStorage(){
+  try{
+    const d=localStorage.getItem(STORAGE_KEY);
+    if(d){const p=JSON.parse(d);practices=p.practices||[];gears=p.gears||[];}
+  }catch(e){}
+}
+
+// ---- Tab ----
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('nav-'+t).classList.add('active');
+  if(t==='home')renderHome();
+  if(t==='log')renderLog();
+  if(t==='analytics')renderAnalytics();
+  if(t==='profile')renderProfile();
+  closeFab();
+}
+
+// ---- FAB ----
+function toggleFab(){document.getElementById('fab-menu').classList.toggle('open');}
+function closeFab(){document.getElementById('fab-menu').classList.remove('open');}
+
+// ---- Modal ----
+function openModal(type){
+  closeFab();
+  const today=new Date().toISOString().slice(0,10);
+  if(type==='practice'){
+    document.getElementById('p-date').value=today;
+    document.getElementById('p-title').value='';
+    document.getElementById('p-tags').value='';
+    document.getElementById('p-memo').value='';
+    document.getElementById('p-yt').value='';
+    document.getElementById('p-yt-list').innerHTML='';
+    ytLinks=[];carryChecked=false;
+    document.getElementById('carry-check').classList.remove('checked');
+    const co=getCarryOver();
+    const cosec=document.getElementById('carry-over-section');
+    if(co){cosec.style.display='block';document.getElementById('carry-over-text').textContent=co;}
+    else cosec.style.display='none';
+    renderTagSuggestions();
+  }else{
+    document.getElementById('g-date').value=today;
+    ['g-gut','g-racket','g-memo'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('g-tension').value='';
+    renderGearSuggestions();
+  }
+  document.getElementById('modal-'+type).classList.add('open');
+  document.getElementById('screen').style.overflow='hidden';
+}
+function closeModal(type){
+  document.getElementById('modal-'+type).classList.remove('open');
+  document.getElementById('screen').style.overflow='';
+}
+
+// ---- Carry over ----
+function getCarryOver(){
+  const p=practices.find(x=>x.carryOver);
+  return p?p.carryOverMemo:'';
+}
+function toggleCarryCheck(){
+  carryChecked=!carryChecked;
+  document.getElementById('carry-check').classList.toggle('checked',carryChecked);
+}
+
+// ---- YouTube ----
+function addYtLink(){
+  const v=document.getElementById('p-yt').value.trim();
+  if(!v||!v.startsWith('http'))return;
+  if(!ytLinks.includes(v))ytLinks.push(v);
+  document.getElementById('p-yt').value='';
+  renderYtList();
+}
+document.getElementById('p-yt').addEventListener('blur',addYtLink);
+document.getElementById('p-yt').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addYtLink();}});
+function renderYtList(){
+  document.getElementById('p-yt-list').innerHTML=ytLinks.map((l,i)=>`<div class="yt-chip">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}<span style="margin-left:6px;cursor:pointer;color:var(--text3)" onclick="removeYt(${i})">×</span></div>`).join('');
+}
+function removeYt(i){ytLinks.splice(i,1);renderYtList();}
+
+// ---- Tags ----
+function getAllTags(){return[...new Set(practices.flatMap(p=>p.tags))];}
+function renderTagSuggestions(){
+  const tags=getAllTags();
+  const el=document.getElementById('p-tag-suggestions');
+  if(!tags.length){el.innerHTML='';return;}
+  const cur=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
+  el.innerHTML=tags.map(t=>`<div class="tag-sug${cur.includes(t)?' selected':''}" onclick="addTag('${esc(t)}')">${esc(t)}</div>`).join('');
+}
+function addTag(t){
+  const inp=document.getElementById('p-tags');
+  const cur=inp.value.split(',').map(x=>x.trim()).filter(Boolean);
+  if(!cur.includes(t))cur.push(t);else cur.splice(cur.indexOf(t),1);
+  inp.value=cur.join(', ');
+  renderTagSuggestions();
+}
+
+// ---- Gear suggestions ----
+function renderGearSuggestions(){
+  const guts=[...new Set(gears.map(g=>g.gut).filter(Boolean))];
+  const rackets=[...new Set(gears.map(g=>g.racket).filter(Boolean))];
+  document.getElementById('g-gut-suggestions').innerHTML=guts.map(g=>`<div class="tag-sug" onclick="setVal('g-gut','${esc(g)}')">${esc(g)}</div>`).join('');
+  document.getElementById('g-racket-suggestions').innerHTML=rackets.map(r=>`<div class="tag-sug" onclick="setVal('g-racket','${esc(r)}')">${esc(r)}</div>`).join('');
+}
+function setVal(id,v){document.getElementById(id).value=v;}
+
+// ---- Save ----
+function savePractice(){
+  const title=document.getElementById('p-title').value.trim();
+  const date=document.getElementById('p-date').value;
+  if(!title){showToast('タイトルを入力してください');return;}
+  if(!date){showToast('日付を入力してください');return;}
+  const tags=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
+  const memo=document.getElementById('p-memo').value.trim();
+  const co=getCarryOver();
+  // clear old carry
+  practices.forEach(p=>{if(p.carryOver)p.carryOver=false;});
+  practices.unshift({
+    id:Date.now(),date,title,tags,memo,
+    carryOver:carryChecked,
+    carryOverMemo:carryChecked?memo:'',
+    inheritedCarry:co||'',
+    youtube:[...ytLinks]
+  });
+  saveStorage();closeModal('practice');renderHome();renderLog();renderProfile();
+  showToast('練習記録を保存しました！');
+}
+function saveGear(){
+  const date=document.getElementById('g-date').value;
+  const gut=document.getElementById('g-gut').value.trim();
+  if(!gut){showToast('ガットの種類を入力してください');return;}
+  if(!date){showToast('日付を入力してください');return;}
+  const racket=document.getElementById('g-racket').value.trim();
+  const tension=document.getElementById('g-tension').value;
+  const memo=document.getElementById('g-memo').value.trim();
+  gears.unshift({id:Date.now(),date,gut,racket,tension,memo});
+  saveStorage();closeModal('gear');renderLog();renderProfile();
+  showToast('ガット張替えを記録しました！');
+}
+
+// ---- Delete ----
+function deleteItem(type){
+  if(!currentDetailId)return;
+  if(!confirm('この記録を削除しますか？'))return;
+  if(type==='practice')practices=practices.filter(p=>p.id!==currentDetailId);
+  else gears=gears.filter(g=>g.id!==currentDetailId);
+  saveStorage();closeDetail(type);renderHome();renderLog();renderProfile();
+  showToast('削除しました');
+}
+
+// ---- Render ----
+function practiceCard(p){
+  return`<div class="log-card" onclick="openDetail('practice',${p.id})">
+    <div class="log-card-header">
+      <div class="log-card-title">${esc(p.title)}</div>
+      <div class="log-card-date">${fmtDate(p.date)}</div>
+    </div>
+    ${p.tags&&p.tags.length?`<div class="log-card-tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+    ${p.memo?`<div class="log-card-memo">${esc(p.memo).slice(0,90)}${p.memo.length>90?'…':''}</div>`:''}
+    ${p.carryOver?`<div><span class="carry-badge">⚑ 課題持ち越し</span></div>`:''}
+  </div>`;
+}
+function gearCard(g){
+  return`<div class="log-card" onclick="openDetail('gear',${g.id})">
+    <div class="log-card-header">
+      <div class="log-card-title">${esc(g.gut)}</div>
+      <div class="log-card-date">${fmtDate(g.date)}</div>
+    </div>
+    ${g.racket?`<div style="font-size:12px;color:var(--text2);margin-top:4px">${esc(g.racket)}</div>`:''}
+    ${g.tension?`<div class="gear-tension">${g.tension} lbs</div>`:''}
+    ${g.memo?`<div class="log-card-memo">${esc(g.memo).slice(0,60)}${g.memo.length>60?'…':''}</div>`:''}
+  </div>`;
+}
+
+function renderHome(){
+  const el=document.getElementById('home-recent');
+  if(!practices.length){
+    el.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>まだ練習記録がありません<br>右下のボタンから追加しましょう</p></div>';
+    return;
+  }
+  el.innerHTML=practices.slice(0,3).map(p=>practiceCard(p)).join('');
+}
+
+function switchLogTab(t){
+  logSubTab=t;
+  document.getElementById('log-tab-practice').classList.toggle('active',t==='practice');
+  document.getElementById('log-tab-gear').classList.toggle('active',t==='gear');
+  document.getElementById('log-practice-list').style.display=t==='practice'?'':'none';
+  document.getElementById('log-gear-list').style.display=t==='gear'?'':'none';
+}
+function renderLog(){
+  const pe=document.getElementById('log-practice-list');
+  const ge=document.getElementById('log-gear-list');
+  pe.innerHTML=practices.length?practices.map(p=>practiceCard(p)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>練習記録がまだありません</p></div>';
+  ge.innerHTML=gears.length?gears.map(g=>gearCard(g)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2c0 5.52-3.58 10-8 10"/></svg><p>ガット記録がまだありません</p></div>';
+}
+
+function renderAnalytics(){
+  const n=new Date();
+  const thisMonth=practices.filter(p=>{const d=new Date(p.date+'T00:00:00');return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();}).length;
+  const allTags=practices.flatMap(p=>p.tags||[]);
+  const tagCount={};allTags.forEach(t=>tagCount[t]=(tagCount[t]||0)+1);
+  const topTags=Object.entries(tagCount).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  document.getElementById('analytics-stats').innerHTML=`
+    <div class="stat-chip"><div class="stat-num">${practices.length}</div><div class="stat-label">総練習数</div></div>
+    <div class="stat-chip"><div class="stat-num">${thisMonth}</div><div class="stat-label">今月</div></div>
+    <div class="stat-chip"><div class="stat-num">${gears.length}</div><div class="stat-label">ガット記録</div></div>`;
+  const tc=document.getElementById('analytics-tag-chart');
+  if(topTags.length){
+    const max=topTags[0][1];
+    tc.innerHTML=`<div style="margin-bottom:20px"><div style="font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">よく練習したカテゴリ</div>${topTags.map(([t,c])=>`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:var(--text2)">${esc(t)}</span><span style="color:var(--green3);font-weight:600">${c}回</span></div><div style="background:var(--glass);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green2);height:100%;border-radius:4px;width:${Math.round(c/max*100)}%;transition:width 0.5s"></div></div></div>`).join('')}</div>`;
+  }else tc.innerHTML='';
+}
+
+function renderProfile(){
+  const tags=[...new Set(practices.flatMap(p=>p.tags||[]))].length;
+  document.getElementById('profile-stats').innerHTML=`
+    <div class="stat-chip"><div class="stat-num">${practices.length}</div><div class="stat-label">練習記録</div></div>
+    <div class="stat-chip"><div class="stat-num">${gears.length}</div><div class="stat-label">ガット記録</div></div>
+    <div class="stat-chip"><div class="stat-num">${tags}</div><div class="stat-label">タグ数</div></div>`;
+}
+
+// ---- Detail ----
+function openDetail(type,id){
+  currentDetailId=id;
+  if(type==='practice'){
+    const p=practices.find(x=>x.id===id);if(!p)return;
+    document.getElementById('detail-p-title').textContent=p.title;
+    document.getElementById('detail-p-date').textContent=fmtDate(p.date);
+    const ts=document.getElementById('detail-p-tags');
+    ts.innerHTML=(p.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('');
+    document.getElementById('detail-p-tags-sec').style.display=p.tags&&p.tags.length?'':'none';
+    const cs=document.getElementById('detail-p-carry-sec');
+    if(p.inheritedCarry){cs.style.display='';document.getElementById('detail-p-carry').textContent=p.inheritedCarry;}
+    else cs.style.display='none';
+    const ms=document.getElementById('detail-p-memo-sec');
+    if(p.memo){ms.style.display='';document.getElementById('detail-p-memo').textContent=p.memo;}
+    else ms.style.display='none';
+    const ys=document.getElementById('detail-p-yt-sec');
+    if(p.youtube&&p.youtube.length){
+      ys.style.display='';
+      document.getElementById('detail-p-yt').innerHTML=p.youtube.map(l=>`<div class="yt-chip" style="cursor:pointer" onclick="openLink('${esc(l)}')">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}</div>`).join('');
+    }else ys.style.display='none';
+  }else{
+    const g=gears.find(x=>x.id===id);if(!g)return;
+    document.getElementById('detail-g-title').textContent=g.gut;
+    document.getElementById('detail-g-date').textContent=fmtDate(g.date);
+    document.getElementById('detail-g-tension').textContent=g.tension?g.tension+' lbs':'未設定';
+    const rs=document.getElementById('detail-g-racket-sec');
+    if(g.racket){rs.style.display='';document.getElementById('detail-g-racket').textContent=g.racket;}
+    else rs.style.display='none';
+    const ms=document.getElementById('detail-g-memo-sec');
+    if(g.memo){ms.style.display='';document.getElementById('detail-g-memo').textContent=g.memo;}
+    else ms.style.display='none';
+  }
+  document.getElementById('detail-'+type).classList.add('open');
+}
+function closeDetail(type){
+  document.getElementById('detail-'+type).classList.remove('open');
+  currentDetailId=null;
+}
+
+// ---- Export / Import ----
+function exportData(){
+  const data=JSON.stringify({practices,gears},null,2);
+  const blob=new Blob([data],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();URL.revokeObjectURL(url);
+  showToast('エクスポートしました！');
+}
+function importData(){document.getElementById('import-input').click();}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d.practices)practices=[...d.practices,...practices];
+      if(d.gears)gears=[...d.gears,...gears];
+      saveStorage();renderHome();renderLog();renderProfile();
+      showToast('インポートしました！');
+    }catch{showToast('ファイルの形式が正しくありません');}
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+// ---- Utils ----
+function openLink(url){window.open(url,'_blank');}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2500);
+}
+function fmtDate(d){if(!d)return'';const dt=new Date(d+'T00:00:00');return`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;}
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+// ---- Dismiss FAB on outside click ----
+document.addEventListener('click',e=>{
+  const fab=document.getElementById('fab-btn');
+  const menu=document.getElementById('fab-menu');
+  if(!fab.contains(e.target)&&!menu.contains(e.target))closeFab();
+});
+
+// ---- Init ----
+loadStorage();
+renderHome();renderLog();renderProfile();
+const today=new Date().toISOString().slice(0,10);
+document.getElementById('p-date').value=today;
+document.getElementById('g-date').value=today;
+</script>
+</body>
+</html>
