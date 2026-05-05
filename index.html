@@ -20,35 +20,22 @@
 }
 html,body{height:100%;overflow:hidden;background:#061e14}
 body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-items:center}
-.app-wrap{
-  width:100%;max-width:430px;height:100%;height:100dvh;
-  background:linear-gradient(160deg,#0d4a2a 0%,#0a3520 40%,#061e14 100%);
-  display:flex;flex-direction:column;position:relative;overflow:hidden;
-}
+.app-wrap{width:100%;max-width:430px;height:100%;height:100dvh;background:linear-gradient(160deg,#0d4a2a 0%,#0a3520 40%,#061e14 100%);display:flex;flex-direction:column;position:relative;overflow:hidden}
 .screen{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:80px;-webkit-overflow-scrolling:touch}
 .screen::-webkit-scrollbar{display:none}
 
-/* Bottom Nav */
-.bottom-nav{
-  position:absolute;bottom:0;left:0;right:0;
-  height:calc(64px + env(safe-area-inset-bottom));
-  padding-bottom:env(safe-area-inset-bottom);
-  background:rgba(6,30,20,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--glass-border);
-  display:flex;align-items:flex-start;justify-content:space-around;padding-top:8px;
-}
+/* Nav */
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;height:calc(64px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(6,30,20,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);display:flex;align-items:flex-start;justify-content:space-around;padding-top:8px}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;background:none;border:none;cursor:pointer;color:var(--text3);transition:color 0.2s;-webkit-appearance:none}
 .nav-btn.active{color:var(--green3)}
 .nav-btn svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.nav-label{font-size:10px;font-weight:500;font-family:'DM Sans',sans-serif}
+.nav-label{font-size:10px;font-weight:500}
 .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--green3);opacity:0;margin-top:2px}
 .nav-btn.active .nav-dot{opacity:1}
-
-/* Tabs */
 .tab{display:none}.tab.active{display:block}
 
 /* Header */
-.header{padding:max(20px, calc(env(safe-area-inset-top) + 16px)) 20px 12px;background:linear-gradient(180deg,rgba(13,74,42,0.8) 0%,transparent 100%)}
+.header{padding:max(20px,calc(env(safe-area-inset-top)+16px)) 20px 12px;background:linear-gradient(180deg,rgba(13,74,42,0.8) 0%,transparent 100%)}
 .greeting{font-size:13px;color:var(--text2);margin-bottom:2px}
 .greeting-name{font-size:22px;font-weight:600;color:var(--text);letter-spacing:-0.3px}
 .goal-chip{display:inline-flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:6px 12px;margin-top:10px;font-size:12px;color:var(--text2)}
@@ -64,48 +51,78 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .fab-item{display:flex;align-items:center;gap:8px;background:rgba(15,50,30,0.97);border:1px solid var(--glass-border);border-radius:20px;padding:10px 16px;color:var(--text);font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;backdrop-filter:blur(10px)}
 .fab-item svg{width:16px;height:16px;stroke:var(--green3);fill:none;stroke-width:2;stroke-linecap:round}
 
-/* Section */
-.section{padding:12px 16px}
-.section-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
-.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.quick-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:14px;cursor:pointer;transition:background 0.2s;-webkit-tap-highlight-color:rgba(255,255,255,0.05)}
-.quick-card:active{background:rgba(255,255,255,0.12)}
-.quick-card svg{width:20px;height:20px;stroke:var(--green3);fill:none;stroke-width:1.8;stroke-linecap:round;margin-bottom:8px;display:block}
-.quick-card-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
-.coming-badge{font-size:9px;background:rgba(232,176,96,0.2);color:var(--amber);border-radius:6px;padding:2px 6px;font-weight:600}
+/* Calendar */
+.calendar-wrap{margin:0 16px 4px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;overflow:hidden}
+.cal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
+.cal-month{font-size:16px;font-weight:600;color:var(--text)}
+.cal-nav{background:none;border:none;cursor:pointer;color:var(--text3);padding:4px 8px;border-radius:8px;display:flex;align-items:center;-webkit-appearance:none}
+.cal-nav:active{background:var(--glass)}
+.cal-nav svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);padding:0 10px;margin-bottom:4px}
+.cal-wd{text-align:center;font-size:10px;font-weight:600;color:var(--text3);padding:4px 0}
+.cal-wd:first-child{color:#e88080}
+.cal-wd:last-child{color:#8098e8}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0 10px 12px;gap:2px}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;position:relative;transition:background 0.15s;-webkit-tap-highlight-color:transparent}
+.cal-day:active{background:rgba(255,255,255,0.1)}
+.cal-day.empty{pointer-events:none}
+.cal-day-num{font-size:13px;font-weight:500;color:var(--text2);line-height:1}
+.cal-day.sunday .cal-day-num{color:#e88080}
+.cal-day.saturday .cal-day-num{color:#8098e8}
+.cal-day.today .cal-day-num{color:var(--green3);font-weight:700}
+.cal-day.today{background:rgba(61,179,122,0.1);border:1px solid rgba(61,179,122,0.25)}
+.cal-day.selected{background:rgba(61,179,122,0.2);border:1px solid var(--green3)}
+.cal-day.selected .cal-day-num{color:var(--green3);font-weight:700}
+.cal-dots{display:flex;gap:2px;justify-content:center;margin-top:3px;min-height:5px}
+.cal-dot{width:4px;height:4px;border-radius:50%}
+.cal-dot.practice{background:var(--green3)}
+.cal-dot.gear{background:var(--amber)}
 
-/* Log */
-.log-tabs{display:flex;padding:12px 16px 0;border-bottom:1px solid var(--glass-border)}
-.log-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
-.log-tab.active{color:var(--green3);border-bottom-color:var(--green3)}
-.log-list{padding:12px 16px}
-.log-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:background 0.2s;-webkit-tap-highlight-color:rgba(255,255,255,0.05)}
+/* Day panel */
+.day-panel{margin:0 16px 12px;border-radius:14px;overflow:hidden;transition:all 0.25s}
+.day-panel-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(61,179,122,0.1);border:1px solid rgba(61,179,122,0.2);border-radius:14px 14px 0 0}
+.day-panel-date{font-size:13px;font-weight:600;color:var(--green4)}
+.day-panel-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;-webkit-appearance:none}
+.day-panel-body{background:var(--card-bg);border:1px solid var(--card-border);border-top:none;border-radius:0 0 14px 14px;padding:10px 12px}
+
+/* Section */
+.section{padding:10px 16px}
+.section-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+
+/* Cards */
+.log-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:background 0.2s}
 .log-card:active{background:rgba(255,255,255,0.1)}
+.log-card-sm{background:rgba(255,255,255,0.05);border:1px solid var(--card-border);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:background 0.15s}
+.log-card-sm:last-child{margin-bottom:0}
+.log-card-sm:active{background:rgba(255,255,255,0.1)}
 .log-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
 .log-card-title{font-size:15px;font-weight:500;color:var(--text);flex:1;margin-right:8px}
+.log-card-title-sm{font-size:13px;font-weight:500;color:var(--text);flex:1;margin-right:8px}
 .log-card-date{font-size:11px;color:var(--text3);white-space:nowrap}
 .log-card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .tag{background:rgba(61,179,122,0.15);color:var(--green4);border-radius:8px;padding:3px 8px;font-size:11px;font-weight:500}
+.tag-sm{background:rgba(61,179,122,0.12);color:var(--green4);border-radius:6px;padding:2px 6px;font-size:10px;font-weight:500}
 .log-card-memo{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5}
 .carry-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:rgba(232,176,96,0.15);color:var(--amber);border-radius:6px;padding:2px 6px;margin-top:6px}
 .gear-tension{font-size:22px;font-weight:600;color:var(--green3);margin-top:4px}
+.gear-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:rgba(232,176,96,0.15);color:var(--amber);border-radius:6px;padding:2px 6px}
 
 /* Empty */
 .empty-state{text-align:center;padding:48px 20px;color:var(--text3)}
 .empty-state svg{width:40px;height:40px;stroke:var(--text3);fill:none;margin:0 auto 12px;display:block}
 .empty-state p{font-size:14px;line-height:1.6}
+.day-empty{text-align:center;padding:14px;font-size:13px;color:var(--text3)}
+
+/* Log tabs */
+.log-tabs{display:flex;padding:12px 16px 0;border-bottom:1px solid var(--glass-border)}
+.log-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+.log-tab.active{color:var(--green3);border-bottom-color:var(--green3)}
+.log-list{padding:12px 16px}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{
-  background:linear-gradient(160deg,#102e1e,#081a10);
-  border-radius:24px 24px 0 0;
-  padding:20px 20px calc(20px + env(safe-area-inset-bottom));
-  width:100%;max-height:92dvh;overflow-y:auto;
-  transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);
-  -webkit-overflow-scrolling:touch;
-}
+.modal{background:linear-gradient(160deg,#102e1e,#081a10);border-radius:24px 24px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom));width:100%;max-height:92dvh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);-webkit-overflow-scrolling:touch}
 .modal-overlay.open .modal{transform:translateY(0)}
 .modal-handle{width:36px;height:4px;background:var(--glass-border);border-radius:2px;margin:0 auto 18px}
 .modal-title{font-size:19px;font-weight:600;color:var(--text);margin-bottom:18px}
@@ -113,53 +130,30 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 /* Form */
 .form-group{margin-bottom:14px}
 .form-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:6px;display:block}
-.form-input,.form-textarea{
-  width:100%;background:var(--glass);border:1px solid var(--glass-border);
-  border-radius:10px;padding:12px 14px;color:var(--text);
-  font-size:16px;font-family:'DM Sans',sans-serif;outline:none;
-  transition:border-color 0.2s;-webkit-appearance:none;appearance:none;
-}
+.form-input,.form-textarea{width:100%;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:12px 14px;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
 .form-input:focus,.form-textarea:focus{border-color:var(--green3)}
 .form-textarea{resize:none;min-height:90px;line-height:1.6}
 .form-input::placeholder,.form-textarea::placeholder{color:var(--text3)}
 .tag-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .tag-sug{background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--text2);cursor:pointer;transition:background 0.15s}
 .tag-sug.selected{background:rgba(61,179,122,0.2);border-color:var(--green3);color:var(--green4)}
-
-/* Checkbox */
 .check-row{display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;margin-bottom:14px}
 .check-box{width:22px;height:22px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
 .check-box.checked{background:var(--green2);border-color:var(--green3)}
 .check-box svg{width:13px;height:13px;stroke:var(--text);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .check-label{font-size:13px;color:var(--text2)}
-
-/* Carry over */
 .carry-section{background:rgba(232,176,96,0.08);border:1px solid rgba(232,176,96,0.2);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--amber);margin-bottom:14px;line-height:1.5}
-
-/* Buttons */
 .btn-row{display:flex;gap:10px;margin-top:18px}
 .btn{flex:1;padding:13px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:all 0.15s;font-family:'DM Sans',sans-serif;-webkit-appearance:none}
 .btn-primary{background:linear-gradient(135deg,var(--green2),var(--green1));color:var(--text)}
 .btn-secondary{background:var(--glass);border:1px solid var(--glass-border);color:var(--text2)}
 .btn:active{transform:scale(0.97)}
-
-/* YT chip */
 .yt-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,50,50,0.12);border:1px solid rgba(255,50,50,0.2);border-radius:10px;padding:6px 10px;font-size:12px;color:#ff8080;margin:4px 4px 0 0;word-break:break-all}
 
-/* Detail overlay */
-.detail-overlay{
-  position:fixed;inset:0;z-index:300;
-  background:linear-gradient(160deg,#102e1e,#061e14);
-  overflow-y:auto;-webkit-overflow-scrolling:touch;
-  transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);
-}
+/* Detail */
+.detail-overlay{position:fixed;inset:0;z-index:300;background:linear-gradient(160deg,#102e1e,#061e14);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1)}
 .detail-overlay.open{transform:translateX(0)}
-.detail-header{
-  padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 12px;
-  display:flex;align-items:center;gap:10px;
-  border-bottom:1px solid var(--glass-border);
-  position:sticky;top:0;background:rgba(16,46,30,0.97);backdrop-filter:blur(12px);z-index:10;
-}
+.detail-header{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--glass-border);position:sticky;top:0;background:rgba(16,46,30,0.97);backdrop-filter:blur(12px);z-index:10}
 .back-btn{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:8px 10px;cursor:pointer;display:flex;align-items:center;color:var(--text2);-webkit-appearance:none}
 .back-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .detail-title-wrap{flex:1}
@@ -170,39 +164,16 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .detail-section-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
 .detail-text{font-size:14px;color:var(--text2);line-height:1.7}
 
-/* Analytics */
-.analytics-wrap{padding:20px}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
-.stat-chip{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:12px 8px;text-align:center}
-.stat-num{font-size:24px;font-weight:600;color:var(--green3)}
-.stat-label{font-size:10px;color:var(--text3);margin-top:3px}
-.analytics-coming{text-align:center;padding:30px 20px;color:var(--text3)}
-.analytics-coming svg{width:44px;height:44px;stroke:var(--text3);fill:none;margin:0 auto 12px;display:block}
-
-/* Profile */
-.profile-wrap{padding:20px}
-.profile-avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--green2),var(--green1));display:flex;align-items:center;justify-content:center;margin:20px auto 12px;font-size:32px}
-.profile-name{text-align:center;font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px}
-.profile-sub{text-align:center;font-size:13px;color:var(--text3);margin-bottom:20px}
-.profile-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--glass-border);cursor:pointer}
-.profile-row-label{font-size:14px;color:var(--text)}
-.profile-row-value{font-size:13px;color:var(--text3)}
+/* Settings */
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--glass-border);cursor:pointer}
+.settings-row-label{font-size:14px;color:var(--text)}
+.settings-row-value{font-size:13px;color:var(--text3)}
 
 /* Toast */
-#toast{
-  position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));left:50%;
-  transform:translateX(-50%) translateY(20px);
-  background:rgba(20,55,35,0.97);border:1px solid var(--glass-border);
-  border-radius:20px;padding:9px 18px;font-size:13px;color:var(--text2);
-  opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;z-index:999;
-  backdrop-filter:blur(12px);max-width:90%;
-}
-
-/* Page title */
+#toast{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:rgba(20,55,35,0.97);border:1px solid var(--glass-border);border-radius:20px;padding:9px 18px;font-size:13px;color:var(--text2);opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;z-index:999;backdrop-filter:blur(12px);max-width:90%}
 .page-title-area{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 8px}
 .page-title{font-size:22px;font-weight:600;color:var(--text);margin-bottom:2px}
 .page-subtitle{font-size:13px;color:var(--text3)}
-
 input[type=date]{color-scheme:dark}
 </style>
 </head>
@@ -220,31 +191,35 @@ input[type=date]{color-scheme:dark}
       大目標：全国大会出場
     </div>
   </div>
-  <div class="section">
-    <div class="section-title">クイックアクセス</div>
-    <div class="quick-grid">
-      <div class="quick-card" onclick="showToast('近日公開予定です')">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16"/><polyline points="14,2,14,8,20,8"/><path d="M20 2v16a2 2 0 0 1-2 2H8"/></svg>
-        <div class="quick-card-label">前回の振り返り</div>
-        <div><span class="coming-badge">準備中</span></div>
-      </div>
-      <div class="quick-card" onclick="showToast('近日公開予定です')">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        <div class="quick-card-label">自主練メニュー</div>
-        <div><span class="coming-badge">準備中</span></div>
-      </div>
-      <div class="quick-card" onclick="showToast('将来実装予定です')">
-        <svg viewBox="0 0 24 24"><polygon points="12,2,15.09,8.26,22,9.27,17,14.14,18.18,21.02,12,17.77,5.82,21.02,7,14.14,2,9.27,8.91,8.26"/></svg>
-        <div class="quick-card-label">スキルツリー</div>
-        <div><span class="coming-badge">近日公開</span></div>
-      </div>
-      <div class="quick-card" onclick="showToast('将来実装予定です')">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        <div class="quick-card-label">コートマッピング</div>
-        <div><span class="coming-badge">近日公開</span></div>
-      </div>
+
+  <!-- Calendar -->
+  <div class="calendar-wrap">
+    <div class="cal-header">
+      <button class="cal-nav" onclick="calPrev()">
+        <svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg>
+      </button>
+      <div class="cal-month" id="cal-month-label"></div>
+      <button class="cal-nav" onclick="calNext()">
+        <svg viewBox="0 0 24 24"><polyline points="9,18,15,12,9,6"/></svg>
+      </button>
     </div>
+    <div class="cal-weekdays">
+      <div class="cal-wd">日</div><div class="cal-wd">月</div><div class="cal-wd">火</div>
+      <div class="cal-wd">水</div><div class="cal-wd">木</div><div class="cal-wd">金</div>
+      <div class="cal-wd">土</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
   </div>
+
+  <!-- Day panel (shown when a day is selected) -->
+  <div id="day-panel" style="display:none">
+    <div class="day-panel-header">
+      <div class="day-panel-date" id="day-panel-date"></div>
+      <button class="day-panel-close" onclick="closeDayPanel()">×</button>
+    </div>
+    <div class="day-panel-body" id="day-panel-body"></div>
+  </div>
+
   <div class="section">
     <div class="section-title">最近の練習</div>
     <div id="home-recent"></div>
@@ -265,53 +240,24 @@ input[type=date]{color-scheme:dark}
   <div class="log-list" id="log-gear-list" style="display:none"></div>
 </div>
 
-<!-- ANALYTICS -->
-<div class="tab" id="tab-analytics">
+<!-- SETTINGS -->
+<div class="tab" id="tab-settings">
   <div class="page-title-area">
-    <div class="page-title">Analytics</div>
-    <div class="page-subtitle">練習データの分析</div>
+    <div class="page-title">設定</div>
+    <div class="page-subtitle">データ管理</div>
   </div>
-  <div class="analytics-wrap">
-    <div class="stats-row" id="analytics-stats"></div>
-    <div id="analytics-tag-chart"></div>
-    <div class="analytics-coming">
-      <svg viewBox="0 0 24 24"><polyline points="22,12,18,12,15,21,9,3,6,12,2,12"/></svg>
-      <div style="font-size:15px;font-weight:500;color:var(--text2);margin-bottom:6px">グラフ機能は近日公開</div>
-      <div style="font-size:13px;line-height:1.7">練習頻度グラフ、モチベーション推移、<br>スキル分析などを実装予定です</div>
+  <div style="padding:8px 16px">
+    <div class="settings-row" onclick="exportData()">
+      <span class="settings-row-label">データをエクスポート</span>
+      <span class="settings-row-value">JSON ›</span>
     </div>
-  </div>
-</div>
-
-<!-- PROFILE -->
-<div class="tab" id="tab-profile">
-  <div class="profile-wrap">
-    <div class="profile-avatar">🎾</div>
-    <div class="profile-name">テニスプレーヤー</div>
-    <div class="profile-sub">記録を続けて成長しよう</div>
-    <div class="stats-row" id="profile-stats"></div>
-    <div class="profile-row" onclick="showToast('設定機能は近日公開です')">
-      <span class="profile-row-label">大目標</span>
-      <span class="profile-row-value">全国大会出場 ›</span>
+    <div class="settings-row" onclick="importData()">
+      <span class="settings-row-label">データをインポート</span>
+      <span class="settings-row-value">JSON ›</span>
     </div>
-    <div class="profile-row" onclick="showToast('設定機能は近日公開です')">
-      <span class="profile-row-label">テニス歴</span>
-      <span class="profile-row-value">設定する ›</span>
-    </div>
-    <div class="profile-row" onclick="exportData()">
-      <span class="profile-row-label">データをエクスポート</span>
-      <span class="profile-row-value">JSON ›</span>
-    </div>
-    <div class="profile-row" onclick="importData()">
-      <span class="profile-row-label">データをインポート</span>
-      <span class="profile-row-value">JSON ›</span>
-    </div>
-    <div class="profile-row" onclick="showToast('通知設定は近日公開です')">
-      <span class="profile-row-label">通知設定</span>
-      <span class="profile-row-value">オフ ›</span>
-    </div>
-    <div style="margin-top:30px;text-align:center">
+    <div style="margin-top:32px;text-align:center">
       <div style="font-size:11px;color:var(--text3)">テニス練習管理アプリ v1.0</div>
-      <div style="font-size:11px;color:var(--text3);margin-top:2px">データはこの端末に保存されます</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">データはこの端末に保存されます</div>
     </div>
   </div>
 </div>
@@ -430,7 +376,7 @@ input[type=date]{color-scheme:dark}
 <div class="detail-body">
   <div class="detail-section" id="detail-p-tags-sec">
     <div class="detail-section-label">タグ</div>
-    <div id="detail-p-tags" class="log-card-tags" style="flex-wrap:wrap;display:flex;gap:6px"></div>
+    <div id="detail-p-tags" style="display:flex;flex-wrap:wrap;gap:6px"></div>
   </div>
   <div class="detail-section" id="detail-p-carry-sec" style="display:none">
     <div class="detail-section-label">前回の継続課題</div>
@@ -477,7 +423,6 @@ input[type=date]{color-scheme:dark}
 </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
 <!-- BOTTOM NAV -->
@@ -492,42 +437,24 @@ input[type=date]{color-scheme:dark}
     <span class="nav-label">ログ</span>
     <div class="nav-dot"></div>
   </button>
-  <button class="nav-btn" id="nav-analytics" onclick="switchTab('analytics')">
-    <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-    <span class="nav-label">Analytics</span>
-    <div class="nav-dot"></div>
-  </button>
-  <button class="nav-btn" id="nav-profile" onclick="switchTab('profile')">
-    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span class="nav-label">プロフィール</span>
+  <button class="nav-btn" id="nav-settings" onclick="switchTab('settings')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    <span class="nav-label">設定</span>
     <div class="nav-dot"></div>
   </button>
 </div>
 
-</div><!-- /app -->
-
+</div>
 <input type="file" id="import-input" accept=".json" style="display:none" onchange="handleImport(event)">
 
 <script>
 const STORAGE_KEY='tennis_app_data';
-let practices=[];
-let gears=[];
-let logSubTab='practice';
-let carryChecked=false;
-let ytLinks=[];
-let toastTimer=null;
-let currentDetailId=null;
+let practices=[],gears=[],logSubTab='practice',carryChecked=false,ytLinks=[],toastTimer=null,currentDetailId=null;
+let calYear,calMonth,selectedDate=null;
 
 // ---- Storage ----
-function saveStorage(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify({practices,gears}));}catch(e){}
-}
-function loadStorage(){
-  try{
-    const d=localStorage.getItem(STORAGE_KEY);
-    if(d){const p=JSON.parse(d);practices=p.practices||[];gears=p.gears||[];}
-  }catch(e){}
-}
+function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({practices,gears}));}catch(e){}}
+function loadStorage(){try{const d=localStorage.getItem(STORAGE_KEY);if(d){const p=JSON.parse(d);practices=p.practices||[];gears=p.gears||[];}}catch(e){}}
 
 // ---- Tab ----
 function switchTab(t){
@@ -535,10 +462,8 @@ function switchTab(t){
   document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
   document.getElementById('nav-'+t).classList.add('active');
-  if(t==='home')renderHome();
+  if(t==='home'){renderCalendar();renderHome();}
   if(t==='log')renderLog();
-  if(t==='analytics')renderAnalytics();
-  if(t==='profile')renderProfile();
   closeFab();
 }
 
@@ -546,12 +471,131 @@ function switchTab(t){
 function toggleFab(){document.getElementById('fab-menu').classList.toggle('open');}
 function closeFab(){document.getElementById('fab-menu').classList.remove('open');}
 
+// ---- Calendar ----
+function initCal(){
+  const now=new Date();
+  calYear=now.getFullYear();
+  calMonth=now.getMonth();
+}
+function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}selectedDate=null;closeDayPanel();renderCalendar();}
+function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}selectedDate=null;closeDayPanel();renderCalendar();}
+
+function getDayKey(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+
+function renderCalendar(){
+  const label=document.getElementById('cal-month-label');
+  label.textContent=`${calYear}年${calMonth+1}月`;
+
+  const firstDay=new Date(calYear,calMonth,1).getDay(); // 0=Sun
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();
+  const todayKey=getDayKey(today.getFullYear(),today.getMonth(),today.getDate());
+
+  // Build date→records map
+  const practiceMap={};
+  practices.forEach(p=>{if(p.date)practiceMap[p.date]=(practiceMap[p.date]||0)+1;});
+  const gearMap={};
+  gears.forEach(g=>{if(g.date)gearMap[g.date]=(gearMap[g.date]||0)+1;});
+
+  const grid=document.getElementById('cal-grid');
+  let html='';
+
+  // empty cells before first day
+  for(let i=0;i<firstDay;i++)html+=`<div class="cal-day empty"></div>`;
+
+  for(let d=1;d<=daysInMonth;d++){
+    const key=getDayKey(calYear,calMonth,d);
+    const dow=(firstDay+d-1)%7;
+    const isToday=key===todayKey;
+    const isSelected=key===selectedDate;
+    const hasPractice=!!practiceMap[key];
+    const hasGear=!!gearMap[key];
+    let cls='cal-day';
+    if(dow===0)cls+=' sunday';
+    if(dow===6)cls+=' saturday';
+    if(isToday)cls+=' today';
+    if(isSelected)cls+=' selected';
+
+    let dots='';
+    if(hasPractice)dots+=`<div class="cal-dot practice"></div>`;
+    if(hasGear)dots+=`<div class="cal-dot gear"></div>`;
+
+    html+=`<div class="${cls}" onclick="selectDay('${key}')">
+      <div class="cal-day-num">${d}</div>
+      <div class="cal-dots">${dots}</div>
+    </div>`;
+  }
+
+  grid.innerHTML=html;
+}
+
+function selectDay(key){
+  if(selectedDate===key){
+    selectedDate=null;
+    closeDayPanel();
+    renderCalendar();
+    return;
+  }
+  selectedDate=key;
+  renderCalendar();
+  showDayPanel(key);
+  // scroll panel into view
+  setTimeout(()=>{
+    const panel=document.getElementById('day-panel');
+    if(panel)panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },50);
+}
+
+function showDayPanel(key){
+  const dayPractices=practices.filter(p=>p.date===key);
+  const dayGears=gears.filter(g=>g.date===key);
+  const dt=new Date(key+'T00:00:00');
+  const label=`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;
+
+  document.getElementById('day-panel-date').textContent=label;
+
+  let html='';
+  if(!dayPractices.length&&!dayGears.length){
+    html='<div class="day-empty">この日の記録はありません</div>';
+  }else{
+    dayPractices.forEach(p=>{
+      const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="tag-sm">${esc(t)}</span>`).join('');
+      html+=`<div class="log-card-sm" onclick="openDetail('practice',${p.id})">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="log-card-title-sm">🎾 ${esc(p.title)}</div>
+          ${p.carryOver?'<span style="font-size:10px;color:var(--amber)">⚑</span>':''}
+        </div>
+        ${tags?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px">${tags}</div>`:''}
+        ${p.memo?`<div style="font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4">${esc(p.memo).slice(0,60)}${p.memo.length>60?'…':''}</div>`:''}
+      </div>`;
+    });
+    dayGears.forEach(g=>{
+      html+=`<div class="log-card-sm" onclick="openDetail('gear',${g.id})">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="gear-badge">ガット</span>
+          <div class="log-card-title-sm">${esc(g.gut)}${g.tension?' — '+g.tension+'lbs':''}</div>
+        </div>
+        ${g.racket?`<div style="font-size:11px;color:var(--text3);margin-top:4px">${esc(g.racket)}</div>`:''}
+      </div>`;
+    });
+  }
+
+  document.getElementById('day-panel-body').innerHTML=html;
+  document.getElementById('day-panel').style.display='block';
+}
+
+function closeDayPanel(){
+  selectedDate=null;
+  document.getElementById('day-panel').style.display='none';
+  renderCalendar();
+}
+
 // ---- Modal ----
 function openModal(type){
   closeFab();
   const today=new Date().toISOString().slice(0,10);
   if(type==='practice'){
-    document.getElementById('p-date').value=today;
+    document.getElementById('p-date').value=selectedDate||today;
     document.getElementById('p-title').value='';
     document.getElementById('p-tags').value='';
     document.getElementById('p-memo').value='';
@@ -565,7 +609,7 @@ function openModal(type){
     else cosec.style.display='none';
     renderTagSuggestions();
   }else{
-    document.getElementById('g-date').value=today;
+    document.getElementById('g-date').value=selectedDate||today;
     ['g-gut','g-racket','g-memo'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('g-tension').value='';
     renderGearSuggestions();
@@ -573,54 +617,28 @@ function openModal(type){
   document.getElementById('modal-'+type).classList.add('open');
   document.getElementById('screen').style.overflow='hidden';
 }
-function closeModal(type){
-  document.getElementById('modal-'+type).classList.remove('open');
-  document.getElementById('screen').style.overflow='';
-}
+function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');document.getElementById('screen').style.overflow='';}
 
 // ---- Carry over ----
-function getCarryOver(){
-  const p=practices.find(x=>x.carryOver);
-  return p?p.carryOverMemo:'';
-}
-function toggleCarryCheck(){
-  carryChecked=!carryChecked;
-  document.getElementById('carry-check').classList.toggle('checked',carryChecked);
-}
+function getCarryOver(){const p=practices.find(x=>x.carryOver);return p?p.carryOverMemo:'';}
+function toggleCarryCheck(){carryChecked=!carryChecked;document.getElementById('carry-check').classList.toggle('checked',carryChecked);}
 
 // ---- YouTube ----
-function addYtLink(){
-  const v=document.getElementById('p-yt').value.trim();
-  if(!v||!v.startsWith('http'))return;
-  if(!ytLinks.includes(v))ytLinks.push(v);
-  document.getElementById('p-yt').value='';
-  renderYtList();
-}
+function addYtLink(){const v=document.getElementById('p-yt').value.trim();if(!v||!v.startsWith('http'))return;if(!ytLinks.includes(v))ytLinks.push(v);document.getElementById('p-yt').value='';renderYtList();}
 document.getElementById('p-yt').addEventListener('blur',addYtLink);
 document.getElementById('p-yt').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addYtLink();}});
-function renderYtList(){
-  document.getElementById('p-yt-list').innerHTML=ytLinks.map((l,i)=>`<div class="yt-chip">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}<span style="margin-left:6px;cursor:pointer;color:var(--text3)" onclick="removeYt(${i})">×</span></div>`).join('');
-}
+function renderYtList(){document.getElementById('p-yt-list').innerHTML=ytLinks.map((l,i)=>`<div class="yt-chip">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}<span style="margin-left:6px;cursor:pointer;color:var(--text3)" onclick="removeYt(${i})">×</span></div>`).join('');}
 function removeYt(i){ytLinks.splice(i,1);renderYtList();}
 
 // ---- Tags ----
-function getAllTags(){return[...new Set(practices.flatMap(p=>p.tags))];}
+function getAllTags(){return[...new Set(practices.flatMap(p=>p.tags||[]))];}
 function renderTagSuggestions(){
-  const tags=getAllTags();
-  const el=document.getElementById('p-tag-suggestions');
+  const tags=getAllTags();const el=document.getElementById('p-tag-suggestions');
   if(!tags.length){el.innerHTML='';return;}
   const cur=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
   el.innerHTML=tags.map(t=>`<div class="tag-sug${cur.includes(t)?' selected':''}" onclick="addTag('${esc(t)}')">${esc(t)}</div>`).join('');
 }
-function addTag(t){
-  const inp=document.getElementById('p-tags');
-  const cur=inp.value.split(',').map(x=>x.trim()).filter(Boolean);
-  if(!cur.includes(t))cur.push(t);else cur.splice(cur.indexOf(t),1);
-  inp.value=cur.join(', ');
-  renderTagSuggestions();
-}
-
-// ---- Gear suggestions ----
+function addTag(t){const inp=document.getElementById('p-tags');const cur=inp.value.split(',').map(x=>x.trim()).filter(Boolean);if(!cur.includes(t))cur.push(t);else cur.splice(cur.indexOf(t),1);inp.value=cur.join(', ');renderTagSuggestions();}
 function renderGearSuggestions(){
   const guts=[...new Set(gears.map(g=>g.gut).filter(Boolean))];
   const rackets=[...new Set(gears.map(g=>g.racket).filter(Boolean))];
@@ -638,16 +656,10 @@ function savePractice(){
   const tags=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
   const memo=document.getElementById('p-memo').value.trim();
   const co=getCarryOver();
-  // clear old carry
   practices.forEach(p=>{if(p.carryOver)p.carryOver=false;});
-  practices.unshift({
-    id:Date.now(),date,title,tags,memo,
-    carryOver:carryChecked,
-    carryOverMemo:carryChecked?memo:'',
-    inheritedCarry:co||'',
-    youtube:[...ytLinks]
-  });
-  saveStorage();closeModal('practice');renderHome();renderLog();renderProfile();
+  practices.unshift({id:Date.now(),date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:'',inheritedCarry:co||'',youtube:[...ytLinks]});
+  saveStorage();closeModal('practice');renderCalendar();renderHome();renderLog();
+  if(selectedDate===date)showDayPanel(date);
   showToast('練習記録を保存しました！');
 }
 function saveGear(){
@@ -655,11 +667,9 @@ function saveGear(){
   const gut=document.getElementById('g-gut').value.trim();
   if(!gut){showToast('ガットの種類を入力してください');return;}
   if(!date){showToast('日付を入力してください');return;}
-  const racket=document.getElementById('g-racket').value.trim();
-  const tension=document.getElementById('g-tension').value;
-  const memo=document.getElementById('g-memo').value.trim();
-  gears.unshift({id:Date.now(),date,gut,racket,tension,memo});
-  saveStorage();closeModal('gear');renderLog();renderProfile();
+  gears.unshift({id:Date.now(),date,gut,racket:document.getElementById('g-racket').value.trim(),tension:document.getElementById('g-tension').value,memo:document.getElementById('g-memo').value.trim()});
+  saveStorage();closeModal('gear');renderCalendar();renderLog();
+  if(selectedDate===date)showDayPanel(date);
   showToast('ガット張替えを記録しました！');
 }
 
@@ -669,43 +679,20 @@ function deleteItem(type){
   if(!confirm('この記録を削除しますか？'))return;
   if(type==='practice')practices=practices.filter(p=>p.id!==currentDetailId);
   else gears=gears.filter(g=>g.id!==currentDetailId);
-  saveStorage();closeDetail(type);renderHome();renderLog();renderProfile();
+  saveStorage();closeDetail(type);renderCalendar();renderHome();renderLog();
+  if(selectedDate)showDayPanel(selectedDate);
   showToast('削除しました');
 }
 
-// ---- Render ----
-function practiceCard(p){
-  return`<div class="log-card" onclick="openDetail('practice',${p.id})">
-    <div class="log-card-header">
-      <div class="log-card-title">${esc(p.title)}</div>
-      <div class="log-card-date">${fmtDate(p.date)}</div>
-    </div>
-    ${p.tags&&p.tags.length?`<div class="log-card-tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
-    ${p.memo?`<div class="log-card-memo">${esc(p.memo).slice(0,90)}${p.memo.length>90?'…':''}</div>`:''}
-    ${p.carryOver?`<div><span class="carry-badge">⚑ 課題持ち越し</span></div>`:''}
-  </div>`;
-}
-function gearCard(g){
-  return`<div class="log-card" onclick="openDetail('gear',${g.id})">
-    <div class="log-card-header">
-      <div class="log-card-title">${esc(g.gut)}</div>
-      <div class="log-card-date">${fmtDate(g.date)}</div>
-    </div>
-    ${g.racket?`<div style="font-size:12px;color:var(--text2);margin-top:4px">${esc(g.racket)}</div>`:''}
-    ${g.tension?`<div class="gear-tension">${g.tension} lbs</div>`:''}
-    ${g.memo?`<div class="log-card-memo">${esc(g.memo).slice(0,60)}${g.memo.length>60?'…':''}</div>`:''}
-  </div>`;
-}
+// ---- Cards ----
+function practiceCard(p){return`<div class="log-card" onclick="openDetail('practice',${p.id})"><div class="log-card-header"><div class="log-card-title">${esc(p.title)}</div><div class="log-card-date">${fmtDate(p.date)}</div></div>${p.tags&&p.tags.length?`<div class="log-card-tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''} ${p.memo?`<div class="log-card-memo">${esc(p.memo).slice(0,90)}${p.memo.length>90?'…':''}</div>`:''} ${p.carryOver?`<div><span class="carry-badge">⚑ 課題持ち越し</span></div>`:''}</div>`;}
+function gearCard(g){return`<div class="log-card" onclick="openDetail('gear',${g.id})"><div class="log-card-header"><div class="log-card-title">${esc(g.gut)}</div><div class="log-card-date">${fmtDate(g.date)}</div></div>${g.racket?`<div style="font-size:12px;color:var(--text2);margin-top:4px">${esc(g.racket)}</div>`:''} ${g.tension?`<div class="gear-tension">${g.tension} lbs</div>`:''} ${g.memo?`<div class="log-card-memo">${esc(g.memo).slice(0,60)}${g.memo.length>60?'…':''}</div>`:''}</div>`;}
 
 function renderHome(){
   const el=document.getElementById('home-recent');
-  if(!practices.length){
-    el.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>まだ練習記録がありません<br>右下のボタンから追加しましょう</p></div>';
-    return;
-  }
+  if(!practices.length){el.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>まだ練習記録がありません<br>右下のボタンから追加しましょう</p></div>';return;}
   el.innerHTML=practices.slice(0,3).map(p=>practiceCard(p)).join('');
 }
-
 function switchLogTab(t){
   logSubTab=t;
   document.getElementById('log-tab-practice').classList.toggle('active',t==='practice');
@@ -714,35 +701,8 @@ function switchLogTab(t){
   document.getElementById('log-gear-list').style.display=t==='gear'?'':'none';
 }
 function renderLog(){
-  const pe=document.getElementById('log-practice-list');
-  const ge=document.getElementById('log-gear-list');
-  pe.innerHTML=practices.length?practices.map(p=>practiceCard(p)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>練習記録がまだありません</p></div>';
-  ge.innerHTML=gears.length?gears.map(g=>gearCard(g)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2c0 5.52-3.58 10-8 10"/></svg><p>ガット記録がまだありません</p></div>';
-}
-
-function renderAnalytics(){
-  const n=new Date();
-  const thisMonth=practices.filter(p=>{const d=new Date(p.date+'T00:00:00');return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear();}).length;
-  const allTags=practices.flatMap(p=>p.tags||[]);
-  const tagCount={};allTags.forEach(t=>tagCount[t]=(tagCount[t]||0)+1);
-  const topTags=Object.entries(tagCount).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  document.getElementById('analytics-stats').innerHTML=`
-    <div class="stat-chip"><div class="stat-num">${practices.length}</div><div class="stat-label">総練習数</div></div>
-    <div class="stat-chip"><div class="stat-num">${thisMonth}</div><div class="stat-label">今月</div></div>
-    <div class="stat-chip"><div class="stat-num">${gears.length}</div><div class="stat-label">ガット記録</div></div>`;
-  const tc=document.getElementById('analytics-tag-chart');
-  if(topTags.length){
-    const max=topTags[0][1];
-    tc.innerHTML=`<div style="margin-bottom:20px"><div style="font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">よく練習したカテゴリ</div>${topTags.map(([t,c])=>`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:var(--text2)">${esc(t)}</span><span style="color:var(--green3);font-weight:600">${c}回</span></div><div style="background:var(--glass);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green2);height:100%;border-radius:4px;width:${Math.round(c/max*100)}%;transition:width 0.5s"></div></div></div>`).join('')}</div>`;
-  }else tc.innerHTML='';
-}
-
-function renderProfile(){
-  const tags=[...new Set(practices.flatMap(p=>p.tags||[]))].length;
-  document.getElementById('profile-stats').innerHTML=`
-    <div class="stat-chip"><div class="stat-num">${practices.length}</div><div class="stat-label">練習記録</div></div>
-    <div class="stat-chip"><div class="stat-num">${gears.length}</div><div class="stat-label">ガット記録</div></div>
-    <div class="stat-chip"><div class="stat-num">${tags}</div><div class="stat-label">タグ数</div></div>`;
+  document.getElementById('log-practice-list').innerHTML=practices.length?practices.map(p=>practiceCard(p)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>練習記録がまだありません</p></div>';
+  document.getElementById('log-gear-list').innerHTML=gears.length?gears.map(g=>gearCard(g)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2c0 5.52-3.58 10-8 10"/></svg><p>ガット記録がまだありません</p></div>';
 }
 
 // ---- Detail ----
@@ -752,90 +712,47 @@ function openDetail(type,id){
     const p=practices.find(x=>x.id===id);if(!p)return;
     document.getElementById('detail-p-title').textContent=p.title;
     document.getElementById('detail-p-date').textContent=fmtDate(p.date);
-    const ts=document.getElementById('detail-p-tags');
-    ts.innerHTML=(p.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('');
+    document.getElementById('detail-p-tags').innerHTML=(p.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('');
     document.getElementById('detail-p-tags-sec').style.display=p.tags&&p.tags.length?'':'none';
     const cs=document.getElementById('detail-p-carry-sec');
-    if(p.inheritedCarry){cs.style.display='';document.getElementById('detail-p-carry').textContent=p.inheritedCarry;}
-    else cs.style.display='none';
+    if(p.inheritedCarry){cs.style.display='';document.getElementById('detail-p-carry').textContent=p.inheritedCarry;}else cs.style.display='none';
     const ms=document.getElementById('detail-p-memo-sec');
-    if(p.memo){ms.style.display='';document.getElementById('detail-p-memo').textContent=p.memo;}
-    else ms.style.display='none';
+    if(p.memo){ms.style.display='';document.getElementById('detail-p-memo').textContent=p.memo;}else ms.style.display='none';
     const ys=document.getElementById('detail-p-yt-sec');
-    if(p.youtube&&p.youtube.length){
-      ys.style.display='';
-      document.getElementById('detail-p-yt').innerHTML=p.youtube.map(l=>`<div class="yt-chip" style="cursor:pointer" onclick="openLink('${esc(l)}')">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}</div>`).join('');
-    }else ys.style.display='none';
+    if(p.youtube&&p.youtube.length){ys.style.display='';document.getElementById('detail-p-yt').innerHTML=p.youtube.map(l=>`<div class="yt-chip" style="cursor:pointer" onclick="openLink('${esc(l)}')">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}</div>`).join('');}else ys.style.display='none';
   }else{
     const g=gears.find(x=>x.id===id);if(!g)return;
     document.getElementById('detail-g-title').textContent=g.gut;
     document.getElementById('detail-g-date').textContent=fmtDate(g.date);
     document.getElementById('detail-g-tension').textContent=g.tension?g.tension+' lbs':'未設定';
     const rs=document.getElementById('detail-g-racket-sec');
-    if(g.racket){rs.style.display='';document.getElementById('detail-g-racket').textContent=g.racket;}
-    else rs.style.display='none';
+    if(g.racket){rs.style.display='';document.getElementById('detail-g-racket').textContent=g.racket;}else rs.style.display='none';
     const ms=document.getElementById('detail-g-memo-sec');
-    if(g.memo){ms.style.display='';document.getElementById('detail-g-memo').textContent=g.memo;}
-    else ms.style.display='none';
+    if(g.memo){ms.style.display='';document.getElementById('detail-g-memo').textContent=g.memo;}else ms.style.display='none';
   }
   document.getElementById('detail-'+type).classList.add('open');
 }
-function closeDetail(type){
-  document.getElementById('detail-'+type).classList.remove('open');
-  currentDetailId=null;
-}
+function closeDetail(type){document.getElementById('detail-'+type).classList.remove('open');currentDetailId=null;}
 
 // ---- Export / Import ----
-function exportData(){
-  const data=JSON.stringify({practices,gears},null,2);
-  const blob=new Blob([data],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';
-  a.click();URL.revokeObjectURL(url);
-  showToast('エクスポートしました！');
-}
+function exportData(){const data=JSON.stringify({practices,gears},null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('エクスポートしました！');}
 function importData(){document.getElementById('import-input').click();}
-function handleImport(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    try{
-      const d=JSON.parse(ev.target.result);
-      if(d.practices)practices=[...d.practices,...practices];
-      if(d.gears)gears=[...d.gears,...gears];
-      saveStorage();renderHome();renderLog();renderProfile();
-      showToast('インポートしました！');
-    }catch{showToast('ファイルの形式が正しくありません');}
-  };
-  reader.readAsText(file);
-  e.target.value='';
-}
+function handleImport(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.practices)practices=[...d.practices,...practices];if(d.gears)gears=[...d.gears,...gears];saveStorage();renderCalendar();renderHome();renderLog();showToast('インポートしました！');}catch{showToast('ファイルの形式が正しくありません');}};reader.readAsText(file);e.target.value='';}
 
 // ---- Utils ----
 function openLink(url){window.open(url,'_blank');}
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
-  if(toastTimer)clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2500);
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2500);}
 function fmtDate(d){if(!d)return'';const dt=new Date(d+'T00:00:00');return`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;}
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
-// ---- Dismiss FAB on outside click ----
-document.addEventListener('click',e=>{
-  const fab=document.getElementById('fab-btn');
-  const menu=document.getElementById('fab-menu');
-  if(!fab.contains(e.target)&&!menu.contains(e.target))closeFab();
-});
+document.addEventListener('click',e=>{const fab=document.getElementById('fab-btn');const menu=document.getElementById('fab-menu');if(!fab.contains(e.target)&&!menu.contains(e.target))closeFab();});
 
 // ---- Init ----
 loadStorage();
-renderHome();renderLog();renderProfile();
-const today=new Date().toISOString().slice(0,10);
-document.getElementById('p-date').value=today;
-document.getElementById('g-date').value=today;
+initCal();
+renderCalendar();
+renderHome();
+renderLog();
 </script>
 </body>
 </html>
