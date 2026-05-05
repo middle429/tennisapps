@@ -34,13 +34,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .nav-btn.active .nav-dot{opacity:1}
 .tab{display:none}.tab.active{display:block}
 
-/* Header */
-.header{padding:max(20px,calc(env(safe-area-inset-top)+16px)) 20px 12px;background:linear-gradient(180deg,rgba(13,74,42,0.8) 0%,transparent 100%)}
-.greeting{font-size:13px;color:var(--text2);margin-bottom:2px}
-.greeting-name{font-size:22px;font-weight:600;color:var(--text);letter-spacing:-0.3px}
-.goal-chip{display:inline-flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:6px 12px;margin-top:10px;font-size:12px;color:var(--text2)}
-.goal-chip svg{width:14px;height:14px;stroke:var(--green3);fill:none;stroke-width:2}
-
 /* FAB */
 .fab{position:absolute;bottom:calc(76px + env(safe-area-inset-bottom));right:16px;z-index:100}
 .fab-ball{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#d4e84a,#a8c224);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.5),inset 0 2px 4px rgba(255,255,255,0.3);transition:transform 0.15s;-webkit-appearance:none}
@@ -50,6 +43,22 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .fab-menu.open{opacity:1;pointer-events:all;transform:translateY(0)}
 .fab-item{display:flex;align-items:center;gap:8px;background:rgba(15,50,30,0.97);border:1px solid var(--glass-border);border-radius:20px;padding:10px 16px;color:var(--text);font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;backdrop-filter:blur(10px)}
 .fab-item svg{width:16px;height:16px;stroke:var(--green3);fill:none;stroke-width:2;stroke-linecap:round}
+
+/* Home top */
+.home-top{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 12px}
+
+/* Skill goal summary card */
+.skill-summary{margin:0 16px 12px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;padding:14px 16px;cursor:pointer;transition:background 0.2s}
+.skill-summary:active{background:rgba(255,255,255,0.12)}
+.skill-summary-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.skill-summary-title{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px}
+.skill-summary-title svg{width:14px;height:14px;stroke:var(--green3);fill:none;stroke-width:2}
+.skill-summary-hint{font-size:11px;color:var(--text3)}
+.skill-chips{display:flex;flex-wrap:wrap;gap:6px}
+.skill-chip{display:flex;align-items:center;gap:5px;background:rgba(61,179,122,0.12);border:1px solid rgba(61,179,122,0.2);border-radius:20px;padding:5px 10px}
+.skill-chip-cat{font-size:11px;font-weight:600;color:var(--green3)}
+.skill-chip-text{font-size:11px;color:var(--text2)}
+.skill-empty-hint{font-size:12px;color:var(--text3);text-align:center;padding:8px 0}
 
 /* Calendar */
 .calendar-wrap{margin:0 16px 4px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;overflow:hidden}
@@ -63,7 +72,7 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .cal-wd:first-child{color:#e88080}
 .cal-wd:last-child{color:#8098e8}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0 10px 12px;gap:2px}
-.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;position:relative;transition:background 0.15s;-webkit-tap-highlight-color:transparent}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;position:relative;transition:background 0.15s}
 .cal-day:active{background:rgba(255,255,255,0.1)}
 .cal-day.empty{pointer-events:none}
 .cal-day-num{font-size:13px;font-weight:500;color:var(--text2);line-height:1}
@@ -79,10 +88,10 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .cal-dot.gear{background:var(--amber)}
 
 /* Day panel */
-.day-panel{margin:0 16px 12px;border-radius:14px;overflow:hidden;transition:all 0.25s}
+.day-panel{margin:0 16px 12px;border-radius:14px;overflow:hidden}
 .day-panel-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(61,179,122,0.1);border:1px solid rgba(61,179,122,0.2);border-radius:14px 14px 0 0}
 .day-panel-date{font-size:13px;font-weight:600;color:var(--green4)}
-.day-panel-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;-webkit-appearance:none}
+.day-panel-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;line-height:1;padding:0 2px;-webkit-appearance:none}
 .day-panel-body{background:var(--card-bg);border:1px solid var(--card-border);border-top:none;border-radius:0 0 14px 14px;padding:10px 12px}
 
 /* Section */
@@ -150,6 +159,21 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .btn:active{transform:scale(0.97)}
 .yt-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,50,50,0.12);border:1px solid rgba(255,50,50,0.2);border-radius:10px;padding:6px 10px;font-size:12px;color:#ff8080;margin:4px 4px 0 0;word-break:break-all}
 
+/* Category presets */
+.cat-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cat-preset{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer;transition:all 0.15s}
+.cat-preset.active{background:rgba(61,179,122,0.2);border-color:var(--green3);color:var(--green4)}
+
+/* Skill goal modal list */
+.skill-goal-item{display:flex;align-items:flex-start;justify-content:space-between;background:rgba(255,255,255,0.05);border:1px solid var(--card-border);border-radius:10px;padding:12px;margin-bottom:8px}
+.skill-goal-item:last-child{margin-bottom:0}
+.skill-goal-cat{font-size:11px;font-weight:600;color:var(--green3);margin-bottom:4px}
+.skill-goal-text{font-size:13px;color:var(--text2);line-height:1.5}
+.skill-del-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:2px;flex-shrink:0;-webkit-appearance:none}
+.skill-del-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.skill-del-btn:active{color:var(--danger)}
+.skill-divider{border:none;border-top:1px solid var(--glass-border);margin:14px 0}
+
 /* Detail */
 .detail-overlay{position:fixed;inset:0;z-index:300;background:linear-gradient(160deg,#102e1e,#061e14);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1)}
 .detail-overlay.open{transform:translateX(0)}
@@ -163,6 +187,15 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .detail-section{margin-bottom:22px}
 .detail-section-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
 .detail-text{font-size:14px;color:var(--text2);line-height:1.7}
+
+/* Skill detail overlay (bottom sheet style) */
+.skill-detail-overlay{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.65);opacity:0;pointer-events:none;transition:opacity 0.25s;display:flex;align-items:flex-end}
+.skill-detail-overlay.open{opacity:1;pointer-events:all}
+.skill-detail-sheet{background:linear-gradient(160deg,#102e1e,#081a10);border-radius:24px 24px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));width:100%;max-height:80dvh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);-webkit-overflow-scrolling:touch}
+.skill-detail-overlay.open .skill-detail-sheet{transform:translateY(0)}
+.skill-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.skill-detail-title{font-size:18px;font-weight:600;color:var(--text)}
+.skill-detail-close{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:6px 10px;cursor:pointer;color:var(--text2);font-size:14px;-webkit-appearance:none}
 
 /* Settings */
 .settings-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--glass-border);cursor:pointer}
@@ -183,13 +216,19 @@ input[type=date]{color-scheme:dark}
 
 <!-- HOME -->
 <div class="tab active" id="tab-home">
-  <div class="header">
-    <div class="greeting">こんにちは 👋</div>
-    <div class="greeting-name">テニスプレーヤー</div>
-    <div class="goal-chip">
-      <svg viewBox="0 0 24 24"><polyline points="22,12,18,12,15,21,9,3,6,12,2,12"/></svg>
-      大目標：全国大会出場
+
+  <div class="home-top"></div>
+
+  <!-- Skill Goal Summary Card -->
+  <div class="skill-summary" onclick="openSkillDetail()">
+    <div class="skill-summary-header">
+      <div class="skill-summary-title">
+        <svg viewBox="0 0 24 24"><polygon points="12,2,15.09,8.26,22,9.27,17,14.14,18.18,21.02,12,17.77,5.82,21.02,7,14.14,2,9.27,8.91,8.26"/></svg>
+        スキル目標
+      </div>
+      <div class="skill-summary-hint">タップで確認 ›</div>
     </div>
+    <div id="skill-summary-body"></div>
   </div>
 
   <!-- Calendar -->
@@ -211,7 +250,7 @@ input[type=date]{color-scheme:dark}
     <div class="cal-grid" id="cal-grid"></div>
   </div>
 
-  <!-- Day panel (shown when a day is selected) -->
+  <!-- Day panel -->
   <div id="day-panel" style="display:none">
     <div class="day-panel-header">
       <div class="day-panel-date" id="day-panel-date"></div>
@@ -267,6 +306,10 @@ input[type=date]{color-scheme:dark}
 <!-- FAB -->
 <div class="fab">
   <div class="fab-menu" id="fab-menu">
+    <div class="fab-item" onclick="openModal('skill')">
+      <svg viewBox="0 0 24 24"><polygon points="12,2,15.09,8.26,22,9.27,17,14.14,18.18,21.02,12,17.77,5.82,21.02,7,14.14,2,9.27,8.91,8.26"/></svg>
+      スキル目標
+    </div>
     <div class="fab-item" onclick="openModal('practice')">
       <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16"/><polyline points="14,2,14,8,20,8"/><path d="M20 2v16a2 2 0 0 1-2 2H8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
       練習記録
@@ -279,6 +322,36 @@ input[type=date]{color-scheme:dark}
   <button class="fab-ball" id="fab-btn" onclick="toggleFab()">
     <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 2c0 5.52-3.58 10-8 10"/><path d="M12 2c0 5.52 3.58 10 8 10"/><path d="M12 22c0-5.52-3.58-10-8-10"/><path d="M12 22c0-5.52 3.58-10 8-10"/></svg>
   </button>
+</div>
+
+<!-- SKILL GOAL MODAL (add) -->
+<div class="modal-overlay" id="modal-skill">
+<div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title">スキル目標を追加</div>
+  <div class="form-group">
+    <label class="form-label">カテゴリ *</label>
+    <input class="form-input" type="text" id="sk-cat" placeholder="例：サーブ">
+    <div class="cat-presets" id="sk-presets">
+      <div class="cat-preset" onclick="setSkillCat('サーブ')">サーブ</div>
+      <div class="cat-preset" onclick="setSkillCat('フォアハンド')">フォアハンド</div>
+      <div class="cat-preset" onclick="setSkillCat('バックハンド')">バックハンド</div>
+      <div class="cat-preset" onclick="setSkillCat('ボレー')">ボレー</div>
+      <div class="cat-preset" onclick="setSkillCat('フットワーク')">フットワーク</div>
+      <div class="cat-preset" onclick="setSkillCat('メンタル')">メンタル</div>
+      <div class="cat-preset" onclick="setSkillCat('戦術')">戦術</div>
+      <div class="cat-preset" onclick="setSkillCat('体力')">体力</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">目標内容 *</label>
+    <textarea class="form-textarea" id="sk-text" placeholder="例：セカンドサーブのスピンをもっと安定させる" style="min-height:80px"></textarea>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="closeModal('skill')">キャンセル</button>
+    <button class="btn btn-primary" onclick="saveSkillGoal()">追加する</button>
+  </div>
+</div>
 </div>
 
 <!-- PRACTICE MODAL -->
@@ -356,6 +429,17 @@ input[type=date]{color-scheme:dark}
     <button class="btn btn-secondary" onclick="closeModal('gear')">キャンセル</button>
     <button class="btn btn-primary" onclick="saveGear()">保存する</button>
   </div>
+</div>
+</div>
+
+<!-- SKILL DETAIL SHEET -->
+<div class="skill-detail-overlay" id="skill-detail-overlay" onclick="closeSkillDetail(event)">
+<div class="skill-detail-sheet">
+  <div class="skill-detail-header">
+    <div class="skill-detail-title">⭐ スキル目標</div>
+    <button class="skill-detail-close" onclick="closeSkillDetail()">閉じる</button>
+  </div>
+  <div id="skill-detail-body"></div>
 </div>
 </div>
 
@@ -449,12 +533,16 @@ input[type=date]{color-scheme:dark}
 
 <script>
 const STORAGE_KEY='tennis_app_data';
-let practices=[],gears=[],logSubTab='practice',carryChecked=false,ytLinks=[],toastTimer=null,currentDetailId=null;
-let calYear,calMonth,selectedDate=null;
+let practices=[],gears=[],skillGoals=[],logSubTab='practice',carryChecked=false,ytLinks=[],toastTimer=null,currentDetailId=null,selectedDate=null,calYear=0,calMonth=0;
 
 // ---- Storage ----
-function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({practices,gears}));}catch(e){}}
-function loadStorage(){try{const d=localStorage.getItem(STORAGE_KEY);if(d){const p=JSON.parse(d);practices=p.practices||[];gears=p.gears||[];}}catch(e){}}
+function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({practices,gears,skillGoals}));}catch(e){}}
+function loadStorage(){
+  try{
+    const d=localStorage.getItem(STORAGE_KEY);
+    if(d){const p=JSON.parse(d);practices=p.practices||[];gears=p.gears||[];skillGoals=p.skillGoals||[];}
+  }catch(e){}
+}
 
 // ---- Tab ----
 function switchTab(t){
@@ -462,7 +550,7 @@ function switchTab(t){
   document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
   document.getElementById('nav-'+t).classList.add('active');
-  if(t==='home'){renderCalendar();renderHome();}
+  if(t==='home'){renderHome();renderCalendar();}
   if(t==='log')renderLog();
   closeFab();
 }
@@ -472,93 +560,56 @@ function toggleFab(){document.getElementById('fab-menu').classList.toggle('open'
 function closeFab(){document.getElementById('fab-menu').classList.remove('open');}
 
 // ---- Calendar ----
-function initCal(){
-  const now=new Date();
-  calYear=now.getFullYear();
-  calMonth=now.getMonth();
-}
-function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}selectedDate=null;closeDayPanel();renderCalendar();}
-function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}selectedDate=null;closeDayPanel();renderCalendar();}
-
 function getDayKey(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+function initCal(){const n=new Date();calYear=n.getFullYear();calMonth=n.getMonth();}
+function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
+function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();}
 
 function renderCalendar(){
-  const label=document.getElementById('cal-month-label');
-  label.textContent=`${calYear}年${calMonth+1}月`;
-
-  const firstDay=new Date(calYear,calMonth,1).getDay(); // 0=Sun
+  const months=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  document.getElementById('cal-month-label').textContent=`${calYear}年 ${months[calMonth]}`;
+  const firstDay=new Date(calYear,calMonth,1).getDay();
   const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
   const today=new Date();
   const todayKey=getDayKey(today.getFullYear(),today.getMonth(),today.getDate());
-
-  // Build date→records map
-  const practiceMap={};
-  practices.forEach(p=>{if(p.date)practiceMap[p.date]=(practiceMap[p.date]||0)+1;});
-  const gearMap={};
-  gears.forEach(g=>{if(g.date)gearMap[g.date]=(gearMap[g.date]||0)+1;});
-
+  const practiceMap={};practices.forEach(p=>{if(p.date)practiceMap[p.date]=(practiceMap[p.date]||0)+1;});
+  const gearMap={};gears.forEach(g=>{if(g.date)gearMap[g.date]=(gearMap[g.date]||0)+1;});
   const grid=document.getElementById('cal-grid');
   let html='';
-
-  // empty cells before first day
   for(let i=0;i<firstDay;i++)html+=`<div class="cal-day empty"></div>`;
-
   for(let d=1;d<=daysInMonth;d++){
     const key=getDayKey(calYear,calMonth,d);
     const dow=(firstDay+d-1)%7;
     const isToday=key===todayKey;
     const isSelected=key===selectedDate;
-    const hasPractice=!!practiceMap[key];
-    const hasGear=!!gearMap[key];
     let cls='cal-day';
     if(dow===0)cls+=' sunday';
     if(dow===6)cls+=' saturday';
     if(isToday)cls+=' today';
     if(isSelected)cls+=' selected';
-
     let dots='';
-    if(hasPractice)dots+=`<div class="cal-dot practice"></div>`;
-    if(hasGear)dots+=`<div class="cal-dot gear"></div>`;
-
-    html+=`<div class="${cls}" onclick="selectDay('${key}')">
-      <div class="cal-day-num">${d}</div>
-      <div class="cal-dots">${dots}</div>
-    </div>`;
+    if(practiceMap[key])dots+=`<div class="cal-dot practice"></div>`;
+    if(gearMap[key])dots+=`<div class="cal-dot gear"></div>`;
+    html+=`<div class="${cls}" onclick="selectDay('${key}')"><div class="cal-day-num">${d}</div><div class="cal-dots">${dots}</div></div>`;
   }
-
   grid.innerHTML=html;
 }
 
 function selectDay(key){
-  if(selectedDate===key){
-    selectedDate=null;
-    closeDayPanel();
-    renderCalendar();
-    return;
-  }
-  selectedDate=key;
-  renderCalendar();
-  showDayPanel(key);
-  // scroll panel into view
-  setTimeout(()=>{
-    const panel=document.getElementById('day-panel');
-    if(panel)panel.scrollIntoView({behavior:'smooth',block:'nearest'});
-  },50);
+  if(selectedDate===key){selectedDate=null;closeDayPanel();renderCalendar();return;}
+  selectedDate=key;renderCalendar();showDayPanel(key);
+  setTimeout(()=>{const p=document.getElementById('day-panel');if(p)p.scrollIntoView({behavior:'smooth',block:'nearest'});},50);
 }
 
 function showDayPanel(key){
-  const dayPractices=practices.filter(p=>p.date===key);
-  const dayGears=gears.filter(g=>g.date===key);
+  const dp=practices.filter(p=>p.date===key);
+  const dg=gears.filter(g=>g.date===key);
   const dt=new Date(key+'T00:00:00');
-  const label=`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;
-
-  document.getElementById('day-panel-date').textContent=label;
-
+  document.getElementById('day-panel-date').textContent=`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;
   let html='';
-  if(!dayPractices.length&&!dayGears.length){
-    html='<div class="day-empty">この日の記録はありません</div>';
-  }else{
-    dayPractices.forEach(p=>{
+  if(!dp.length&&!dg.length){html='<div class="day-empty">この日の記録はありません</div>';}
+  else{
+    dp.forEach(p=>{
       const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="tag-sm">${esc(t)}</span>`).join('');
       html+=`<div class="log-card-sm" onclick="openDetail('practice',${p.id})">
         <div style="display:flex;align-items:center;justify-content:space-between">
@@ -569,7 +620,7 @@ function showDayPanel(key){
         ${p.memo?`<div style="font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4">${esc(p.memo).slice(0,60)}${p.memo.length>60?'…':''}</div>`:''}
       </div>`;
     });
-    dayGears.forEach(g=>{
+    dg.forEach(g=>{
       html+=`<div class="log-card-sm" onclick="openDetail('gear',${g.id})">
         <div style="display:flex;align-items:center;gap:6px">
           <span class="gear-badge">ガット</span>
@@ -579,22 +630,103 @@ function showDayPanel(key){
       </div>`;
     });
   }
-
   document.getElementById('day-panel-body').innerHTML=html;
   document.getElementById('day-panel').style.display='block';
 }
 
-function closeDayPanel(){
-  selectedDate=null;
-  document.getElementById('day-panel').style.display='none';
-  renderCalendar();
+function closeDayPanel(){selectedDate=null;document.getElementById('day-panel').style.display='none';renderCalendar();}
+
+// ---- Skill Goals ----
+function setSkillCat(val){
+  document.getElementById('sk-cat').value=val;
+  document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===val));
+}
+
+document.getElementById('sk-cat').addEventListener('input',function(){
+  const v=this.value.trim();
+  document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===v));
+});
+
+function saveSkillGoal(){
+  const cat=document.getElementById('sk-cat').value.trim();
+  const text=document.getElementById('sk-text').value.trim();
+  if(!cat){showToast('カテゴリを入力してください');return;}
+  if(!text){showToast('目標内容を入力してください');return;}
+  skillGoals.push({id:Date.now(),cat,text});
+  saveStorage();closeModal('skill');renderSkillSummary();
+  showToast('スキル目標を追加しました！');
+}
+
+function deleteSkillGoal(id){
+  skillGoals=skillGoals.filter(s=>s.id!==id);
+  saveStorage();renderSkillSummary();renderSkillDetail();
+  if(!skillGoals.length)closeSkillDetail();
+  showToast('削除しました');
+}
+
+function renderSkillSummary(){
+  const el=document.getElementById('skill-summary-body');
+  if(!skillGoals.length){
+    el.innerHTML='<div class="skill-empty-hint">右下のボタンからスキル目標を追加できます</div>';
+    return;
+  }
+  // group by category
+  const grouped={};
+  skillGoals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
+  el.innerHTML=`<div class="skill-chips">${Object.entries(grouped).map(([cat,items])=>`
+    <div class="skill-chip">
+      <span class="skill-chip-cat">${esc(cat)}</span>
+      <span class="skill-chip-text">${items.length}件</span>
+    </div>`).join('')}</div>`;
+}
+
+function renderSkillDetail(){
+  const el=document.getElementById('skill-detail-body');
+  if(!skillGoals.length){el.innerHTML='<div style="text-align:center;padding:30px 0;color:var(--text3);font-size:13px">スキル目標がまだありません</div>';return;}
+  // group by category
+  const grouped={};
+  skillGoals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
+  let html='';
+  Object.entries(grouped).forEach(([cat,items],idx)=>{
+    if(idx>0)html+='<hr class="skill-divider">';
+    html+=`<div style="font-size:11px;font-weight:600;color:var(--green3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">${esc(cat)}</div>`;
+    items.forEach(s=>{
+      html+=`<div class="skill-goal-item">
+        <div style="flex:1">
+          <div class="skill-goal-text">${esc(s.text)}</div>
+        </div>
+        <button class="skill-del-btn" onclick="deleteSkillGoal(${s.id})">
+          <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
+        </button>
+      </div>`;
+    });
+  });
+  // add button at bottom
+  html+=`<button class="btn btn-secondary" style="width:100%;margin-top:16px" onclick="closeSkillDetail();openModal('skill')">+ 目標を追加する</button>`;
+  el.innerHTML=html;
+}
+
+function openSkillDetail(){
+  renderSkillDetail();
+  document.getElementById('skill-detail-overlay').classList.add('open');
+  document.getElementById('screen').style.overflow='hidden';
+}
+
+function closeSkillDetail(e){
+  if(e&&e.target!==document.getElementById('skill-detail-overlay'))return;
+  document.getElementById('skill-detail-overlay').classList.remove('open');
+  document.getElementById('screen').style.overflow='';
 }
 
 // ---- Modal ----
 function openModal(type){
   closeFab();
   const today=new Date().toISOString().slice(0,10);
-  if(type==='practice'){
+  if(type==='skill'){
+    document.getElementById('sk-cat').value='';
+    document.getElementById('sk-text').value='';
+    document.querySelectorAll('.cat-preset').forEach(el=>el.classList.remove('active'));
+  }else if(type==='practice'){
     document.getElementById('p-date').value=selectedDate||today;
     document.getElementById('p-title').value='';
     document.getElementById('p-tags').value='';
@@ -735,9 +867,9 @@ function openDetail(type,id){
 function closeDetail(type){document.getElementById('detail-'+type).classList.remove('open');currentDetailId=null;}
 
 // ---- Export / Import ----
-function exportData(){const data=JSON.stringify({practices,gears},null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('エクスポートしました！');}
+function exportData(){const data=JSON.stringify({practices,gears,skillGoals},null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('エクスポートしました！');}
 function importData(){document.getElementById('import-input').click();}
-function handleImport(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.practices)practices=[...d.practices,...practices];if(d.gears)gears=[...d.gears,...gears];saveStorage();renderCalendar();renderHome();renderLog();showToast('インポートしました！');}catch{showToast('ファイルの形式が正しくありません');}};reader.readAsText(file);e.target.value='';}
+function handleImport(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.practices)practices=[...d.practices,...practices];if(d.gears)gears=[...d.gears,...gears];if(d.skillGoals)skillGoals=[...d.skillGoals,...skillGoals];saveStorage();renderCalendar();renderHome();renderLog();renderSkillSummary();showToast('インポートしました！');}catch{showToast('ファイルの形式が正しくありません');}};reader.readAsText(file);e.target.value='';}
 
 // ---- Utils ----
 function openLink(url){window.open(url,'_blank');}
@@ -748,11 +880,7 @@ function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/<
 document.addEventListener('click',e=>{const fab=document.getElementById('fab-btn');const menu=document.getElementById('fab-menu');if(!fab.contains(e.target)&&!menu.contains(e.target))closeFab();});
 
 // ---- Init ----
-loadStorage();
-initCal();
-renderCalendar();
-renderHome();
-renderLog();
+loadStorage();initCal();renderCalendar();renderHome();renderLog();renderSkillSummary();
 </script>
 </body>
 </html>
