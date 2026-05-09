@@ -358,7 +358,7 @@ input[type=date]{color-scheme:dark}
 <div class="modal-overlay" id="modal-practice">
 <div class="modal">
   <div class="modal-handle"></div>
-  <div class="modal-title">練習記録を追加</div>
+  <div class="modal-title" id="modal-practice-title">練習記録を追加</div>
   <div class="form-group">
     <label class="form-label">日付</label>
     <input class="form-input" type="date" id="p-date">
@@ -393,7 +393,7 @@ input[type=date]{color-scheme:dark}
   </div>
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="closeModal('practice')">キャンセル</button>
-    <button class="btn btn-primary" onclick="savePractice()">保存する</button>
+    <button class="btn btn-primary" id="modal-practice-btn" onclick="savePractice()">保存する</button>
   </div>
 </div>
 </div>
@@ -402,7 +402,7 @@ input[type=date]{color-scheme:dark}
 <div class="modal-overlay" id="modal-gear">
 <div class="modal">
   <div class="modal-handle"></div>
-  <div class="modal-title">ガット張替えを記録</div>
+  <div class="modal-title" id="modal-gear-title">ガット張替えを記録</div>
   <div class="form-group">
     <label class="form-label">日付</label>
     <input class="form-input" type="date" id="g-date">
@@ -427,7 +427,7 @@ input[type=date]{color-scheme:dark}
   </div>
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="closeModal('gear')">キャンセル</button>
-    <button class="btn btn-primary" onclick="saveGear()">保存する</button>
+    <button class="btn btn-primary" id="modal-gear-btn" onclick="saveGear()">保存する</button>
   </div>
 </div>
 </div>
@@ -453,6 +453,9 @@ input[type=date]{color-scheme:dark}
     <div class="detail-title" id="detail-p-title"></div>
     <div class="detail-date" id="detail-p-date"></div>
   </div>
+  <button class="back-btn" onclick="editItem('practice')" style="color:var(--green3)">
+    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+  </button>
   <button class="back-btn" onclick="deleteItem('practice')" style="color:var(--danger)">
     <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
   </button>
@@ -487,6 +490,9 @@ input[type=date]{color-scheme:dark}
     <div class="detail-title" id="detail-g-title"></div>
     <div class="detail-date" id="detail-g-date"></div>
   </div>
+  <button class="back-btn" onclick="editItem('gear')" style="color:var(--green3)">
+    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+  </button>
   <button class="back-btn" onclick="deleteItem('gear')" style="color:var(--danger)">
     <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
   </button>
@@ -533,7 +539,7 @@ input[type=date]{color-scheme:dark}
 
 <script>
 const STORAGE_KEY='tennis_app_data';
-let practices=[],gears=[],skillGoals=[],logSubTab='practice',carryChecked=false,ytLinks=[],toastTimer=null,currentDetailId=null,selectedDate=null,calYear=0,calMonth=0;
+let practices=[],gears=[],skillGoals=[],logSubTab='practice',carryChecked=false,ytLinks=[],toastTimer=null,currentDetailId=null,selectedDate=null,calYear=0,calMonth=0,editMode=false,currentSkillEditId=null;
 
 // ---- Storage ----
 function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({practices,gears,skillGoals}));}catch(e){}}
@@ -652,9 +658,16 @@ function saveSkillGoal(){
   const text=document.getElementById('sk-text').value.trim();
   if(!cat){showToast('カテゴリを入力してください');return;}
   if(!text){showToast('目標内容を入力してください');return;}
-  skillGoals.push({id:Date.now(),cat,text});
+  if(editMode&&currentSkillEditId){
+    const s=skillGoals.find(x=>x.id===currentSkillEditId);
+    if(s){s.cat=cat;s.text=text;}
+    currentSkillEditId=null;
+    showToast('スキル目標を更新しました！');
+  }else{
+    skillGoals.push({id:Date.now(),cat,text});
+    showToast('スキル目標を追加しました！');
+  }
   saveStorage();closeModal('skill');renderSkillSummary();
-  showToast('スキル目標を追加しました！');
 }
 
 function deleteSkillGoal(id){
@@ -695,9 +708,14 @@ function renderSkillDetail(){
         <div style="flex:1">
           <div class="skill-goal-text">${esc(s.text)}</div>
         </div>
-        <button class="skill-del-btn" onclick="deleteSkillGoal(${s.id})">
-          <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
-        </button>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button class="skill-del-btn" style="color:var(--green3)" onclick="editSkillGoal(${s.id})">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="skill-del-btn" onclick="deleteSkillGoal(${s.id})">
+            <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
+          </button>
+        </div>
       </div>`;
     });
   });
@@ -719,37 +737,67 @@ function closeSkillDetail(e){
 }
 
 // ---- Modal ----
-function openModal(type){
-  closeFab();
+function openModal(type,id){
+  closeFab();editMode=!!id;
   const today=new Date().toISOString().slice(0,10);
   if(type==='skill'){
     document.getElementById('sk-cat').value='';
     document.getElementById('sk-text').value='';
     document.querySelectorAll('.cat-preset').forEach(el=>el.classList.remove('active'));
+    if(id){
+      const s=skillGoals.find(x=>x.id===id);
+      if(s){document.getElementById('sk-cat').value=s.cat;document.getElementById('sk-text').value=s.text;document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===s.cat));}
+      document.querySelector('#modal-skill .modal-title').textContent='スキル目標を編集';
+    }else{
+      currentSkillEditId=null;
+      document.querySelector('#modal-skill .modal-title').textContent='スキル目標を追加';
+    }
   }else if(type==='practice'){
-    document.getElementById('p-date').value=selectedDate||today;
-    document.getElementById('p-title').value='';
-    document.getElementById('p-tags').value='';
-    document.getElementById('p-memo').value='';
+    const p=id?practices.find(x=>x.id===id):null;
+    document.getElementById('p-date').value=p?p.date:(selectedDate||today);
+    document.getElementById('p-title').value=p?p.title:'';
+    document.getElementById('p-tags').value=p?(p.tags||[]).join(', '):'';
+    document.getElementById('p-memo').value=p?p.memo:'';
     document.getElementById('p-yt').value='';
     document.getElementById('p-yt-list').innerHTML='';
-    ytLinks=[];carryChecked=false;
-    document.getElementById('carry-check').classList.remove('checked');
-    const co=getCarryOver();
-    const cosec=document.getElementById('carry-over-section');
-    if(co){cosec.style.display='block';document.getElementById('carry-over-text').textContent=co;}
-    else cosec.style.display='none';
+    ytLinks=p?[...(p.youtube||[])]:[];renderYtList();
+    carryChecked=p?p.carryOver:false;
+    document.getElementById('carry-check').classList.toggle('checked',carryChecked);
+    if(!id){
+      const co=getCarryOver();
+      const cosec=document.getElementById('carry-over-section');
+      if(co){cosec.style.display='block';document.getElementById('carry-over-text').textContent=co;}
+      else cosec.style.display='none';
+    }else{document.getElementById('carry-over-section').style.display='none';}
     renderTagSuggestions();
+    document.getElementById('modal-practice-title').textContent=id?'練習記録を編集':'練習記録を追加';
+    document.getElementById('modal-practice-btn').textContent=id?'更新する':'保存する';
   }else{
-    document.getElementById('g-date').value=selectedDate||today;
-    ['g-gut','g-racket','g-memo'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('g-tension').value='';
+    const g=id?gears.find(x=>x.id===id):null;
+    document.getElementById('g-date').value=g?g.date:(selectedDate||today);
+    document.getElementById('g-gut').value=g?g.gut:'';
+    document.getElementById('g-racket').value=g?g.racket:'';
+    document.getElementById('g-tension').value=g?g.tension:'';
+    document.getElementById('g-memo').value=g?g.memo:'';
     renderGearSuggestions();
+    document.getElementById('modal-gear-title').textContent=id?'ガット記録を編集':'ガット張替えを記録';
+    document.getElementById('modal-gear-btn').textContent=id?'更新する':'保存する';
   }
   document.getElementById('modal-'+type).classList.add('open');
   document.getElementById('screen').style.overflow='hidden';
 }
-function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');document.getElementById('screen').style.overflow='';}
+function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');document.getElementById('screen').style.overflow='';editMode=false;}
+
+function editItem(type){
+  if(!currentDetailId)return;
+  closeDetail(type);
+  setTimeout(()=>openModal(type,currentDetailId),80);
+}
+function editSkillGoal(id){
+  currentSkillEditId=id;
+  closeSkillDetail();
+  setTimeout(()=>openModal('skill',id),80);
+}
 
 // ---- Carry over ----
 function getCarryOver(){const p=practices.find(x=>x.carryOver);return p?p.carryOverMemo:'';}
@@ -787,22 +835,46 @@ function savePractice(){
   if(!date){showToast('日付を入力してください');return;}
   const tags=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
   const memo=document.getElementById('p-memo').value.trim();
-  const co=getCarryOver();
-  practices.forEach(p=>{if(p.carryOver)p.carryOver=false;});
-  practices.unshift({id:Date.now(),date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:'',inheritedCarry:co||'',youtube:[...ytLinks]});
-  saveStorage();closeModal('practice');renderCalendar();renderHome();renderLog();
-  if(selectedDate===date)showDayPanel(date);
-  showToast('練習記録を保存しました！');
+  if(editMode&&currentDetailId){
+    const idx=practices.findIndex(p=>p.id===currentDetailId);
+    if(idx!==-1){
+      const old=practices[idx];
+      practices[idx]={...old,date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:old.carryOverMemo,youtube:[...ytLinks]};
+    }
+    saveStorage();closeModal('practice');renderCalendar();renderHome();renderLog();
+    if(selectedDate)showDayPanel(selectedDate);
+    openDetail('practice',currentDetailId);
+    showToast('練習記録を更新しました！');
+  }else{
+    const co=getCarryOver();
+    practices.forEach(p=>{if(p.carryOver)p.carryOver=false;});
+    practices.unshift({id:Date.now(),date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:'',inheritedCarry:co||'',youtube:[...ytLinks]});
+    saveStorage();closeModal('practice');renderCalendar();renderHome();renderLog();
+    if(selectedDate===date)showDayPanel(date);
+    showToast('練習記録を保存しました！');
+  }
 }
 function saveGear(){
   const date=document.getElementById('g-date').value;
   const gut=document.getElementById('g-gut').value.trim();
   if(!gut){showToast('ガットの種類を入力してください');return;}
   if(!date){showToast('日付を入力してください');return;}
-  gears.unshift({id:Date.now(),date,gut,racket:document.getElementById('g-racket').value.trim(),tension:document.getElementById('g-tension').value,memo:document.getElementById('g-memo').value.trim()});
-  saveStorage();closeModal('gear');renderCalendar();renderLog();
-  if(selectedDate===date)showDayPanel(date);
-  showToast('ガット張替えを記録しました！');
+  const racket=document.getElementById('g-racket').value.trim();
+  const tension=document.getElementById('g-tension').value;
+  const memo=document.getElementById('g-memo').value.trim();
+  if(editMode&&currentDetailId){
+    const idx=gears.findIndex(g=>g.id===currentDetailId);
+    if(idx!==-1)gears[idx]={...gears[idx],date,gut,racket,tension,memo};
+    saveStorage();closeModal('gear');renderCalendar();renderLog();
+    if(selectedDate)showDayPanel(selectedDate);
+    openDetail('gear',currentDetailId);
+    showToast('ガット記録を更新しました！');
+  }else{
+    gears.unshift({id:Date.now(),date,gut,racket,tension,memo});
+    saveStorage();closeModal('gear');renderCalendar();renderLog();
+    if(selectedDate===date)showDayPanel(date);
+    showToast('ガット張替えを記録しました！');
+  }
 }
 
 // ---- Delete ----
