@@ -44,10 +44,17 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .fab-item{display:flex;align-items:center;gap:8px;background:rgba(15,50,30,0.97);border:1px solid var(--glass-border);border-radius:20px;padding:10px 16px;color:var(--text);font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;backdrop-filter:blur(10px)}
 .fab-item svg{width:16px;height:16px;stroke:var(--green3);fill:none;stroke-width:2;stroke-linecap:round}
 
-/* Home top */
-.home-top{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 12px}
+/* Member filter bar */
+.member-filter-bar{padding:max(12px,calc(env(safe-area-inset-top)+8px)) 16px 0}
+.member-filter-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;-webkit-overflow-scrolling:touch}
+.member-filter-scroll::-webkit-scrollbar{display:none}
+.member-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;border:1.5px solid var(--glass-border);background:var(--glass);cursor:pointer;transition:all 0.2s;-webkit-appearance:none;font-family:'DM Sans',sans-serif}
+.member-chip.active{border-color:var(--green3);background:rgba(61,179,122,0.18)}
+.member-chip-emoji{font-size:14px}
+.member-chip-name{font-size:13px;font-weight:500;color:var(--text2)}
+.member-chip.active .member-chip-name{color:var(--green4);font-weight:600}
 
-/* Skill goal summary card */
+/* Skill goal summary */
 .skill-summary{margin:0 16px 12px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;padding:14px 16px;cursor:pointer;transition:background 0.2s}
 .skill-summary:active{background:rgba(255,255,255,0.12)}
 .skill-summary-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -55,9 +62,9 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .skill-summary-title svg{width:14px;height:14px;stroke:var(--green3);fill:none;stroke-width:2}
 .skill-summary-hint{font-size:11px;color:var(--text3)}
 .skill-chips{display:flex;flex-wrap:wrap;gap:6px}
-.skill-chip{display:flex;align-items:center;gap:5px;background:rgba(61,179,122,0.12);border:1px solid rgba(61,179,122,0.2);border-radius:20px;padding:5px 10px}
+.skill-chip-item{display:flex;align-items:center;gap:5px;background:rgba(61,179,122,0.12);border:1px solid rgba(61,179,122,0.2);border-radius:20px;padding:5px 10px}
 .skill-chip-cat{font-size:11px;font-weight:600;color:var(--green3)}
-.skill-chip-text{font-size:11px;color:var(--text2)}
+.skill-chip-count{font-size:11px;color:var(--text2)}
 .skill-empty-hint{font-size:12px;color:var(--text3);text-align:center;padding:8px 0}
 
 /* Calendar */
@@ -69,8 +76,7 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .cal-nav svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);padding:0 10px;margin-bottom:4px}
 .cal-wd{text-align:center;font-size:10px;font-weight:600;color:var(--text3);padding:4px 0}
-.cal-wd:first-child{color:#e88080}
-.cal-wd:last-child{color:#8098e8}
+.cal-wd:first-child{color:#e88080}.cal-wd:last-child{color:#8098e8}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0 10px 12px;gap:2px}
 .cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;position:relative;transition:background 0.15s}
 .cal-day:active{background:rgba(255,255,255,0.1)}
@@ -113,6 +119,7 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .tag-sm{background:rgba(61,179,122,0.12);color:var(--green4);border-radius:6px;padding:2px 6px;font-size:10px;font-weight:500}
 .log-card-memo{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5}
 .carry-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:rgba(232,176,96,0.15);color:var(--amber);border-radius:6px;padding:2px 6px;margin-top:6px}
+.member-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;background:rgba(61,179,122,0.12);color:var(--green4);border-radius:6px;padding:2px 7px;margin-top:6px;font-weight:500}
 .gear-tension{font-size:22px;font-weight:600;color:var(--green3);margin-top:4px}
 .gear-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:rgba(232,176,96,0.15);color:var(--amber);border-radius:6px;padding:2px 6px}
 
@@ -122,10 +129,14 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .empty-state p{font-size:14px;line-height:1.6}
 .day-empty{text-align:center;padding:14px;font-size:13px;color:var(--text3)}
 
-/* Log tabs */
+/* Log */
 .log-tabs{display:flex;padding:12px 16px 0;border-bottom:1px solid var(--glass-border)}
 .log-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
 .log-tab.active{color:var(--green3);border-bottom-color:var(--green3)}
+
+/* Member filter in log */
+.log-member-bar{padding:12px 16px 0;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.log-member-bar::-webkit-scrollbar{display:none}
 .log-list{padding:12px 16px}
 
 /* Modal */
@@ -159,20 +170,31 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .btn:active{transform:scale(0.97)}
 .yt-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,50,50,0.12);border:1px solid rgba(255,50,50,0.2);border-radius:10px;padding:6px 10px;font-size:12px;color:#ff8080;margin:4px 4px 0 0;word-break:break-all}
 
-/* Category presets */
+/* Member selector in form */
+.member-selector{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.member-sel-btn{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;border:1.5px solid var(--glass-border);background:var(--glass);cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.15s;-webkit-appearance:none;font-family:'DM Sans',sans-serif}
+.member-sel-btn.active{border-color:var(--green3);background:rgba(61,179,122,0.18);color:var(--green4);font-weight:600}
+
+/* Cat presets */
 .cat-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .cat-preset{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer;transition:all 0.15s}
 .cat-preset.active{background:rgba(61,179,122,0.2);border-color:var(--green3);color:var(--green4)}
 
-/* Skill goal modal list */
+/* Skill detail */
 .skill-goal-item{display:flex;align-items:flex-start;justify-content:space-between;background:rgba(255,255,255,0.05);border:1px solid var(--card-border);border-radius:10px;padding:12px;margin-bottom:8px}
 .skill-goal-item:last-child{margin-bottom:0}
-.skill-goal-cat{font-size:11px;font-weight:600;color:var(--green3);margin-bottom:4px}
 .skill-goal-text{font-size:13px;color:var(--text2);line-height:1.5}
 .skill-del-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:2px;flex-shrink:0;-webkit-appearance:none}
 .skill-del-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 .skill-del-btn:active{color:var(--danger)}
 .skill-divider{border:none;border-top:1px solid var(--glass-border);margin:14px 0}
+.skill-detail-overlay{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.65);opacity:0;pointer-events:none;transition:opacity 0.25s;display:flex;align-items:flex-end}
+.skill-detail-overlay.open{opacity:1;pointer-events:all}
+.skill-detail-sheet{background:linear-gradient(160deg,#102e1e,#081a10);border-radius:24px 24px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));width:100%;max-height:80dvh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);-webkit-overflow-scrolling:touch}
+.skill-detail-overlay.open .skill-detail-sheet{transform:translateY(0)}
+.skill-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.skill-detail-title{font-size:18px;font-weight:600;color:var(--text)}
+.skill-detail-close{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:6px 10px;cursor:pointer;color:var(--text2);font-size:14px;-webkit-appearance:none}
 
 /* Detail */
 .detail-overlay{position:fixed;inset:0;z-index:300;background:linear-gradient(160deg,#102e1e,#061e14);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1)}
@@ -188,19 +210,15 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .detail-section-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
 .detail-text{font-size:14px;color:var(--text2);line-height:1.7}
 
-/* Skill detail overlay (bottom sheet style) */
-.skill-detail-overlay{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.65);opacity:0;pointer-events:none;transition:opacity 0.25s;display:flex;align-items:flex-end}
-.skill-detail-overlay.open{opacity:1;pointer-events:all}
-.skill-detail-sheet{background:linear-gradient(160deg,#102e1e,#081a10);border-radius:24px 24px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));width:100%;max-height:80dvh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);-webkit-overflow-scrolling:touch}
-.skill-detail-overlay.open .skill-detail-sheet{transform:translateY(0)}
-.skill-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.skill-detail-title{font-size:18px;font-weight:600;color:var(--text)}
-.skill-detail-close{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:6px 10px;cursor:pointer;color:var(--text2);font-size:14px;-webkit-appearance:none}
-
 /* Settings */
 .settings-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--glass-border);cursor:pointer}
 .settings-row-label{font-size:14px;color:var(--text)}
 .settings-row-value{font-size:13px;color:var(--text3)}
+.settings-section-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin:20px 0 10px}
+.member-name-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--glass-border)}
+.member-name-emoji{font-size:20px;width:32px;text-align:center}
+.member-name-input{flex:1;background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none}
+.member-name-input:focus{border-color:var(--green3)}
 
 /* Toast */
 #toast{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:rgba(20,55,35,0.97);border:1px solid var(--glass-border);border-radius:20px;padding:9px 18px;font-size:13px;color:var(--text2);opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;z-index:999;backdrop-filter:blur(12px);max-width:90%}
@@ -216,10 +234,12 @@ input[type=date]{color-scheme:dark}
 
 <!-- HOME -->
 <div class="tab active" id="tab-home">
+  <!-- Member filter bar -->
+  <div class="member-filter-bar">
+    <div class="member-filter-scroll" id="home-member-filter"></div>
+  </div>
 
-  <div class="home-top"></div>
-
-  <!-- Skill Goal Summary Card -->
+  <!-- Skill goal -->
   <div class="skill-summary" onclick="openSkillDetail()">
     <div class="skill-summary-header">
       <div class="skill-summary-title">
@@ -234,23 +254,16 @@ input[type=date]{color-scheme:dark}
   <!-- Calendar -->
   <div class="calendar-wrap">
     <div class="cal-header">
-      <button class="cal-nav" onclick="calPrev()">
-        <svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg>
-      </button>
+      <button class="cal-nav" onclick="calPrev()"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
       <div class="cal-month" id="cal-month-label"></div>
-      <button class="cal-nav" onclick="calNext()">
-        <svg viewBox="0 0 24 24"><polyline points="9,18,15,12,9,6"/></svg>
-      </button>
+      <button class="cal-nav" onclick="calNext()"><svg viewBox="0 0 24 24"><polyline points="9,18,15,12,9,6"/></svg></button>
     </div>
     <div class="cal-weekdays">
       <div class="cal-wd">日</div><div class="cal-wd">月</div><div class="cal-wd">火</div>
-      <div class="cal-wd">水</div><div class="cal-wd">木</div><div class="cal-wd">金</div>
-      <div class="cal-wd">土</div>
+      <div class="cal-wd">水</div><div class="cal-wd">木</div><div class="cal-wd">金</div><div class="cal-wd">土</div>
     </div>
     <div class="cal-grid" id="cal-grid"></div>
   </div>
-
-  <!-- Day panel -->
   <div id="day-panel" style="display:none">
     <div class="day-panel-header">
       <div class="day-panel-date" id="day-panel-date"></div>
@@ -258,7 +271,6 @@ input[type=date]{color-scheme:dark}
     </div>
     <div class="day-panel-body" id="day-panel-body"></div>
   </div>
-
   <div class="section">
     <div class="section-title">最近の練習</div>
     <div id="home-recent"></div>
@@ -275,6 +287,8 @@ input[type=date]{color-scheme:dark}
     <div class="log-tab active" id="log-tab-practice" onclick="switchLogTab('practice')">練習記録</div>
     <div class="log-tab" id="log-tab-gear" onclick="switchLogTab('gear')">用具・ガット</div>
   </div>
+  <!-- Member filter -->
+  <div class="log-member-bar" id="log-member-filter"></div>
   <div class="log-list" id="log-practice-list"></div>
   <div class="log-list" id="log-gear-list" style="display:none"></div>
 </div>
@@ -283,9 +297,13 @@ input[type=date]{color-scheme:dark}
 <div class="tab" id="tab-settings">
   <div class="page-title-area">
     <div class="page-title">設定</div>
-    <div class="page-subtitle">データ管理</div>
   </div>
-  <div style="padding:8px 16px">
+  <div style="padding:0 16px">
+    <div class="settings-section-title">メンバー名の設定</div>
+    <div id="settings-member-names"></div>
+    <button class="btn btn-primary" style="margin-top:12px" onclick="saveMemberNames()">名前を保存</button>
+
+    <div class="settings-section-title">データ管理</div>
     <div class="settings-row" onclick="exportData()">
       <span class="settings-row-label">データをエクスポート</span>
       <span class="settings-row-value">JSON ›</span>
@@ -295,7 +313,7 @@ input[type=date]{color-scheme:dark}
       <span class="settings-row-value">JSON ›</span>
     </div>
     <div style="margin-top:32px;text-align:center">
-      <div style="font-size:11px;color:var(--text3)">テニス練習管理アプリ v1.0</div>
+      <div style="font-size:11px;color:var(--text3)">テニス練習管理アプリ v2.0</div>
       <div style="font-size:11px;color:var(--text3);margin-top:4px">データはこの端末に保存されます</div>
     </div>
   </div>
@@ -324,15 +342,15 @@ input[type=date]{color-scheme:dark}
   </button>
 </div>
 
-<!-- SKILL GOAL MODAL (add) -->
+<!-- SKILL MODAL -->
 <div class="modal-overlay" id="modal-skill">
 <div class="modal">
   <div class="modal-handle"></div>
-  <div class="modal-title">スキル目標を追加</div>
+  <div class="modal-title" id="modal-skill-title">スキル目標を追加</div>
   <div class="form-group">
     <label class="form-label">カテゴリ *</label>
     <input class="form-input" type="text" id="sk-cat" placeholder="例：サーブ">
-    <div class="cat-presets" id="sk-presets">
+    <div class="cat-presets">
       <div class="cat-preset" onclick="setSkillCat('サーブ')">サーブ</div>
       <div class="cat-preset" onclick="setSkillCat('フォアハンド')">フォアハンド</div>
       <div class="cat-preset" onclick="setSkillCat('バックハンド')">バックハンド</div>
@@ -349,7 +367,7 @@ input[type=date]{color-scheme:dark}
   </div>
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="closeModal('skill')">キャンセル</button>
-    <button class="btn btn-primary" onclick="saveSkillGoal()">追加する</button>
+    <button class="btn btn-primary" id="modal-skill-btn" onclick="saveSkillGoal()">追加する</button>
   </div>
 </div>
 </div>
@@ -359,6 +377,10 @@ input[type=date]{color-scheme:dark}
 <div class="modal">
   <div class="modal-handle"></div>
   <div class="modal-title" id="modal-practice-title">練習記録を追加</div>
+  <div class="form-group">
+    <label class="form-label">メンバー *</label>
+    <div class="member-selector" id="p-member-selector"></div>
+  </div>
   <div class="form-group">
     <label class="form-label">日付</label>
     <input class="form-input" type="date" id="p-date">
@@ -386,9 +408,7 @@ input[type=date]{color-scheme:dark}
     <div id="p-yt-list" style="margin-top:8px"></div>
   </div>
   <div class="check-row" onclick="toggleCarryCheck()">
-    <div class="check-box" id="carry-check">
-      <svg viewBox="0 0 14 14"><polyline points="2,7,5.5,10.5,12,3"/></svg>
-    </div>
+    <div class="check-box" id="carry-check"><svg viewBox="0 0 14 14"><polyline points="2,7,5.5,10.5,12,3"/></svg></div>
     <div class="check-label">この課題を次回に持ち越す</div>
   </div>
   <div class="btn-row">
@@ -403,6 +423,10 @@ input[type=date]{color-scheme:dark}
 <div class="modal">
   <div class="modal-handle"></div>
   <div class="modal-title" id="modal-gear-title">ガット張替えを記録</div>
+  <div class="form-group">
+    <label class="form-label">メンバー *</label>
+    <div class="member-selector" id="g-member-selector"></div>
+  </div>
   <div class="form-group">
     <label class="form-label">日付</label>
     <input class="form-input" type="date" id="g-date">
@@ -432,7 +456,7 @@ input[type=date]{color-scheme:dark}
 </div>
 </div>
 
-<!-- SKILL DETAIL SHEET -->
+<!-- SKILL DETAIL -->
 <div class="skill-detail-overlay" id="skill-detail-overlay" onclick="closeSkillDetail(event)">
 <div class="skill-detail-sheet">
   <div class="skill-detail-header">
@@ -446,9 +470,7 @@ input[type=date]{color-scheme:dark}
 <!-- PRACTICE DETAIL -->
 <div class="detail-overlay" id="detail-practice">
 <div class="detail-header">
-  <button class="back-btn" onclick="closeDetail('practice')">
-    <svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg>
-  </button>
+  <button class="back-btn" onclick="closeDetail('practice')"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
   <div class="detail-title-wrap">
     <div class="detail-title" id="detail-p-title"></div>
     <div class="detail-date" id="detail-p-date"></div>
@@ -461,6 +483,10 @@ input[type=date]{color-scheme:dark}
   </button>
 </div>
 <div class="detail-body">
+  <div class="detail-section" id="detail-p-member-sec">
+    <div class="detail-section-label">メンバー</div>
+    <div id="detail-p-member"></div>
+  </div>
   <div class="detail-section" id="detail-p-tags-sec">
     <div class="detail-section-label">タグ</div>
     <div id="detail-p-tags" style="display:flex;flex-wrap:wrap;gap:6px"></div>
@@ -483,9 +509,7 @@ input[type=date]{color-scheme:dark}
 <!-- GEAR DETAIL -->
 <div class="detail-overlay" id="detail-gear">
 <div class="detail-header">
-  <button class="back-btn" onclick="closeDetail('gear')">
-    <svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg>
-  </button>
+  <button class="back-btn" onclick="closeDetail('gear')"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
   <div class="detail-title-wrap">
     <div class="detail-title" id="detail-g-title"></div>
     <div class="detail-date" id="detail-g-date"></div>
@@ -498,6 +522,10 @@ input[type=date]{color-scheme:dark}
   </button>
 </div>
 <div class="detail-body">
+  <div class="detail-section" id="detail-g-member-sec">
+    <div class="detail-section-label">メンバー</div>
+    <div id="detail-g-member"></div>
+  </div>
   <div class="detail-section">
     <div class="detail-section-label">テンション</div>
     <div style="font-size:36px;font-weight:600;color:var(--green3)" id="detail-g-tension"></div>
@@ -519,18 +547,15 @@ input[type=date]{color-scheme:dark}
 <div class="bottom-nav">
   <button class="nav-btn active" id="nav-home" onclick="switchTab('home')">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22,9,12,15,12,15,22"/></svg>
-    <span class="nav-label">ホーム</span>
-    <div class="nav-dot"></div>
+    <span class="nav-label">ホーム</span><div class="nav-dot"></div>
   </button>
   <button class="nav-btn" id="nav-log" onclick="switchTab('log')">
     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-    <span class="nav-label">ログ</span>
-    <div class="nav-dot"></div>
+    <span class="nav-label">ログ</span><div class="nav-dot"></div>
   </button>
   <button class="nav-btn" id="nav-settings" onclick="switchTab('settings')">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    <span class="nav-label">設定</span>
-    <div class="nav-dot"></div>
+    <span class="nav-label">設定</span><div class="nav-dot"></div>
   </button>
 </div>
 
@@ -538,34 +563,152 @@ input[type=date]{color-scheme:dark}
 <input type="file" id="import-input" accept=".json" style="display:none" onchange="handleImport(event)">
 
 <script>
-const STORAGE_KEY='tennis_app_data';
-let practices=[],gears=[],skillGoals=[],logSubTab='practice',carryChecked=false,ytLinks=[],toastTimer=null,currentDetailId=null,selectedDate=null,calYear=0,calMonth=0,editMode=false,currentSkillEditId=null;
+const STORAGE_KEY='tennis_app_v3';
 
-// ---- Storage ----
-function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({practices,gears,skillGoals}));}catch(e){}}
-function loadStorage(){
-  try{
-    const d=localStorage.getItem(STORAGE_KEY);
-    if(d){const p=JSON.parse(d);practices=p.practices||[];gears=p.gears||[];skillGoals=p.skillGoals||[];}
-  }catch(e){}
+// デフォルトメンバー（固定4人、名前だけ変更可）
+const DEFAULT_MEMBERS=[
+  {id:'m1',name:'メンバー1',emoji:'🎾'},
+  {id:'m2',name:'メンバー2',emoji:'👦'},
+  {id:'m3',name:'メンバー3',emoji:'👧'},
+  {id:'m4',name:'メンバー4',emoji:'👩'},
+];
+
+let db={memberNames:{},practices:[],gears:[],skillGoals:[]};
+// memberNames: {m1:'お父さん', m2:'太郎', ...}
+
+let homeMemberFilter='all'; // 'all' or member id
+let logMemberFilter='all';
+let logSubTab='practice';
+let carryChecked=false,ytLinks=[],toastTimer=null;
+let currentDetailId=null,selectedDate=null,calYear=0,calMonth=0;
+let editMode=false,editingId=null,currentSkillEditId=null;
+let formPMember='m1', formGMember='m1'; // selected member in form
+
+// ===== HELPERS =====
+function getMembers(){
+  return DEFAULT_MEMBERS.map(m=>({...m,name:db.memberNames[m.id]||m.name}));
+}
+function getMemberById(id){return getMembers().find(m=>m.id===id);}
+function getMemberName(id){const m=getMemberById(id);return m?m.name:'';}
+function getMemberEmoji(id){const m=getMemberById(id);return m?m.emoji:'🎾';}
+
+function filteredPractices(filterId){
+  const f=filterId||homeMemberFilter;
+  return f==='all'?db.practices:[...db.practices].filter(p=>p.memberId===f);
+}
+function filteredGears(filterId){
+  const f=filterId||logMemberFilter;
+  return f==='all'?db.gears:[...db.gears].filter(g=>g.memberId===f);
 }
 
-// ---- Tab ----
+// ===== STORAGE =====
+function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(db));}catch(e){showToast('保存容量が不足しています');}}
+function loadStorage(){
+  try{const d=localStorage.getItem(STORAGE_KEY);if(d)db=JSON.parse(d);}catch(e){}
+  if(!db.memberNames)db.memberNames={};
+  if(!db.practices)db.practices=[];
+  if(!db.gears)db.gears=[];
+  if(!db.skillGoals)db.skillGoals=[];
+}
+
+// ===== MEMBER FILTER RENDER =====
+function renderMemberFilterChips(containerId, current, onSelect){
+  const el=document.getElementById(containerId);
+  const members=getMembers();
+  let html=`<button class="member-chip${current==='all'?' active':''}" onclick="${onSelect}('all')">
+    <span class="member-chip-emoji">🎾</span>
+    <span class="member-chip-name">全員</span>
+  </button>`;
+  members.forEach(m=>{
+    html+=`<button class="member-chip${current===m.id?' active':''}" onclick="${onSelect}('${m.id}')">
+      <span class="member-chip-emoji">${m.emoji}</span>
+      <span class="member-chip-name">${esc(m.name)}</span>
+    </button>`;
+  });
+  el.innerHTML=html;
+}
+
+function setHomeFilter(id){
+  homeMemberFilter=id;
+  renderMemberFilterChips('home-member-filter','setHomeFilter');
+  // re-render with correct current value
+  const el=document.getElementById('home-member-filter');
+  const members=getMembers();
+  let html=`<button class="member-chip${homeMemberFilter==='all'?' active':''}" onclick="setHomeFilter('all')">
+    <span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
+  members.forEach(m=>{
+    html+=`<button class="member-chip${homeMemberFilter===m.id?' active':''}" onclick="setHomeFilter('${m.id}')">
+      <span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;
+  });
+  el.innerHTML=html;
+  renderHome();renderCalendar();renderSkillSummary();
+}
+
+function setLogFilter(id){
+  logMemberFilter=id;
+  const el=document.getElementById('log-member-filter');
+  const members=getMembers();
+  let html=`<button class="member-chip${logMemberFilter==='all'?' active':''}" onclick="setLogFilter('all')">
+    <span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
+  members.forEach(m=>{
+    html+=`<button class="member-chip${logMemberFilter===m.id?' active':''}" onclick="setLogFilter('${m.id}')">
+      <span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;
+  });
+  el.innerHTML=html;
+  renderLog();
+}
+
+function initMemberFilters(){
+  setHomeFilter(homeMemberFilter);
+  setLogFilter(logMemberFilter);
+}
+
+// ===== MEMBER SELECTOR IN FORM =====
+function renderFormMemberSelector(containerId, current, setter){
+  const members=getMembers();
+  document.getElementById(containerId).innerHTML=members.map(m=>`
+    <button class="member-sel-btn${current===m.id?' active':''}" onclick="${setter}('${m.id}')">
+      ${m.emoji} ${esc(m.name)}
+    </button>`).join('');
+}
+function setPMember(id){formPMember=id;renderFormMemberSelector('p-member-selector',formPMember,'setPMember');renderTagSuggestions();}
+function setGMember(id){formGMember=id;renderFormMemberSelector('g-member-selector',formGMember,'setGMember');renderGearSuggestions();}
+
+// ===== SETTINGS MEMBER NAMES =====
+function renderSettingsMemberNames(){
+  const members=getMembers();
+  document.getElementById('settings-member-names').innerHTML=members.map(m=>`
+    <div class="member-name-row">
+      <div class="member-name-emoji">${m.emoji}</div>
+      <input class="member-name-input" type="text" id="mn-${m.id}" value="${esc(m.name)}" placeholder="${m.name}">
+    </div>`).join('');
+}
+function saveMemberNames(){
+  DEFAULT_MEMBERS.forEach(m=>{
+    const inp=document.getElementById('mn-'+m.id);
+    if(inp&&inp.value.trim())db.memberNames[m.id]=inp.value.trim();
+  });
+  saveStorage();initMemberFilters();renderAll();showToast('メンバー名を保存しました！');
+}
+
+// ===== TAB =====
 function switchTab(t){
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
   document.getElementById('nav-'+t).classList.add('active');
   if(t==='home'){renderHome();renderCalendar();}
-  if(t==='log')renderLog();
+  if(t==='log'){setLogFilter(logMemberFilter);}
+  if(t==='settings'){renderSettingsMemberNames();}
   closeFab();
 }
+function renderAll(){renderHome();renderCalendar();renderLog();renderSkillSummary();}
 
-// ---- FAB ----
+// ===== FAB =====
 function toggleFab(){document.getElementById('fab-menu').classList.toggle('open');}
 function closeFab(){document.getElementById('fab-menu').classList.remove('open');}
 
-// ---- Calendar ----
+// ===== CALENDAR =====
 function getDayKey(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
 function initCal(){const n=new Date();calYear=n.getFullYear();calMonth=n.getMonth();}
 function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
@@ -578,136 +721,116 @@ function renderCalendar(){
   const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
   const today=new Date();
   const todayKey=getDayKey(today.getFullYear(),today.getMonth(),today.getDate());
-  const practiceMap={};practices.forEach(p=>{if(p.date)practiceMap[p.date]=(practiceMap[p.date]||0)+1;});
-  const gearMap={};gears.forEach(g=>{if(g.date)gearMap[g.date]=(gearMap[g.date]||0)+1;});
-  const grid=document.getElementById('cal-grid');
+  const ps=homeMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===homeMemberFilter);
+  const gs=homeMemberFilter==='all'?db.gears:db.gears.filter(g=>g.memberId===homeMemberFilter);
+  const practiceMap={};ps.forEach(p=>{if(p.date)practiceMap[p.date]=(practiceMap[p.date]||0)+1;});
+  const gearMap={};gs.forEach(g=>{if(g.date)gearMap[g.date]=(gearMap[g.date]||0)+1;});
   let html='';
   for(let i=0;i<firstDay;i++)html+=`<div class="cal-day empty"></div>`;
   for(let d=1;d<=daysInMonth;d++){
     const key=getDayKey(calYear,calMonth,d);
     const dow=(firstDay+d-1)%7;
-    const isToday=key===todayKey;
-    const isSelected=key===selectedDate;
     let cls='cal-day';
-    if(dow===0)cls+=' sunday';
-    if(dow===6)cls+=' saturday';
-    if(isToday)cls+=' today';
-    if(isSelected)cls+=' selected';
+    if(dow===0)cls+=' sunday';if(dow===6)cls+=' saturday';
+    if(key===todayKey)cls+=' today';if(key===selectedDate)cls+=' selected';
     let dots='';
     if(practiceMap[key])dots+=`<div class="cal-dot practice"></div>`;
     if(gearMap[key])dots+=`<div class="cal-dot gear"></div>`;
     html+=`<div class="${cls}" onclick="selectDay('${key}')"><div class="cal-day-num">${d}</div><div class="cal-dots">${dots}</div></div>`;
   }
-  grid.innerHTML=html;
+  document.getElementById('cal-grid').innerHTML=html;
 }
 
 function selectDay(key){
   if(selectedDate===key){selectedDate=null;closeDayPanel();renderCalendar();return;}
   selectedDate=key;renderCalendar();showDayPanel(key);
-  setTimeout(()=>{const p=document.getElementById('day-panel');if(p)p.scrollIntoView({behavior:'smooth',block:'nearest'});},50);
+  setTimeout(()=>{document.getElementById('day-panel').scrollIntoView({behavior:'smooth',block:'nearest'});},50);
 }
-
 function showDayPanel(key){
-  const dp=practices.filter(p=>p.date===key);
-  const dg=gears.filter(g=>g.date===key);
+  const ps=(homeMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===homeMemberFilter)).filter(p=>p.date===key);
+  const gs=(homeMemberFilter==='all'?db.gears:db.gears.filter(g=>g.memberId===homeMemberFilter)).filter(g=>g.date===key);
   const dt=new Date(key+'T00:00:00');
   document.getElementById('day-panel-date').textContent=`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;
   let html='';
-  if(!dp.length&&!dg.length){html='<div class="day-empty">この日の記録はありません</div>';}
+  if(!ps.length&&!gs.length){html='<div class="day-empty">この日の記録はありません</div>';}
   else{
-    dp.forEach(p=>{
+    ps.forEach(p=>{
       const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="tag-sm">${esc(t)}</span>`).join('');
       html+=`<div class="log-card-sm" onclick="openDetail('practice',${p.id})">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div class="log-card-title-sm">🎾 ${esc(p.title)}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+          <span style="font-size:11px">${getMemberEmoji(p.memberId)}</span>
+          <div class="log-card-title-sm" style="flex:1">${esc(p.title)}</div>
           ${p.carryOver?'<span style="font-size:10px;color:var(--amber)">⚑</span>':''}
         </div>
         ${tags?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px">${tags}</div>`:''}
         ${p.memo?`<div style="font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4">${esc(p.memo).slice(0,60)}${p.memo.length>60?'…':''}</div>`:''}
       </div>`;
     });
-    dg.forEach(g=>{
+    gs.forEach(g=>{
       html+=`<div class="log-card-sm" onclick="openDetail('gear',${g.id})">
         <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:11px">${getMemberEmoji(g.memberId)}</span>
           <span class="gear-badge">ガット</span>
           <div class="log-card-title-sm">${esc(g.gut)}${g.tension?' — '+g.tension+'lbs':''}</div>
         </div>
-        ${g.racket?`<div style="font-size:11px;color:var(--text3);margin-top:4px">${esc(g.racket)}</div>`:''}
       </div>`;
     });
   }
   document.getElementById('day-panel-body').innerHTML=html;
   document.getElementById('day-panel').style.display='block';
 }
-
 function closeDayPanel(){selectedDate=null;document.getElementById('day-panel').style.display='none';renderCalendar();}
 
-// ---- Skill Goals ----
+// ===== SKILL GOALS =====
 function setSkillCat(val){
   document.getElementById('sk-cat').value=val;
   document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===val));
 }
-
 document.getElementById('sk-cat').addEventListener('input',function(){
-  const v=this.value.trim();
-  document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===v));
+  document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===this.value.trim()));
 });
 
+function getSkillGoals(){
+  // スキル目標はフィルター対象外（全員分まとめて表示、カテゴリ軸で見せる）
+  return db.skillGoals;
+}
 function saveSkillGoal(){
   const cat=document.getElementById('sk-cat').value.trim();
   const text=document.getElementById('sk-text').value.trim();
   if(!cat){showToast('カテゴリを入力してください');return;}
   if(!text){showToast('目標内容を入力してください');return;}
   if(editMode&&currentSkillEditId){
-    const s=skillGoals.find(x=>x.id===currentSkillEditId);
-    if(s){s.cat=cat;s.text=text;}
-    currentSkillEditId=null;
-    showToast('スキル目標を更新しました！');
+    const s=db.skillGoals.find(x=>x.id===currentSkillEditId);
+    if(s){s.cat=cat;s.text=text;}currentSkillEditId=null;showToast('スキル目標を更新しました！');
   }else{
-    skillGoals.push({id:Date.now(),cat,text});
-    showToast('スキル目標を追加しました！');
+    db.skillGoals.push({id:Date.now(),cat,text});showToast('スキル目標を追加しました！');
   }
   saveStorage();closeModal('skill');renderSkillSummary();
 }
-
 function deleteSkillGoal(id){
-  skillGoals=skillGoals.filter(s=>s.id!==id);
+  db.skillGoals=db.skillGoals.filter(s=>s.id!==id);
   saveStorage();renderSkillSummary();renderSkillDetail();
-  if(!skillGoals.length)closeSkillDetail();
-  showToast('削除しました');
+  if(!db.skillGoals.length)closeSkillDetail();showToast('削除しました');
 }
-
 function renderSkillSummary(){
+  const goals=db.skillGoals;
   const el=document.getElementById('skill-summary-body');
-  if(!skillGoals.length){
-    el.innerHTML='<div class="skill-empty-hint">右下のボタンからスキル目標を追加できます</div>';
-    return;
-  }
-  // group by category
-  const grouped={};
-  skillGoals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
+  if(!goals.length){el.innerHTML='<div class="skill-empty-hint">右下のボタンからスキル目標を追加できます</div>';return;}
+  const grouped={};goals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
   el.innerHTML=`<div class="skill-chips">${Object.entries(grouped).map(([cat,items])=>`
-    <div class="skill-chip">
-      <span class="skill-chip-cat">${esc(cat)}</span>
-      <span class="skill-chip-text">${items.length}件</span>
-    </div>`).join('')}</div>`;
+    <div class="skill-chip-item"><span class="skill-chip-cat">${esc(cat)}</span><span class="skill-chip-count">${items.length}件</span></div>`).join('')}</div>`;
 }
-
 function renderSkillDetail(){
-  const el=document.getElementById('skill-detail-body');
-  if(!skillGoals.length){el.innerHTML='<div style="text-align:center;padding:30px 0;color:var(--text3);font-size:13px">スキル目標がまだありません</div>';return;}
-  // group by category
-  const grouped={};
-  skillGoals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
+  const goals=db.skillGoals;const el=document.getElementById('skill-detail-body');
+  if(!goals.length){el.innerHTML='<div style="text-align:center;padding:30px 0;color:var(--text3);font-size:13px">スキル目標がまだありません</div>';return;}
+  const grouped={};goals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
   let html='';
   Object.entries(grouped).forEach(([cat,items],idx)=>{
-    if(idx>0)html+='<hr class="skill-divider">';
+    if(idx>0)html+='<hr style="border:none;border-top:1px solid var(--glass-border);margin:14px 0">';
     html+=`<div style="font-size:11px;font-weight:600;color:var(--green3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">${esc(cat)}</div>`;
     items.forEach(s=>{
       html+=`<div class="skill-goal-item">
-        <div style="flex:1">
-          <div class="skill-goal-text">${esc(s.text)}</div>
-        </div>
+        <div style="flex:1"><div class="skill-goal-text">${esc(s.text)}</div></div>
         <div style="display:flex;gap:6px;flex-shrink:0">
           <button class="skill-del-btn" style="color:var(--green3)" onclick="editSkillGoal(${s.id})">
             <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -719,61 +842,56 @@ function renderSkillDetail(){
       </div>`;
     });
   });
-  // add button at bottom
   html+=`<button class="btn btn-secondary" style="width:100%;margin-top:16px" onclick="closeSkillDetail();openModal('skill')">+ 目標を追加する</button>`;
   el.innerHTML=html;
 }
-
-function openSkillDetail(){
-  renderSkillDetail();
-  document.getElementById('skill-detail-overlay').classList.add('open');
-  document.getElementById('screen').style.overflow='hidden';
-}
-
+function openSkillDetail(){renderSkillDetail();document.getElementById('skill-detail-overlay').classList.add('open');document.getElementById('screen').style.overflow='hidden';}
 function closeSkillDetail(e){
   if(e&&e.target!==document.getElementById('skill-detail-overlay'))return;
-  document.getElementById('skill-detail-overlay').classList.remove('open');
-  document.getElementById('screen').style.overflow='';
+  document.getElementById('skill-detail-overlay').classList.remove('open');document.getElementById('screen').style.overflow='';
 }
+function editSkillGoal(id){currentSkillEditId=id;closeSkillDetail();setTimeout(()=>openModal('skill',id),80);}
 
-// ---- Modal ----
+// ===== MODAL =====
 function openModal(type,id){
-  closeFab();editMode=!!id;
+  closeFab();editMode=!!id;editingId=id||null;
   const today=new Date().toISOString().slice(0,10);
   if(type==='skill'){
-    document.getElementById('sk-cat').value='';
-    document.getElementById('sk-text').value='';
+    document.getElementById('sk-cat').value='';document.getElementById('sk-text').value='';
     document.querySelectorAll('.cat-preset').forEach(el=>el.classList.remove('active'));
     if(id){
-      const s=skillGoals.find(x=>x.id===id);
+      const s=db.skillGoals.find(x=>x.id===id);
       if(s){document.getElementById('sk-cat').value=s.cat;document.getElementById('sk-text').value=s.text;document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===s.cat));}
-      document.querySelector('#modal-skill .modal-title').textContent='スキル目標を編集';
+      document.getElementById('modal-skill-title').textContent='スキル目標を編集';
+      document.getElementById('modal-skill-btn').textContent='更新する';
     }else{
       currentSkillEditId=null;
-      document.querySelector('#modal-skill .modal-title').textContent='スキル目標を追加';
+      document.getElementById('modal-skill-title').textContent='スキル目標を追加';
+      document.getElementById('modal-skill-btn').textContent='追加する';
     }
   }else if(type==='practice'){
-    const p=id?practices.find(x=>x.id===id):null;
+    const p=id?db.practices.find(x=>x.id===id):null;
+    formPMember=p?p.memberId:'m1';
+    renderFormMemberSelector('p-member-selector',formPMember,'setPMember');
     document.getElementById('p-date').value=p?p.date:(selectedDate||today);
     document.getElementById('p-title').value=p?p.title:'';
     document.getElementById('p-tags').value=p?(p.tags||[]).join(', '):'';
     document.getElementById('p-memo').value=p?p.memo:'';
-    document.getElementById('p-yt').value='';
-    document.getElementById('p-yt-list').innerHTML='';
+    document.getElementById('p-yt').value='';document.getElementById('p-yt-list').innerHTML='';
     ytLinks=p?[...(p.youtube||[])]:[];renderYtList();
     carryChecked=p?p.carryOver:false;
     document.getElementById('carry-check').classList.toggle('checked',carryChecked);
     if(!id){
-      const co=getCarryOver();
-      const cosec=document.getElementById('carry-over-section');
-      if(co){cosec.style.display='block';document.getElementById('carry-over-text').textContent=co;}
-      else cosec.style.display='none';
-    }else{document.getElementById('carry-over-section').style.display='none';}
+      const co=getCarryOver(formPMember);const cosec=document.getElementById('carry-over-section');
+      if(co){cosec.style.display='block';document.getElementById('carry-over-text').textContent=co;}else cosec.style.display='none';
+    }else document.getElementById('carry-over-section').style.display='none';
     renderTagSuggestions();
     document.getElementById('modal-practice-title').textContent=id?'練習記録を編集':'練習記録を追加';
     document.getElementById('modal-practice-btn').textContent=id?'更新する':'保存する';
   }else{
-    const g=id?gears.find(x=>x.id===id):null;
+    const g=id?db.gears.find(x=>x.id===id):null;
+    formGMember=g?g.memberId:'m1';
+    renderFormMemberSelector('g-member-selector',formGMember,'setGMember');
     document.getElementById('g-date').value=g?g.date:(selectedDate||today);
     document.getElementById('g-gut').value=g?g.gut:'';
     document.getElementById('g-racket').value=g?g.racket:'';
@@ -786,32 +904,18 @@ function openModal(type,id){
   document.getElementById('modal-'+type).classList.add('open');
   document.getElementById('screen').style.overflow='hidden';
 }
-function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');document.getElementById('screen').style.overflow='';editMode=false;}
+function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');document.getElementById('screen').style.overflow='';editMode=false;editingId=null;}
+function editItem(type){const id=currentDetailId;if(!id)return;closeDetail(type);setTimeout(()=>openModal(type,id),80);}
 
-function editItem(type){
-  if(!currentDetailId)return;
-  closeDetail(type);
-  setTimeout(()=>openModal(type,currentDetailId),80);
-}
-function editSkillGoal(id){
-  currentSkillEditId=id;
-  closeSkillDetail();
-  setTimeout(()=>openModal('skill',id),80);
-}
-
-// ---- Carry over ----
-function getCarryOver(){const p=practices.find(x=>x.carryOver);return p?p.carryOverMemo:'';}
+// ===== CARRY / YT / TAGS =====
+function getCarryOver(memberId){const p=db.practices.filter(x=>x.memberId===memberId).find(x=>x.carryOver);return p?p.carryOverMemo:'';}
 function toggleCarryCheck(){carryChecked=!carryChecked;document.getElementById('carry-check').classList.toggle('checked',carryChecked);}
-
-// ---- YouTube ----
 function addYtLink(){const v=document.getElementById('p-yt').value.trim();if(!v||!v.startsWith('http'))return;if(!ytLinks.includes(v))ytLinks.push(v);document.getElementById('p-yt').value='';renderYtList();}
 document.getElementById('p-yt').addEventListener('blur',addYtLink);
 document.getElementById('p-yt').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addYtLink();}});
 function renderYtList(){document.getElementById('p-yt-list').innerHTML=ytLinks.map((l,i)=>`<div class="yt-chip">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}<span style="margin-left:6px;cursor:pointer;color:var(--text3)" onclick="removeYt(${i})">×</span></div>`).join('');}
 function removeYt(i){ytLinks.splice(i,1);renderYtList();}
-
-// ---- Tags ----
-function getAllTags(){return[...new Set(practices.flatMap(p=>p.tags||[]))];}
+function getAllTags(){return[...new Set(db.practices.filter(p=>p.memberId===formPMember).flatMap(p=>p.tags||[]))];}
 function renderTagSuggestions(){
   const tags=getAllTags();const el=document.getElementById('p-tag-suggestions');
   if(!tags.length){el.innerHTML='';return;}
@@ -820,14 +924,15 @@ function renderTagSuggestions(){
 }
 function addTag(t){const inp=document.getElementById('p-tags');const cur=inp.value.split(',').map(x=>x.trim()).filter(Boolean);if(!cur.includes(t))cur.push(t);else cur.splice(cur.indexOf(t),1);inp.value=cur.join(', ');renderTagSuggestions();}
 function renderGearSuggestions(){
-  const guts=[...new Set(gears.map(g=>g.gut).filter(Boolean))];
-  const rackets=[...new Set(gears.map(g=>g.racket).filter(Boolean))];
+  const memberGears=db.gears.filter(g=>g.memberId===formGMember);
+  const guts=[...new Set(memberGears.map(g=>g.gut).filter(Boolean))];
+  const rackets=[...new Set(memberGears.map(g=>g.racket).filter(Boolean))];
   document.getElementById('g-gut-suggestions').innerHTML=guts.map(g=>`<div class="tag-sug" onclick="setVal('g-gut','${esc(g)}')">${esc(g)}</div>`).join('');
   document.getElementById('g-racket-suggestions').innerHTML=rackets.map(r=>`<div class="tag-sug" onclick="setVal('g-racket','${esc(r)}')">${esc(r)}</div>`).join('');
 }
 function setVal(id,v){document.getElementById(id).value=v;}
 
-// ---- Save ----
+// ===== SAVE =====
 function savePractice(){
   const title=document.getElementById('p-title').value.trim();
   const date=document.getElementById('p-date').value;
@@ -835,23 +940,19 @@ function savePractice(){
   if(!date){showToast('日付を入力してください');return;}
   const tags=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
   const memo=document.getElementById('p-memo').value.trim();
-  if(editMode&&currentDetailId){
-    const idx=practices.findIndex(p=>p.id===currentDetailId);
-    if(idx!==-1){
-      const old=practices[idx];
-      practices[idx]={...old,date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:old.carryOverMemo,youtube:[...ytLinks]};
-    }
+  const memberId=formPMember;
+  if(editMode&&editingId){
+    const idx=db.practices.findIndex(p=>p.id===editingId);
+    if(idx!==-1){const old=db.practices[idx];db.practices[idx]={...old,memberId,date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:old.carryOverMemo,youtube:[...ytLinks]};}
+    const savedId=editingId;
     saveStorage();closeModal('practice');renderCalendar();renderHome();renderLog();
-    if(selectedDate)showDayPanel(selectedDate);
-    openDetail('practice',currentDetailId);
-    showToast('練習記録を更新しました！');
+    if(selectedDate)showDayPanel(selectedDate);openDetail('practice',savedId);showToast('練習記録を更新しました！');
   }else{
-    const co=getCarryOver();
-    practices.forEach(p=>{if(p.carryOver)p.carryOver=false;});
-    practices.unshift({id:Date.now(),date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:'',inheritedCarry:co||'',youtube:[...ytLinks]});
+    const co=getCarryOver(memberId);
+    db.practices.filter(p=>p.memberId===memberId).forEach(p=>{if(p.carryOver)p.carryOver=false;});
+    db.practices.unshift({id:Date.now(),memberId,date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:'',inheritedCarry:co||'',youtube:[...ytLinks]});
     saveStorage();closeModal('practice');renderCalendar();renderHome();renderLog();
-    if(selectedDate===date)showDayPanel(date);
-    showToast('練習記録を保存しました！');
+    if(selectedDate===date)showDayPanel(date);showToast('練習記録を保存しました！');
   }
 }
 function saveGear(){
@@ -862,41 +963,65 @@ function saveGear(){
   const racket=document.getElementById('g-racket').value.trim();
   const tension=document.getElementById('g-tension').value;
   const memo=document.getElementById('g-memo').value.trim();
-  if(editMode&&currentDetailId){
-    const idx=gears.findIndex(g=>g.id===currentDetailId);
-    if(idx!==-1)gears[idx]={...gears[idx],date,gut,racket,tension,memo};
+  const memberId=formGMember;
+  if(editMode&&editingId){
+    const idx=db.gears.findIndex(g=>g.id===editingId);
+    if(idx!==-1)db.gears[idx]={...db.gears[idx],memberId,date,gut,racket,tension,memo};
+    const savedId=editingId;
     saveStorage();closeModal('gear');renderCalendar();renderLog();
-    if(selectedDate)showDayPanel(selectedDate);
-    openDetail('gear',currentDetailId);
-    showToast('ガット記録を更新しました！');
+    if(selectedDate)showDayPanel(selectedDate);openDetail('gear',savedId);showToast('ガット記録を更新しました！');
   }else{
-    gears.unshift({id:Date.now(),date,gut,racket,tension,memo});
+    db.gears.unshift({id:Date.now(),memberId,date,gut,racket,tension,memo});
     saveStorage();closeModal('gear');renderCalendar();renderLog();
-    if(selectedDate===date)showDayPanel(date);
-    showToast('ガット張替えを記録しました！');
+    if(selectedDate===date)showDayPanel(date);showToast('ガット張替えを記録しました！');
   }
 }
 
-// ---- Delete ----
+// ===== DELETE =====
 function deleteItem(type){
   if(!currentDetailId)return;
   if(!confirm('この記録を削除しますか？'))return;
-  if(type==='practice')practices=practices.filter(p=>p.id!==currentDetailId);
-  else gears=gears.filter(g=>g.id!==currentDetailId);
+  if(type==='practice')db.practices=db.practices.filter(p=>p.id!==currentDetailId);
+  else db.gears=db.gears.filter(g=>g.id!==currentDetailId);
   saveStorage();closeDetail(type);renderCalendar();renderHome();renderLog();
-  if(selectedDate)showDayPanel(selectedDate);
-  showToast('削除しました');
+  if(selectedDate)showDayPanel(selectedDate);showToast('削除しました');
 }
 
-// ---- Cards ----
-function practiceCard(p){return`<div class="log-card" onclick="openDetail('practice',${p.id})"><div class="log-card-header"><div class="log-card-title">${esc(p.title)}</div><div class="log-card-date">${fmtDate(p.date)}</div></div>${p.tags&&p.tags.length?`<div class="log-card-tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''} ${p.memo?`<div class="log-card-memo">${esc(p.memo).slice(0,90)}${p.memo.length>90?'…':''}</div>`:''} ${p.carryOver?`<div><span class="carry-badge">⚑ 課題持ち越し</span></div>`:''}</div>`;}
-function gearCard(g){return`<div class="log-card" onclick="openDetail('gear',${g.id})"><div class="log-card-header"><div class="log-card-title">${esc(g.gut)}</div><div class="log-card-date">${fmtDate(g.date)}</div></div>${g.racket?`<div style="font-size:12px;color:var(--text2);margin-top:4px">${esc(g.racket)}</div>`:''} ${g.tension?`<div class="gear-tension">${g.tension} lbs</div>`:''} ${g.memo?`<div class="log-card-memo">${esc(g.memo).slice(0,60)}${g.memo.length>60?'…':''}</div>`:''}</div>`;}
+// ===== CARDS =====
+function memberTag(memberId){
+  const m=getMemberById(memberId);
+  if(!m)return'';
+  return`<span class="member-badge">${m.emoji} ${esc(m.name)}</span>`;
+}
+function practiceCard(p,showMember){
+  return`<div class="log-card" onclick="openDetail('practice',${p.id})">
+    <div class="log-card-header"><div class="log-card-title">${esc(p.title)}</div><div class="log-card-date">${fmtDate(p.date)}</div></div>
+    ${p.tags&&p.tags.length?`<div class="log-card-tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+    ${p.memo?`<div class="log-card-memo">${esc(p.memo).slice(0,90)}${p.memo.length>90?'…':''}</div>`:''}
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+      ${showMember?memberTag(p.memberId):''}
+      ${p.carryOver?`<span class="carry-badge">⚑ 課題持ち越し</span>`:''}
+    </div>
+  </div>`;
+}
+function gearCard(g,showMember){
+  return`<div class="log-card" onclick="openDetail('gear',${g.id})">
+    <div class="log-card-header"><div class="log-card-title">${esc(g.gut)}</div><div class="log-card-date">${fmtDate(g.date)}</div></div>
+    ${g.racket?`<div style="font-size:12px;color:var(--text2);margin-top:4px">${esc(g.racket)}</div>`:''}
+    ${g.tension?`<div class="gear-tension">${g.tension} lbs</div>`:''}
+    ${g.memo?`<div class="log-card-memo">${esc(g.memo).slice(0,60)}${g.memo.length>60?'…':''}</div>`:''}
+    ${showMember?`<div style="margin-top:4px">${memberTag(g.memberId)}</div>`:''}
+  </div>`;
+}
 
 function renderHome(){
+  const showMember=homeMemberFilter==='all';
+  const ps=(homeMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===homeMemberFilter));
   const el=document.getElementById('home-recent');
-  if(!practices.length){el.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>まだ練習記録がありません<br>右下のボタンから追加しましょう</p></div>';return;}
-  el.innerHTML=practices.slice(0,3).map(p=>practiceCard(p)).join('');
+  if(!ps.length){el.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>まだ練習記録がありません<br>右下のボタンから追加しましょう</p></div>';return;}
+  el.innerHTML=ps.slice(0,3).map(p=>practiceCard(p,showMember)).join('');
 }
+
 function switchLogTab(t){
   logSubTab=t;
   document.getElementById('log-tab-practice').classList.toggle('active',t==='practice');
@@ -905,29 +1030,34 @@ function switchLogTab(t){
   document.getElementById('log-gear-list').style.display=t==='gear'?'':'none';
 }
 function renderLog(){
-  document.getElementById('log-practice-list').innerHTML=practices.length?practices.map(p=>practiceCard(p)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>練習記録がまだありません</p></div>';
-  document.getElementById('log-gear-list').innerHTML=gears.length?gears.map(g=>gearCard(g)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2c0 5.52-3.58 10-8 10"/></svg><p>ガット記録がまだありません</p></div>';
+  const showMember=logMemberFilter==='all';
+  const ps=logMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===logMemberFilter);
+  const gs=logMemberFilter==='all'?db.gears:db.gears.filter(g=>g.memberId===logMemberFilter);
+  document.getElementById('log-practice-list').innerHTML=ps.length?ps.map(p=>practiceCard(p,showMember)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>練習記録がまだありません</p></div>';
+  document.getElementById('log-gear-list').innerHTML=gs.length?gs.map(g=>gearCard(g,showMember)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2c0 5.52-3.58 10-8 10"/></svg><p>ガット記録がまだありません</p></div>';
 }
 
-// ---- Detail ----
+// ===== DETAIL =====
 function openDetail(type,id){
   currentDetailId=id;
   if(type==='practice'){
-    const p=practices.find(x=>x.id===id);if(!p)return;
+    const p=db.practices.find(x=>x.id===id);if(!p)return;
     document.getElementById('detail-p-title').textContent=p.title;
     document.getElementById('detail-p-date').textContent=fmtDate(p.date);
+    document.getElementById('detail-p-member').innerHTML=memberTag(p.memberId)||'—';
     document.getElementById('detail-p-tags').innerHTML=(p.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('');
     document.getElementById('detail-p-tags-sec').style.display=p.tags&&p.tags.length?'':'none';
     const cs=document.getElementById('detail-p-carry-sec');
     if(p.inheritedCarry){cs.style.display='';document.getElementById('detail-p-carry').textContent=p.inheritedCarry;}else cs.style.display='none';
-    const ms=document.getElementById('detail-p-memo-sec');
-    if(p.memo){ms.style.display='';document.getElementById('detail-p-memo').textContent=p.memo;}else ms.style.display='none';
+    const memoSec=document.getElementById('detail-p-memo-sec');
+    if(p.memo){memoSec.style.display='';document.getElementById('detail-p-memo').textContent=p.memo;}else memoSec.style.display='none';
     const ys=document.getElementById('detail-p-yt-sec');
     if(p.youtube&&p.youtube.length){ys.style.display='';document.getElementById('detail-p-yt').innerHTML=p.youtube.map(l=>`<div class="yt-chip" style="cursor:pointer" onclick="openLink('${esc(l)}')">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}</div>`).join('');}else ys.style.display='none';
   }else{
-    const g=gears.find(x=>x.id===id);if(!g)return;
+    const g=db.gears.find(x=>x.id===id);if(!g)return;
     document.getElementById('detail-g-title').textContent=g.gut;
     document.getElementById('detail-g-date').textContent=fmtDate(g.date);
+    document.getElementById('detail-g-member').innerHTML=memberTag(g.memberId)||'—';
     document.getElementById('detail-g-tension').textContent=g.tension?g.tension+' lbs':'未設定';
     const rs=document.getElementById('detail-g-racket-sec');
     if(g.racket){rs.style.display='';document.getElementById('detail-g-racket').textContent=g.racket;}else rs.style.display='none';
@@ -938,12 +1068,26 @@ function openDetail(type,id){
 }
 function closeDetail(type){document.getElementById('detail-'+type).classList.remove('open');currentDetailId=null;}
 
-// ---- Export / Import ----
-function exportData(){const data=JSON.stringify({practices,gears,skillGoals},null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('エクスポートしました！');}
+// ===== EXPORT / IMPORT =====
+function exportData(){const data=JSON.stringify(db,null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('エクスポートしました！');}
 function importData(){document.getElementById('import-input').click();}
-function handleImport(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.practices)practices=[...d.practices,...practices];if(d.gears)gears=[...d.gears,...gears];if(d.skillGoals)skillGoals=[...d.skillGoals,...skillGoals];saveStorage();renderCalendar();renderHome();renderLog();renderSkillSummary();showToast('インポートしました！');}catch{showToast('ファイルの形式が正しくありません');}};reader.readAsText(file);e.target.value='';}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d.practices)db.practices=[...d.practices,...db.practices.filter(p=>!d.practices.find(x=>x.id===p.id))];
+      if(d.gears)db.gears=[...d.gears,...db.gears.filter(g=>!d.gears.find(x=>x.id===g.id))];
+      if(d.skillGoals)db.skillGoals=[...d.skillGoals,...db.skillGoals.filter(s=>!d.skillGoals.find(x=>x.id===s.id))];
+      if(d.memberNames)db.memberNames={...d.memberNames,...db.memberNames};
+      saveStorage();renderAll();initMemberFilters();showToast('インポートしました！');
+    }catch{showToast('ファイルの形式が正しくありません');}
+  };
+  reader.readAsText(file);e.target.value='';
+}
 
-// ---- Utils ----
+// ===== UTILS =====
 function openLink(url){window.open(url,'_blank');}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2500);}
 function fmtDate(d){if(!d)return'';const dt=new Date(d+'T00:00:00');return`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;}
@@ -951,8 +1095,8 @@ function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/<
 
 document.addEventListener('click',e=>{const fab=document.getElementById('fab-btn');const menu=document.getElementById('fab-menu');if(!fab.contains(e.target)&&!menu.contains(e.target))closeFab();});
 
-// ---- Init ----
-loadStorage();initCal();renderCalendar();renderHome();renderLog();renderSkillSummary();
+// ===== INIT =====
+loadStorage();initCal();initMemberFilters();renderAll();
 </script>
 </body>
 </html>
