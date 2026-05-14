@@ -23,8 +23,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .app-wrap{width:100%;max-width:430px;height:100%;height:100dvh;background:linear-gradient(160deg,#0d4a2a 0%,#0a3520 40%,#061e14 100%);display:flex;flex-direction:column;position:relative;overflow:hidden}
 .screen{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:80px;-webkit-overflow-scrolling:touch}
 .screen::-webkit-scrollbar{display:none}
-
-/* Nav */
 .bottom-nav{position:absolute;bottom:0;left:0;right:0;height:calc(64px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(6,30,20,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);display:flex;align-items:flex-start;justify-content:space-around;padding-top:8px}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;background:none;border:none;cursor:pointer;color:var(--text3);transition:color 0.2s;-webkit-appearance:none}
 .nav-btn.active{color:var(--green3)}
@@ -33,8 +31,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--green3);opacity:0;margin-top:2px}
 .nav-btn.active .nav-dot{opacity:1}
 .tab{display:none}.tab.active{display:block}
-
-/* FAB */
 .fab{position:absolute;bottom:calc(76px + env(safe-area-inset-bottom));right:16px;z-index:100}
 .fab-ball{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#d4e84a,#a8c224);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.5),inset 0 2px 4px rgba(255,255,255,0.3);transition:transform 0.15s;-webkit-appearance:none}
 .fab-ball:active{transform:scale(0.93)}
@@ -43,8 +39,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .fab-menu.open{opacity:1;pointer-events:all;transform:translateY(0)}
 .fab-item{display:flex;align-items:center;gap:8px;background:rgba(15,50,30,0.97);border:1px solid var(--glass-border);border-radius:20px;padding:10px 16px;color:var(--text);font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;backdrop-filter:blur(10px)}
 .fab-item svg{width:16px;height:16px;stroke:var(--green3);fill:none;stroke-width:2;stroke-linecap:round}
-
-/* Member filter bar */
 .member-filter-bar{padding:max(12px,calc(env(safe-area-inset-top)+8px)) 16px 0}
 .member-filter-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;-webkit-overflow-scrolling:touch}
 .member-filter-scroll::-webkit-scrollbar{display:none}
@@ -53,8 +47,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .member-chip-emoji{font-size:14px}
 .member-chip-name{font-size:13px;font-weight:500;color:var(--text2)}
 .member-chip.active .member-chip-name{color:var(--green4);font-weight:600}
-
-/* Skill goal summary */
 .skill-summary{margin:0 16px 12px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;padding:14px 16px;cursor:pointer;transition:background 0.2s}
 .skill-summary:active{background:rgba(255,255,255,0.12)}
 .skill-summary-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -66,8 +58,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .skill-chip-cat{font-size:11px;font-weight:600;color:var(--green3)}
 .skill-chip-count{font-size:11px;color:var(--text2)}
 .skill-empty-hint{font-size:12px;color:var(--text3);text-align:center;padding:8px 0}
-
-/* Calendar */
 .calendar-wrap{margin:0 16px 4px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;overflow:hidden}
 .cal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
 .cal-month{font-size:16px;font-weight:600;color:var(--text)}
@@ -92,19 +82,13 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .cal-dot{width:4px;height:4px;border-radius:50%}
 .cal-dot.practice{background:var(--green3)}
 .cal-dot.gear{background:var(--amber)}
-
-/* Day panel */
 .day-panel{margin:0 16px 12px;border-radius:14px;overflow:hidden}
 .day-panel-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(61,179,122,0.1);border:1px solid rgba(61,179,122,0.2);border-radius:14px 14px 0 0}
 .day-panel-date{font-size:13px;font-weight:600;color:var(--green4)}
 .day-panel-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;line-height:1;padding:0 2px;-webkit-appearance:none}
 .day-panel-body{background:var(--card-bg);border:1px solid var(--card-border);border-top:none;border-radius:0 0 14px 14px;padding:10px 12px}
-
-/* Section */
 .section{padding:10px 16px}
 .section-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
-
-/* Cards */
 .log-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:background 0.2s}
 .log-card:active{background:rgba(255,255,255,0.1)}
 .log-card-sm{background:rgba(255,255,255,0.05);border:1px solid var(--card-border);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:background 0.15s}
@@ -122,32 +106,22 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .member-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;background:rgba(61,179,122,0.12);color:var(--green4);border-radius:6px;padding:2px 7px;margin-top:6px;font-weight:500}
 .gear-tension{font-size:22px;font-weight:600;color:var(--green3);margin-top:4px}
 .gear-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:rgba(232,176,96,0.15);color:var(--amber);border-radius:6px;padding:2px 6px}
-
-/* Empty */
 .empty-state{text-align:center;padding:48px 20px;color:var(--text3)}
 .empty-state svg{width:40px;height:40px;stroke:var(--text3);fill:none;margin:0 auto 12px;display:block}
 .empty-state p{font-size:14px;line-height:1.6}
 .day-empty{text-align:center;padding:14px;font-size:13px;color:var(--text3)}
-
-/* Log */
 .log-tabs{display:flex;padding:12px 16px 0;border-bottom:1px solid var(--glass-border)}
 .log-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
 .log-tab.active{color:var(--green3);border-bottom-color:var(--green3)}
-
-/* Member filter in log */
 .log-member-bar{padding:12px 16px 0;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .log-member-bar::-webkit-scrollbar{display:none}
 .log-list{padding:12px 16px}
-
-/* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s}
 .modal-overlay.open{opacity:1;pointer-events:all}
 .modal{background:linear-gradient(160deg,#102e1e,#081a10);border-radius:24px 24px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom));width:100%;max-height:92dvh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);-webkit-overflow-scrolling:touch}
 .modal-overlay.open .modal{transform:translateY(0)}
 .modal-handle{width:36px;height:4px;background:var(--glass-border);border-radius:2px;margin:0 auto 18px}
 .modal-title{font-size:19px;font-weight:600;color:var(--text);margin-bottom:18px}
-
-/* Form */
 .form-group{margin-bottom:14px}
 .form-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:6px;display:block}
 .form-input,.form-textarea{width:100%;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:12px 14px;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;-webkit-appearance:none;appearance:none}
@@ -169,18 +143,12 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .btn-secondary{background:var(--glass);border:1px solid var(--glass-border);color:var(--text2)}
 .btn:active{transform:scale(0.97)}
 .yt-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,50,50,0.12);border:1px solid rgba(255,50,50,0.2);border-radius:10px;padding:6px 10px;font-size:12px;color:#ff8080;margin:4px 4px 0 0;word-break:break-all}
-
-/* Member selector in form */
 .member-selector{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .member-sel-btn{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;border:1.5px solid var(--glass-border);background:var(--glass);cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.15s;-webkit-appearance:none;font-family:'DM Sans',sans-serif}
 .member-sel-btn.active{border-color:var(--green3);background:rgba(61,179,122,0.18);color:var(--green4);font-weight:600}
-
-/* Cat presets */
 .cat-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .cat-preset{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer;transition:all 0.15s}
 .cat-preset.active{background:rgba(61,179,122,0.2);border-color:var(--green3);color:var(--green4)}
-
-/* Skill detail */
 .skill-goal-item{display:flex;align-items:flex-start;justify-content:space-between;background:rgba(255,255,255,0.05);border:1px solid var(--card-border);border-radius:10px;padding:12px;margin-bottom:8px}
 .skill-goal-item:last-child{margin-bottom:0}
 .skill-goal-text{font-size:13px;color:var(--text2);line-height:1.5}
@@ -195,8 +163,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .skill-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .skill-detail-title{font-size:18px;font-weight:600;color:var(--text)}
 .skill-detail-close{background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;padding:6px 10px;cursor:pointer;color:var(--text2);font-size:14px;-webkit-appearance:none}
-
-/* Detail */
 .detail-overlay{position:fixed;inset:0;z-index:300;background:linear-gradient(160deg,#102e1e,#061e14);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1)}
 .detail-overlay.open{transform:translateX(0)}
 .detail-header{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--glass-border);position:sticky;top:0;background:rgba(16,46,30,0.97);backdrop-filter:blur(12px);z-index:10}
@@ -209,8 +175,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .detail-section{margin-bottom:22px}
 .detail-section-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
 .detail-text{font-size:14px;color:var(--text2);line-height:1.7}
-
-/* Settings */
 .settings-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--glass-border);cursor:pointer}
 .settings-row-label{font-size:14px;color:var(--text)}
 .settings-row-value{font-size:13px;color:var(--text3)}
@@ -219,8 +183,6 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .member-name-emoji{font-size:20px;width:32px;text-align:center}
 .member-name-input{flex:1;background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none}
 .member-name-input:focus{border-color:var(--green3)}
-
-/* Toast */
 #toast{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:rgba(20,55,35,0.97);border:1px solid var(--glass-border);border-radius:20px;padding:9px 18px;font-size:13px;color:var(--text2);opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;z-index:999;backdrop-filter:blur(12px);max-width:90%}
 .page-title-area{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 8px}
 .page-title{font-size:22px;font-weight:600;color:var(--text);margin-bottom:2px}
@@ -234,12 +196,9 @@ input[type=date]{color-scheme:dark}
 
 <!-- HOME -->
 <div class="tab active" id="tab-home">
-  <!-- Member filter bar -->
   <div class="member-filter-bar">
     <div class="member-filter-scroll" id="home-member-filter"></div>
   </div>
-
-  <!-- Skill goal -->
   <div class="skill-summary" onclick="openSkillDetail()">
     <div class="skill-summary-header">
       <div class="skill-summary-title">
@@ -250,8 +209,6 @@ input[type=date]{color-scheme:dark}
     </div>
     <div id="skill-summary-body"></div>
   </div>
-
-  <!-- Calendar -->
   <div class="calendar-wrap">
     <div class="cal-header">
       <button class="cal-nav" onclick="calPrev()"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
@@ -287,7 +244,6 @@ input[type=date]{color-scheme:dark}
     <div class="log-tab active" id="log-tab-practice" onclick="switchLogTab('practice')">練習記録</div>
     <div class="log-tab" id="log-tab-gear" onclick="switchLogTab('gear')">用具・ガット</div>
   </div>
-  <!-- Member filter -->
   <div class="log-member-bar" id="log-member-filter"></div>
   <div class="log-list" id="log-practice-list"></div>
   <div class="log-list" id="log-gear-list" style="display:none"></div>
@@ -302,7 +258,6 @@ input[type=date]{color-scheme:dark}
     <div class="settings-section-title">メンバー名の設定</div>
     <div id="settings-member-names"></div>
     <button class="btn btn-primary" style="margin-top:12px" onclick="saveMemberNames()">名前を保存</button>
-
     <div class="settings-section-title">データ管理</div>
     <div class="settings-row" onclick="exportData()">
       <span class="settings-row-label">データをエクスポート</span>
@@ -347,6 +302,10 @@ input[type=date]{color-scheme:dark}
 <div class="modal">
   <div class="modal-handle"></div>
   <div class="modal-title" id="modal-skill-title">スキル目標を追加</div>
+  <div class="form-group">
+    <label class="form-label">メンバー *</label>
+    <div class="member-selector" id="sk-member-selector"></div>
+  </div>
   <div class="form-group">
     <label class="form-label">カテゴリ *</label>
     <input class="form-input" type="text" id="sk-cat" placeholder="例：サーブ">
@@ -564,44 +523,26 @@ input[type=date]{color-scheme:dark}
 
 <script>
 const STORAGE_KEY='tennis_app_v3';
-
-// デフォルトメンバー（固定4人、名前だけ変更可）
 const DEFAULT_MEMBERS=[
   {id:'m1',name:'メンバー1',emoji:'🎾'},
   {id:'m2',name:'メンバー2',emoji:'👦'},
   {id:'m3',name:'メンバー3',emoji:'👧'},
   {id:'m4',name:'メンバー4',emoji:'👩'},
 ];
-
 let db={memberNames:{},practices:[],gears:[],skillGoals:[]};
-// memberNames: {m1:'お父さん', m2:'太郎', ...}
-
-let homeMemberFilter='all'; // 'all' or member id
+let homeMemberFilter='all';
 let logMemberFilter='all';
 let logSubTab='practice';
 let carryChecked=false,ytLinks=[],toastTimer=null;
 let currentDetailId=null,selectedDate=null,calYear=0,calMonth=0;
 let editMode=false,editingId=null,currentSkillEditId=null;
-let formPMember='m1', formGMember='m1'; // selected member in form
-
-// ===== HELPERS =====
-function getMembers(){
-  return DEFAULT_MEMBERS.map(m=>({...m,name:db.memberNames[m.id]||m.name}));
-}
+let formPMember='m1', formGMember='m1', formSkillMember='m1';
+function getMembers(){return DEFAULT_MEMBERS.map(m=>({...m,name:db.memberNames[m.id]||m.name}));}
 function getMemberById(id){return getMembers().find(m=>m.id===id);}
 function getMemberName(id){const m=getMemberById(id);return m?m.name:'';}
 function getMemberEmoji(id){const m=getMemberById(id);return m?m.emoji:'🎾';}
-
-function filteredPractices(filterId){
-  const f=filterId||homeMemberFilter;
-  return f==='all'?db.practices:[...db.practices].filter(p=>p.memberId===f);
-}
-function filteredGears(filterId){
-  const f=filterId||logMemberFilter;
-  return f==='all'?db.gears:[...db.gears].filter(g=>g.memberId===f);
-}
-
-// ===== STORAGE =====
+function filteredPractices(filterId){const f=filterId||homeMemberFilter;return f==='all'?db.practices:[...db.practices].filter(p=>p.memberId===f);}
+function filteredGears(filterId){const f=filterId||logMemberFilter;return f==='all'?db.gears:[...db.gears].filter(g=>g.memberId===f);}
 function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(db));}catch(e){showToast('保存容量が不足しています');}}
 function loadStorage(){
   try{const d=localStorage.getItem(STORAGE_KEY);if(d)db=JSON.parse(d);}catch(e){}
@@ -610,88 +551,43 @@ function loadStorage(){
   if(!db.gears)db.gears=[];
   if(!db.skillGoals)db.skillGoals=[];
 }
-
-// ===== MEMBER FILTER RENDER =====
-function renderMemberFilterChips(containerId, current, onSelect){
-  const el=document.getElementById(containerId);
-  const members=getMembers();
-  let html=`<button class="member-chip${current==='all'?' active':''}" onclick="${onSelect}('all')">
-    <span class="member-chip-emoji">🎾</span>
-    <span class="member-chip-name">全員</span>
-  </button>`;
-  members.forEach(m=>{
-    html+=`<button class="member-chip${current===m.id?' active':''}" onclick="${onSelect}('${m.id}')">
-      <span class="member-chip-emoji">${m.emoji}</span>
-      <span class="member-chip-name">${esc(m.name)}</span>
-    </button>`;
-  });
+function renderMemberFilterChips(containerId,current,onSelect){
+  const el=document.getElementById(containerId);const members=getMembers();
+  let html=`<button class="member-chip${current==='all'?' active':''}" onclick="${onSelect}('all')"><span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
+  members.forEach(m=>{html+=`<button class="member-chip${current===m.id?' active':''}" onclick="${onSelect}('${m.id}')"><span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;});
   el.innerHTML=html;
 }
-
 function setHomeFilter(id){
   homeMemberFilter=id;
-  renderMemberFilterChips('home-member-filter','setHomeFilter');
-  // re-render with correct current value
-  const el=document.getElementById('home-member-filter');
-  const members=getMembers();
-  let html=`<button class="member-chip${homeMemberFilter==='all'?' active':''}" onclick="setHomeFilter('all')">
-    <span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
-  members.forEach(m=>{
-    html+=`<button class="member-chip${homeMemberFilter===m.id?' active':''}" onclick="setHomeFilter('${m.id}')">
-      <span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;
-  });
+  const el=document.getElementById('home-member-filter');const members=getMembers();
+  let html=`<button class="member-chip${homeMemberFilter==='all'?' active':''}" onclick="setHomeFilter('all')"><span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
+  members.forEach(m=>{html+=`<button class="member-chip${homeMemberFilter===m.id?' active':''}" onclick="setHomeFilter('${m.id}')"><span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;});
   el.innerHTML=html;
   renderHome();renderCalendar();renderSkillSummary();
 }
-
 function setLogFilter(id){
   logMemberFilter=id;
-  const el=document.getElementById('log-member-filter');
-  const members=getMembers();
-  let html=`<button class="member-chip${logMemberFilter==='all'?' active':''}" onclick="setLogFilter('all')">
-    <span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
-  members.forEach(m=>{
-    html+=`<button class="member-chip${logMemberFilter===m.id?' active':''}" onclick="setLogFilter('${m.id}')">
-      <span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;
-  });
-  el.innerHTML=html;
-  renderLog();
+  const el=document.getElementById('log-member-filter');const members=getMembers();
+  let html=`<button class="member-chip${logMemberFilter==='all'?' active':''}" onclick="setLogFilter('all')"><span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
+  members.forEach(m=>{html+=`<button class="member-chip${logMemberFilter===m.id?' active':''}" onclick="setLogFilter('${m.id}')"><span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;});
+  el.innerHTML=html;renderLog();
 }
-
-function initMemberFilters(){
-  setHomeFilter(homeMemberFilter);
-  setLogFilter(logMemberFilter);
-}
-
-// ===== MEMBER SELECTOR IN FORM =====
-function renderFormMemberSelector(containerId, current, setter){
+function initMemberFilters(){setHomeFilter(homeMemberFilter);setLogFilter(logMemberFilter);}
+function renderFormMemberSelector(containerId,current,setter){
   const members=getMembers();
-  document.getElementById(containerId).innerHTML=members.map(m=>`
-    <button class="member-sel-btn${current===m.id?' active':''}" onclick="${setter}('${m.id}')">
-      ${m.emoji} ${esc(m.name)}
-    </button>`).join('');
+  document.getElementById(containerId).innerHTML=members.map(m=>`<button class="member-sel-btn${current===m.id?' active':''}" onclick="${setter}('${m.id}')">${m.emoji} ${esc(m.name)}</button>`).join('');
 }
 function setPMember(id){formPMember=id;renderFormMemberSelector('p-member-selector',formPMember,'setPMember');renderTagSuggestions();}
 function setGMember(id){formGMember=id;renderFormMemberSelector('g-member-selector',formGMember,'setGMember');renderGearSuggestions();}
-
-// ===== SETTINGS MEMBER NAMES =====
+function setSkillMember(id){formSkillMember=id;renderFormMemberSelector('sk-member-selector',formSkillMember,'setSkillMember');}
 function renderSettingsMemberNames(){
   const members=getMembers();
-  document.getElementById('settings-member-names').innerHTML=members.map(m=>`
-    <div class="member-name-row">
-      <div class="member-name-emoji">${m.emoji}</div>
-      <input class="member-name-input" type="text" id="mn-${m.id}" value="${esc(m.name)}" placeholder="${m.name}">
-    </div>`).join('');
+  document.getElementById('settings-member-names').innerHTML=members.map(m=>`<div class="member-name-row"><div class="member-name-emoji">${m.emoji}</div><input class="member-name-input" type="text" id="mn-${m.id}" value="${esc(m.name)}" placeholder="${m.name}"></div>`).join('');
 }
 function saveMemberNames(){
-  DEFAULT_MEMBERS.forEach(m=>{
-    const inp=document.getElementById('mn-'+m.id);
-    if(inp&&inp.value.trim())db.memberNames[m.id]=inp.value.trim();
-  });
+  DEFAULT_MEMBERS.forEach(m=>{const inp=document.getElementById('mn-'+m.id);if(inp&&inp.value.trim())db.memberNames[m.id]=inp.value.trim();});
   saveStorage();initMemberFilters();renderAll();showToast('メンバー名を保存しました！');
 }
-
-// ===== TAB =====
 function switchTab(t){
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
@@ -703,17 +599,12 @@ function switchTab(t){
   closeFab();
 }
 function renderAll(){renderHome();renderCalendar();renderLog();renderSkillSummary();}
-
-// ===== FAB =====
 function toggleFab(){document.getElementById('fab-menu').classList.toggle('open');}
 function closeFab(){document.getElementById('fab-menu').classList.remove('open');}
-
-// ===== CALENDAR =====
 function getDayKey(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
 function initCal(){const n=new Date();calYear=n.getFullYear();calMonth=n.getMonth();}
 function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
 function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();}
-
 function renderCalendar(){
   const months=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
   document.getElementById('cal-month-label').textContent=`${calYear}年 ${months[calMonth]}`;
@@ -728,8 +619,7 @@ function renderCalendar(){
   let html='';
   for(let i=0;i<firstDay;i++)html+=`<div class="cal-day empty"></div>`;
   for(let d=1;d<=daysInMonth;d++){
-    const key=getDayKey(calYear,calMonth,d);
-    const dow=(firstDay+d-1)%7;
+    const key=getDayKey(calYear,calMonth,d);const dow=(firstDay+d-1)%7;
     let cls='cal-day';
     if(dow===0)cls+=' sunday';if(dow===6)cls+=' saturday';
     if(key===todayKey)cls+=' today';if(key===selectedDate)cls+=' selected';
@@ -740,7 +630,6 @@ function renderCalendar(){
   }
   document.getElementById('cal-grid').innerHTML=html;
 }
-
 function selectDay(key){
   if(selectedDate===key){selectedDate=null;closeDayPanel();renderCalendar();return;}
   selectedDate=key;renderCalendar();showDayPanel(key);
@@ -756,72 +645,38 @@ function showDayPanel(key){
   else{
     ps.forEach(p=>{
       const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="tag-sm">${esc(t)}</span>`).join('');
-      html+=`<div class="log-card-sm" onclick="openDetail('practice',${p.id})">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
-          <span style="font-size:11px">${getMemberEmoji(p.memberId)}</span>
-          <div class="log-card-title-sm" style="flex:1">${esc(p.title)}</div>
-          ${p.carryOver?'<span style="font-size:10px;color:var(--amber)">⚑</span>':''}
-        </div>
-        ${tags?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px">${tags}</div>`:''}
-        ${p.memo?`<div style="font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4">${esc(p.memo).slice(0,60)}${p.memo.length>60?'…':''}</div>`:''}
-      </div>`;
+      html+=`<div class="log-card-sm" onclick="openDetail('practice',${p.id})"><div style="display:flex;align-items:center;justify-content:space-between;gap:6px"><span style="font-size:11px">${getMemberEmoji(p.memberId)}</span><div class="log-card-title-sm" style="flex:1">${esc(p.title)}</div>${p.carryOver?'<span style="font-size:10px;color:var(--amber)">⚑</span>':''}</div>${tags?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px">${tags}</div>`:''}${p.memo?`<div style="font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4">${esc(p.memo).slice(0,60)}${p.memo.length>60?'…':''}</div>`:''}</div>`;
     });
-    gs.forEach(g=>{
-      html+=`<div class="log-card-sm" onclick="openDetail('gear',${g.id})">
-        <div style="display:flex;align-items:center;gap:6px">
-          <span style="font-size:11px">${getMemberEmoji(g.memberId)}</span>
-          <span class="gear-badge">ガット</span>
-          <div class="log-card-title-sm">${esc(g.gut)}${g.tension?' — '+g.tension+'lbs':''}</div>
-        </div>
-      </div>`;
-    });
+    gs.forEach(g=>{html+=`<div class="log-card-sm" onclick="openDetail('gear',${g.id})"><div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px">${getMemberEmoji(g.memberId)}</span><span class="gear-badge">ガット</span><div class="log-card-title-sm">${esc(g.gut)}${g.tension?' — '+g.tension+'lbs':''}</div></div></div>`;});
   }
   document.getElementById('day-panel-body').innerHTML=html;
   document.getElementById('day-panel').style.display='block';
 }
 function closeDayPanel(){selectedDate=null;document.getElementById('day-panel').style.display='none';renderCalendar();}
-
-// ===== SKILL GOALS =====
-function setSkillCat(val){
-  document.getElementById('sk-cat').value=val;
-  document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===val));
-}
-document.getElementById('sk-cat').addEventListener('input',function(){
-  document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===this.value.trim()));
-});
-
-function getSkillGoals(){
-  // スキル目標はフィルター対象外（全員分まとめて表示、カテゴリ軸で見せる）
-  return db.skillGoals;
-}
+function setSkillCat(val){document.getElementById('sk-cat').value=val;document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===val));}
+document.getElementById('sk-cat').addEventListener('input',function(){document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===this.value.trim()));});
+function getSkillGoals(){return homeMemberFilter==='all'?db.skillGoals:db.skillGoals.filter(s=>s.memberId===homeMemberFilter);}
 function saveSkillGoal(){
-  const cat=document.getElementById('sk-cat').value.trim();
-  const text=document.getElementById('sk-text').value.trim();
+  const cat=document.getElementById('sk-cat').value.trim();const text=document.getElementById('sk-text').value.trim();
   if(!cat){showToast('カテゴリを入力してください');return;}
   if(!text){showToast('目標内容を入力してください');return;}
-  if(editMode&&currentSkillEditId){
-    const s=db.skillGoals.find(x=>x.id===currentSkillEditId);
-    if(s){s.cat=cat;s.text=text;}currentSkillEditId=null;showToast('スキル目標を更新しました！');
-  }else{
-    db.skillGoals.push({id:Date.now(),cat,text});showToast('スキル目標を追加しました！');
-  }
+  if(editMode&&currentSkillEditId){const s=db.skillGoals.find(x=>x.id===currentSkillEditId);if(s){s.memberId=formSkillMember;s.cat=cat;s.text=text;}currentSkillEditId=null;showToast('スキル目標を更新しました！');}
+  else{db.skillGoals.push({id:Date.now(),memberId:formSkillMember,cat,text});showToast('スキル目標を追加しました！');}
   saveStorage();closeModal('skill');renderSkillSummary();
 }
 function deleteSkillGoal(id){
   db.skillGoals=db.skillGoals.filter(s=>s.id!==id);
   saveStorage();renderSkillSummary();renderSkillDetail();
-  if(!db.skillGoals.length)closeSkillDetail();showToast('削除しました');
+  if(!getSkillGoals().length)closeSkillDetail();showToast('削除しました');
 }
 function renderSkillSummary(){
-  const goals=db.skillGoals;
-  const el=document.getElementById('skill-summary-body');
+  const goals=getSkillGoals();const el=document.getElementById('skill-summary-body');
   if(!goals.length){el.innerHTML='<div class="skill-empty-hint">右下のボタンからスキル目標を追加できます</div>';return;}
   const grouped={};goals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
-  el.innerHTML=`<div class="skill-chips">${Object.entries(grouped).map(([cat,items])=>`
-    <div class="skill-chip-item"><span class="skill-chip-cat">${esc(cat)}</span><span class="skill-chip-count">${items.length}件</span></div>`).join('')}</div>`;
+  el.innerHTML=`<div class="skill-chips">${Object.entries(grouped).map(([cat,items])=>`<div class="skill-chip-item"><span class="skill-chip-cat">${esc(cat)}</span><span class="skill-chip-count">${items.length}件</span></div>`).join('')}</div>`;
 }
 function renderSkillDetail(){
-  const goals=db.skillGoals;const el=document.getElementById('skill-detail-body');
+  const goals=getSkillGoals();const el=document.getElementById('skill-detail-body');
   if(!goals.length){el.innerHTML='<div style="text-align:center;padding:30px 0;color:var(--text3);font-size:13px">スキル目標がまだありません</div>';return;}
   const grouped={};goals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
   let html='';
@@ -829,30 +684,15 @@ function renderSkillDetail(){
     if(idx>0)html+='<hr style="border:none;border-top:1px solid var(--glass-border);margin:14px 0">';
     html+=`<div style="font-size:11px;font-weight:600;color:var(--green3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">${esc(cat)}</div>`;
     items.forEach(s=>{
-      html+=`<div class="skill-goal-item">
-        <div style="flex:1"><div class="skill-goal-text">${esc(s.text)}</div></div>
-        <div style="display:flex;gap:6px;flex-shrink:0">
-          <button class="skill-del-btn" style="color:var(--green3)" onclick="editSkillGoal(${s.id})">
-            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-          </button>
-          <button class="skill-del-btn" onclick="deleteSkillGoal(${s.id})">
-            <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
-          </button>
-        </div>
-      </div>`;
+      html+=`<div class="skill-goal-item"><div style="flex:1">${homeMemberFilter==='all'?`<div style="font-size:10px;color:var(--text3);margin-bottom:3px">${getMemberEmoji(s.memberId)} ${esc(getMemberName(s.memberId))}</div>`:''}<div class="skill-goal-text">${esc(s.text)}</div></div><div style="display:flex;gap:6px;flex-shrink:0"><button class="skill-del-btn" style="color:var(--green3)" onclick="editSkillGoal(${s.id})"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="skill-del-btn" onclick="deleteSkillGoal(${s.id})"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg></button></div></div>`;
     });
   });
   html+=`<button class="btn btn-secondary" style="width:100%;margin-top:16px" onclick="closeSkillDetail();openModal('skill')">+ 目標を追加する</button>`;
   el.innerHTML=html;
 }
 function openSkillDetail(){renderSkillDetail();document.getElementById('skill-detail-overlay').classList.add('open');document.getElementById('screen').style.overflow='hidden';}
-function closeSkillDetail(e){
-  if(e&&e.target!==document.getElementById('skill-detail-overlay'))return;
-  document.getElementById('skill-detail-overlay').classList.remove('open');document.getElementById('screen').style.overflow='';
-}
+function closeSkillDetail(e){if(e&&e.target!==document.getElementById('skill-detail-overlay'))return;document.getElementById('skill-detail-overlay').classList.remove('open');document.getElementById('screen').style.overflow='';}
 function editSkillGoal(id){currentSkillEditId=id;closeSkillDetail();setTimeout(()=>openModal('skill',id),80);}
-
-// ===== MODAL =====
 function openModal(type,id){
   closeFab();editMode=!!id;editingId=id||null;
   const today=new Date().toISOString().slice(0,10);
@@ -861,53 +701,42 @@ function openModal(type,id){
     document.querySelectorAll('.cat-preset').forEach(el=>el.classList.remove('active'));
     if(id){
       const s=db.skillGoals.find(x=>x.id===id);
-      if(s){document.getElementById('sk-cat').value=s.cat;document.getElementById('sk-text').value=s.text;document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===s.cat));}
-      document.getElementById('modal-skill-title').textContent='スキル目標を編集';
-      document.getElementById('modal-skill-btn').textContent='更新する';
+      if(s){formSkillMember=s.memberId||'m1';document.getElementById('sk-cat').value=s.cat;document.getElementById('sk-text').value=s.text;document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===s.cat));}
+      document.getElementById('modal-skill-title').textContent='スキル目標を編集';document.getElementById('modal-skill-btn').textContent='更新する';
     }else{
-      currentSkillEditId=null;
-      document.getElementById('modal-skill-title').textContent='スキル目標を追加';
-      document.getElementById('modal-skill-btn').textContent='追加する';
+      currentSkillEditId=null;formSkillMember=homeMemberFilter!=='all'?homeMemberFilter:'m1';
+      document.getElementById('modal-skill-title').textContent='スキル目標を追加';document.getElementById('modal-skill-btn').textContent='追加する';
     }
+    renderFormMemberSelector('sk-member-selector',formSkillMember,'setSkillMember');
   }else if(type==='practice'){
     const p=id?db.practices.find(x=>x.id===id):null;
-    formPMember=p?p.memberId:'m1';
-    renderFormMemberSelector('p-member-selector',formPMember,'setPMember');
+    formPMember=p?p.memberId:'m1';renderFormMemberSelector('p-member-selector',formPMember,'setPMember');
     document.getElementById('p-date').value=p?p.date:(selectedDate||today);
     document.getElementById('p-title').value=p?p.title:'';
     document.getElementById('p-tags').value=p?(p.tags||[]).join(', '):'';
     document.getElementById('p-memo').value=p?p.memo:'';
     document.getElementById('p-yt').value='';document.getElementById('p-yt-list').innerHTML='';
     ytLinks=p?[...(p.youtube||[])]:[];renderYtList();
-    carryChecked=p?p.carryOver:false;
-    document.getElementById('carry-check').classList.toggle('checked',carryChecked);
-    if(!id){
-      const co=getCarryOver(formPMember);const cosec=document.getElementById('carry-over-section');
-      if(co){cosec.style.display='block';document.getElementById('carry-over-text').textContent=co;}else cosec.style.display='none';
-    }else document.getElementById('carry-over-section').style.display='none';
+    carryChecked=p?p.carryOver:false;document.getElementById('carry-check').classList.toggle('checked',carryChecked);
+    if(!id){const co=getCarryOver(formPMember);const cosec=document.getElementById('carry-over-section');if(co){cosec.style.display='block';document.getElementById('carry-over-text').textContent=co;}else cosec.style.display='none';}
+    else document.getElementById('carry-over-section').style.display='none';
     renderTagSuggestions();
     document.getElementById('modal-practice-title').textContent=id?'練習記録を編集':'練習記録を追加';
     document.getElementById('modal-practice-btn').textContent=id?'更新する':'保存する';
   }else{
     const g=id?db.gears.find(x=>x.id===id):null;
-    formGMember=g?g.memberId:'m1';
-    renderFormMemberSelector('g-member-selector',formGMember,'setGMember');
+    formGMember=g?g.memberId:'m1';renderFormMemberSelector('g-member-selector',formGMember,'setGMember');
     document.getElementById('g-date').value=g?g.date:(selectedDate||today);
-    document.getElementById('g-gut').value=g?g.gut:'';
-    document.getElementById('g-racket').value=g?g.racket:'';
-    document.getElementById('g-tension').value=g?g.tension:'';
-    document.getElementById('g-memo').value=g?g.memo:'';
+    document.getElementById('g-gut').value=g?g.gut:'';document.getElementById('g-racket').value=g?g.racket:'';
+    document.getElementById('g-tension').value=g?g.tension:'';document.getElementById('g-memo').value=g?g.memo:'';
     renderGearSuggestions();
     document.getElementById('modal-gear-title').textContent=id?'ガット記録を編集':'ガット張替えを記録';
     document.getElementById('modal-gear-btn').textContent=id?'更新する':'保存する';
   }
-  document.getElementById('modal-'+type).classList.add('open');
-  document.getElementById('screen').style.overflow='hidden';
+  document.getElementById('modal-'+type).classList.add('open');document.getElementById('screen').style.overflow='hidden';
 }
 function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');document.getElementById('screen').style.overflow='';editMode=false;editingId=null;}
 function editItem(type){const id=currentDetailId;if(!id)return;closeDetail(type);setTimeout(()=>openModal(type,id),80);}
-
-// ===== CARRY / YT / TAGS =====
 function getCarryOver(memberId){const p=db.practices.filter(x=>x.memberId===memberId).find(x=>x.carryOver);return p?p.carryOverMemo:'';}
 function toggleCarryCheck(){carryChecked=!carryChecked;document.getElementById('carry-check').classList.toggle('checked',carryChecked);}
 function addYtLink(){const v=document.getElementById('p-yt').value.trim();if(!v||!v.startsWith('http'))return;if(!ytLinks.includes(v))ytLinks.push(v);document.getElementById('p-yt').value='';renderYtList();}
@@ -931,16 +760,12 @@ function renderGearSuggestions(){
   document.getElementById('g-racket-suggestions').innerHTML=rackets.map(r=>`<div class="tag-sug" onclick="setVal('g-racket','${esc(r)}')">${esc(r)}</div>`).join('');
 }
 function setVal(id,v){document.getElementById(id).value=v;}
-
-// ===== SAVE =====
 function savePractice(){
-  const title=document.getElementById('p-title').value.trim();
-  const date=document.getElementById('p-date').value;
+  const title=document.getElementById('p-title').value.trim();const date=document.getElementById('p-date').value;
   if(!title){showToast('タイトルを入力してください');return;}
   if(!date){showToast('日付を入力してください');return;}
   const tags=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
-  const memo=document.getElementById('p-memo').value.trim();
-  const memberId=formPMember;
+  const memo=document.getElementById('p-memo').value.trim();const memberId=formPMember;
   if(editMode&&editingId){
     const idx=db.practices.findIndex(p=>p.id===editingId);
     if(idx!==-1){const old=db.practices[idx];db.practices[idx]={...old,memberId,date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:old.carryOverMemo,youtube:[...ytLinks]};}
@@ -956,14 +781,11 @@ function savePractice(){
   }
 }
 function saveGear(){
-  const date=document.getElementById('g-date').value;
-  const gut=document.getElementById('g-gut').value.trim();
+  const date=document.getElementById('g-date').value;const gut=document.getElementById('g-gut').value.trim();
   if(!gut){showToast('ガットの種類を入力してください');return;}
   if(!date){showToast('日付を入力してください');return;}
-  const racket=document.getElementById('g-racket').value.trim();
-  const tension=document.getElementById('g-tension').value;
-  const memo=document.getElementById('g-memo').value.trim();
-  const memberId=formGMember;
+  const racket=document.getElementById('g-racket').value.trim();const tension=document.getElementById('g-tension').value;
+  const memo=document.getElementById('g-memo').value.trim();const memberId=formGMember;
   if(editMode&&editingId){
     const idx=db.gears.findIndex(g=>g.id===editingId);
     if(idx!==-1)db.gears[idx]={...db.gears[idx],memberId,date,gut,racket,tension,memo};
@@ -976,44 +798,20 @@ function saveGear(){
     if(selectedDate===date)showDayPanel(date);showToast('ガット張替えを記録しました！');
   }
 }
-
-// ===== DELETE =====
 function deleteItem(type){
-  if(!currentDetailId)return;
-  if(!confirm('この記録を削除しますか？'))return;
+  if(!currentDetailId)return;if(!confirm('この記録を削除しますか？'))return;
   if(type==='practice')db.practices=db.practices.filter(p=>p.id!==currentDetailId);
   else db.gears=db.gears.filter(g=>g.id!==currentDetailId);
   saveStorage();closeDetail(type);renderCalendar();renderHome();renderLog();
   if(selectedDate)showDayPanel(selectedDate);showToast('削除しました');
 }
-
-// ===== CARDS =====
-function memberTag(memberId){
-  const m=getMemberById(memberId);
-  if(!m)return'';
-  return`<span class="member-badge">${m.emoji} ${esc(m.name)}</span>`;
-}
+function memberTag(memberId){const m=getMemberById(memberId);if(!m)return'';return`<span class="member-badge">${m.emoji} ${esc(m.name)}</span>`;}
 function practiceCard(p,showMember){
-  return`<div class="log-card" onclick="openDetail('practice',${p.id})">
-    <div class="log-card-header"><div class="log-card-title">${esc(p.title)}</div><div class="log-card-date">${fmtDate(p.date)}</div></div>
-    ${p.tags&&p.tags.length?`<div class="log-card-tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
-    ${p.memo?`<div class="log-card-memo">${esc(p.memo).slice(0,90)}${p.memo.length>90?'…':''}</div>`:''}
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-      ${showMember?memberTag(p.memberId):''}
-      ${p.carryOver?`<span class="carry-badge">⚑ 課題持ち越し</span>`:''}
-    </div>
-  </div>`;
+  return`<div class="log-card" onclick="openDetail('practice',${p.id})"><div class="log-card-header"><div class="log-card-title">${esc(p.title)}</div><div class="log-card-date">${fmtDate(p.date)}</div></div>${p.tags&&p.tags.length?`<div class="log-card-tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''} ${p.memo?`<div class="log-card-memo">${esc(p.memo).slice(0,90)}${p.memo.length>90?'…':''}</div>`:''}<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${showMember?memberTag(p.memberId):''}${p.carryOver?`<span class="carry-badge">⚑ 課題持ち越し</span>`:''}</div></div>`;
 }
 function gearCard(g,showMember){
-  return`<div class="log-card" onclick="openDetail('gear',${g.id})">
-    <div class="log-card-header"><div class="log-card-title">${esc(g.gut)}</div><div class="log-card-date">${fmtDate(g.date)}</div></div>
-    ${g.racket?`<div style="font-size:12px;color:var(--text2);margin-top:4px">${esc(g.racket)}</div>`:''}
-    ${g.tension?`<div class="gear-tension">${g.tension} lbs</div>`:''}
-    ${g.memo?`<div class="log-card-memo">${esc(g.memo).slice(0,60)}${g.memo.length>60?'…':''}</div>`:''}
-    ${showMember?`<div style="margin-top:4px">${memberTag(g.memberId)}</div>`:''}
-  </div>`;
+  return`<div class="log-card" onclick="openDetail('gear',${g.id})"><div class="log-card-header"><div class="log-card-title">${esc(g.gut)}</div><div class="log-card-date">${fmtDate(g.date)}</div></div>${g.racket?`<div style="font-size:12px;color:var(--text2);margin-top:4px">${esc(g.racket)}</div>`:''} ${g.tension?`<div class="gear-tension">${g.tension} lbs</div>`:''} ${g.memo?`<div class="log-card-memo">${esc(g.memo).slice(0,60)}${g.memo.length>60?'…':''}</div>`:''} ${showMember?`<div style="margin-top:4px">${memberTag(g.memberId)}</div>`:''}</div>`;
 }
-
 function renderHome(){
   const showMember=homeMemberFilter==='all';
   const ps=(homeMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===homeMemberFilter));
@@ -1021,7 +819,6 @@ function renderHome(){
   if(!ps.length){el.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>まだ練習記録がありません<br>右下のボタンから追加しましょう</p></div>';return;}
   el.innerHTML=ps.slice(0,3).map(p=>practiceCard(p,showMember)).join('');
 }
-
 function switchLogTab(t){
   logSubTab=t;
   document.getElementById('log-tab-practice').classList.toggle('active',t==='practice');
@@ -1036,8 +833,6 @@ function renderLog(){
   document.getElementById('log-practice-list').innerHTML=ps.length?ps.map(p=>practiceCard(p,showMember)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>練習記録がまだありません</p></div>';
   document.getElementById('log-gear-list').innerHTML=gs.length?gs.map(g=>gearCard(g,showMember)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2c0 5.52-3.58 10-8 10"/></svg><p>ガット記録がまだありません</p></div>';
 }
-
-// ===== DETAIL =====
 function openDetail(type,id){
   currentDetailId=id;
   if(type==='practice'){
@@ -1067,8 +862,6 @@ function openDetail(type,id){
   document.getElementById('detail-'+type).classList.add('open');
 }
 function closeDetail(type){document.getElementById('detail-'+type).classList.remove('open');currentDetailId=null;}
-
-// ===== EXPORT / IMPORT =====
 function exportData(){const data=JSON.stringify(db,null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('エクスポートしました！');}
 function importData(){document.getElementById('import-input').click();}
 function handleImport(e){
@@ -1086,16 +879,11 @@ function handleImport(e){
   };
   reader.readAsText(file);e.target.value='';
 }
-
-// ===== UTILS =====
 function openLink(url){window.open(url,'_blank');}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2500);}
 function fmtDate(d){if(!d)return'';const dt=new Date(d+'T00:00:00');return`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;}
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-
 document.addEventListener('click',e=>{const fab=document.getElementById('fab-btn');const menu=document.getElementById('fab-menu');if(!fab.contains(e.target)&&!menu.contains(e.target))closeFab();});
-
-// ===== INIT =====
 loadStorage();initCal();initMemberFilters();renderAll();
 </script>
 </body>
