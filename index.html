@@ -6,17 +6,16 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#f4faf6">
-<title>テニス練習管理</title>
+<title>マイログ</title>
+<meta name="description" content="テニスから読書まで、あらゆる活動・目標を管理できるライフログアプリ">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --primary:#22a55e;--primary-dark:#178a4c;--primary-light:#e6f9ef;--primary-mid:#d0f0e0;
-  --accent:#b5e219;--accent-dark:#92b612;
   --text:#152b1e;--text2:#3d6b52;--text3:#8db09a;
-  --bg:#f2fbf6;--bg2:#e6f5ec;
-  --card:#ffffff;--card-border:#c8e8d4;
+  --bg:#f2fbf6;--card:#ffffff;--card-border:#c8e8d4;
   --danger:#e04040;--amber:#d97706;--amber-bg:#fff8e6;--amber-border:#fde68a;
   --shadow:0 1px 8px rgba(34,165,94,0.09);--shadow-md:0 3px 16px rgba(34,165,94,0.13);--shadow-lg:0 6px 24px rgba(34,165,94,0.16);
 }
@@ -26,7 +25,7 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .screen{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:80px;-webkit-overflow-scrolling:touch}
 .screen::-webkit-scrollbar{display:none}
 
-/* Nav */
+/* ── Navigation ── */
 .bottom-nav{position:absolute;bottom:0;left:0;right:0;height:calc(64px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1.5px solid var(--card-border);display:flex;align-items:flex-start;justify-content:space-around;padding-top:8px;box-shadow:0 -2px 16px rgba(34,165,94,0.08)}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;background:none;border:none;cursor:pointer;color:var(--text3);transition:color 0.2s;-webkit-appearance:none}
 .nav-btn.active{color:var(--primary)}
@@ -36,111 +35,142 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .nav-btn.active .nav-dot{opacity:1}
 .tab{display:none}.tab.active{display:block}
 
-/* FAB */
+/* ── FAB ── */
 .fab{position:absolute;bottom:calc(76px + env(safe-area-inset-bottom));right:16px;z-index:100}
-.fab-ball{width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#c8f050,#a8d018);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(168,208,24,0.5),0 1px 4px rgba(0,0,0,0.1),inset 0 2px 4px rgba(255,255,255,0.6);transition:transform 0.15s,box-shadow 0.15s;-webkit-appearance:none}
+.fab-ball{width:60px;height:60px;border-radius:50%;background:linear-gradient(145deg,#c8f050,#a8d018);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(168,208,24,0.5),0 1px 4px rgba(0,0,0,0.1),inset 0 2px 4px rgba(255,255,255,0.6);transition:transform 0.2s,box-shadow 0.15s;-webkit-appearance:none}
 .fab-ball:active{transform:scale(0.93);box-shadow:0 2px 8px rgba(168,208,24,0.4)}
-.fab-ball svg{width:22px;height:22px;stroke:#2a5000;fill:none;stroke-width:2.5;stroke-linecap:round}
+.fab-ball svg{width:24px;height:24px;stroke:#2a5000;fill:none;stroke-width:2.5;stroke-linecap:round;transition:transform 0.25s}
+.fab-ball.open svg{transform:rotate(45deg)}
 .fab-menu{position:absolute;bottom:68px;right:0;display:flex;flex-direction:column;gap:8px;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;transform:translateY(10px)}
 .fab-menu.open{opacity:1;pointer-events:all;transform:translateY(0)}
-.fab-item{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--card-border);border-radius:20px;padding:11px 18px;color:var(--text);font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:var(--shadow-md)}
+.fab-item{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--card-border);border-radius:20px;padding:11px 18px;color:var(--text);font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:var(--shadow-md);-webkit-appearance:none;border:none;font-family:'DM Sans',sans-serif}
 .fab-item svg{width:16px;height:16px;stroke:var(--primary);fill:none;stroke-width:2;stroke-linecap:round}
 .fab-item:active{background:var(--primary-light)}
 
-/* Member filter bar */
-.member-filter-bar{padding:max(14px,calc(env(safe-area-inset-top)+10px)) 16px 0;background:linear-gradient(180deg,var(--primary-mid) 0%,var(--primary-light) 60%,transparent 100%)}
-.member-filter-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:14px;-webkit-overflow-scrolling:touch}
-.member-filter-scroll::-webkit-scrollbar{display:none}
-.member-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:22px;border:1.5px solid var(--card-border);background:white;cursor:pointer;transition:all 0.2s;-webkit-appearance:none;font-family:'DM Sans',sans-serif;box-shadow:var(--shadow)}
+/* ── Filter bars ── */
+.filter-area{padding:max(14px,calc(env(safe-area-inset-top)+10px)) 16px 0;background:linear-gradient(180deg,var(--primary-mid) 0%,var(--primary-light) 60%,transparent 100%)}
+.filter-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;-webkit-overflow-scrolling:touch}
+.filter-scroll::-webkit-scrollbar{display:none}
+.proj-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:22px;border:1.5px solid var(--card-border);background:white;cursor:pointer;transition:all 0.2s;-webkit-appearance:none;font-family:'DM Sans',sans-serif;box-shadow:var(--shadow);font-size:13px;font-weight:600;color:var(--text2)}
+.proj-chip.active{color:white;font-weight:700;box-shadow:var(--shadow-md)}
+.member-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:7px 13px;border-radius:22px;border:1.5px solid var(--card-border);background:white;cursor:pointer;transition:all 0.2s;-webkit-appearance:none;font-family:'DM Sans',sans-serif;box-shadow:var(--shadow)}
 .member-chip.active{border-color:var(--primary);background:var(--primary);box-shadow:var(--shadow-md)}
-.member-chip-emoji{font-size:15px}
-.member-chip-name{font-size:13px;font-weight:500;color:var(--text2)}
-.member-chip.active .member-chip-name{color:white;font-weight:700}
+.member-chip span:last-child{font-size:13px;font-weight:500;color:var(--text2)}
+.member-chip.active span:last-child{color:white;font-weight:700}
 
-/* Skill summary card */
-.skill-summary{margin:0 16px 14px;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);border-radius:20px;padding:16px 18px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;box-shadow:var(--shadow-lg)}
-.skill-summary:active{transform:scale(0.98);box-shadow:var(--shadow-md)}
-.skill-summary-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.skill-summary-title{font-size:14px;font-weight:700;color:white;display:flex;align-items:center;gap:6px}
-.skill-summary-title svg{width:15px;height:15px;stroke:#c8f050;fill:none;stroke-width:2.5}
-.skill-summary-hint{font-size:11px;color:rgba(255,255,255,0.65)}
-.skill-chips{display:flex;flex-wrap:wrap;gap:6px}
-.skill-chip-item{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.28);border-radius:20px;padding:5px 11px}
-.skill-chip-cat{font-size:11px;font-weight:700;color:white}
-.skill-chip-count{font-size:11px;color:rgba(255,255,255,0.75)}
-.skill-empty-hint{font-size:12px;color:rgba(255,255,255,0.65);text-align:center;padding:8px 0}
+/* ── Stats strip ── */
+.stats-strip{display:flex;gap:8px;padding:10px 16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.stats-strip::-webkit-scrollbar{display:none}
+.stat-chip{flex-shrink:0;background:white;border:1.5px solid var(--card-border);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text2);white-space:nowrap;box-shadow:var(--shadow)}
+.stat-chip b{color:var(--primary)}
 
-/* Calendar */
-.calendar-wrap{margin:0 16px 6px;background:white;border:1.5px solid var(--card-border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
-.cal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px}
+/* ── Goal summary card ── */
+.goal-summary-card{margin:12px 16px 0;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);border-radius:20px;padding:16px 18px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;box-shadow:var(--shadow-lg)}
+.goal-summary-card:active{transform:scale(0.98)}
+.goal-summary-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.goal-summary-ttl{font-size:14px;font-weight:700;color:white;display:flex;align-items:center;gap:6px}
+.goal-summary-ttl svg{width:14px;height:14px;stroke:#c8f050;fill:none;stroke-width:2.5}
+.goal-summary-hint{font-size:11px;color:rgba(255,255,255,0.65)}
+.goal-chips-wrap{display:flex;flex-wrap:wrap;gap:6px}
+.g-chip{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.28);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:700;color:white;display:flex;align-items:center;gap:4px}
+.g-chip-sub{font-size:10px;color:rgba(255,255,255,0.7)}
+.goal-empty-hint{font-size:12px;color:rgba(255,255,255,0.65);text-align:center;padding:6px 0}
+
+/* ── Project home cards ── */
+.proj-home-card{background:white;border:1.5px solid var(--card-border);border-radius:16px;padding:14px 14px 14px 18px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);transition:transform 0.15s,box-shadow 0.15s;position:relative;overflow:hidden}
+.proj-home-card:active{transform:scale(0.99);box-shadow:none}
+.proj-home-accent{position:absolute;left:0;top:0;bottom:0;width:5px}
+.proj-home-emoji{font-size:26px}
+.proj-home-info{flex:1}
+.proj-home-name{font-size:15px;font-weight:700;color:var(--text)}
+.proj-home-stats{font-size:12px;color:var(--text3);margin-top:3px}
+.proj-home-arrow{color:var(--text3);font-size:20px;font-weight:300}
+
+/* ── Calendar ── */
+.cal-wrap{margin:12px 16px 6px;background:white;border:1.5px solid var(--card-border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.cal-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px}
 .cal-month{font-size:16px;font-weight:700;color:var(--text)}
 .cal-nav{background:var(--bg);border:1.5px solid var(--card-border);cursor:pointer;color:var(--text2);padding:6px 8px;border-radius:10px;display:flex;align-items:center;-webkit-appearance:none;transition:background 0.15s}
 .cal-nav:active{background:var(--primary-light)}
 .cal-nav svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);padding:0 10px;margin-bottom:2px}
+.cal-wds{display:grid;grid-template-columns:repeat(7,1fr);padding:0 10px;margin-bottom:2px}
 .cal-wd{text-align:center;font-size:10px;font-weight:700;color:var(--text3);padding:4px 0}
 .cal-wd:first-child{color:#e04040}.cal-wd:last-child{color:#3a7ad4}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0 8px 12px;gap:3px}
-.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;position:relative;transition:background 0.15s}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;transition:background 0.15s}
 .cal-day:active{background:var(--primary-light)}
 .cal-day.empty{pointer-events:none}
 .cal-day-num{font-size:13px;font-weight:500;color:var(--text2);line-height:1}
 .cal-day.sunday .cal-day-num{color:#e04040}
 .cal-day.saturday .cal-day-num{color:#3a7ad4}
-.cal-day.today .cal-day-num{color:var(--primary);font-weight:800}
 .cal-day.today{background:var(--primary-light);border:2px solid var(--primary)}
+.cal-day.today .cal-day-num{color:var(--primary);font-weight:800}
 .cal-day.selected{background:var(--primary);border:2px solid var(--primary-dark)}
 .cal-day.selected .cal-day-num{color:white;font-weight:800}
-.cal-dots{display:flex;gap:2px;justify-content:center;margin-top:3px;min-height:5px}
-.cal-dot{width:5px;height:5px;border-radius:50%}
-.cal-dot.practice{background:var(--primary)}
-.cal-dot.gear{background:var(--amber)}
+.cal-dots{display:flex;gap:2px;justify-content:center;margin-top:3px;min-height:5px;max-width:22px;flex-wrap:wrap}
+.cal-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 
-/* Day panel */
+/* ── Day panel ── */
 .day-panel{margin:0 16px 12px;border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
-.day-panel-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--primary-light);border:1.5px solid var(--card-border);border-radius:16px 16px 0 0}
+.day-panel-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--primary-light);border:1.5px solid var(--card-border);border-radius:16px 16px 0 0}
 .day-panel-date{font-size:13px;font-weight:700;color:var(--primary-dark)}
 .day-panel-close{background:white;border:1.5px solid var(--card-border);border-radius:8px;color:var(--text3);cursor:pointer;font-size:16px;line-height:1;padding:2px 7px;-webkit-appearance:none}
 .day-panel-body{background:white;border:1.5px solid var(--card-border);border-top:none;border-radius:0 0 16px 16px;padding:10px 12px}
 
-/* Section */
+/* ── Sections ── */
 .section{padding:10px 16px}
 .section-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px}
 
-/* Cards */
-.log-card{background:white;border:1.5px solid var(--card-border);border-radius:16px;padding:14px;margin-bottom:10px;cursor:pointer;transition:box-shadow 0.2s,transform 0.15s;box-shadow:var(--shadow)}
+/* ── Activity cards ── */
+.log-card{background:white;border:1.5px solid var(--card-border);border-radius:16px;padding:14px 14px 14px 18px;margin-bottom:10px;cursor:pointer;transition:box-shadow 0.2s,transform 0.15s;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.log-card-accent{position:absolute;left:0;top:0;bottom:0;width:4px}
 .log-card:active{box-shadow:none;transform:scale(0.99)}
-.log-card-sm{background:var(--bg);border:1.5px solid var(--card-border);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:background 0.15s}
+.log-card-sm{background:var(--bg);border:1.5px solid var(--card-border);border-radius:12px;padding:10px 12px 10px 14px;margin-bottom:8px;cursor:pointer;transition:background 0.15s;position:relative;overflow:hidden}
 .log-card-sm:last-child{margin-bottom:0}
 .log-card-sm:active{background:var(--primary-light)}
-.log-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.log-card-sm-accent{position:absolute;left:0;top:0;bottom:0;width:3px}
+.log-card-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
 .log-card-title{font-size:15px;font-weight:600;color:var(--text);flex:1;margin-right:8px}
-.log-card-title-sm{font-size:13px;font-weight:600;color:var(--text);flex:1;margin-right:8px}
+.log-card-title-sm{font-size:13px;font-weight:600;color:var(--text);flex:1;margin-right:6px}
 .log-card-date{font-size:11px;color:var(--text3);white-space:nowrap;font-weight:500}
 .log-card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.tag{background:var(--primary-light);color:var(--primary-dark);border-radius:8px;padding:3px 9px;font-size:11px;font-weight:700}
-.tag-sm{background:var(--primary-light);color:var(--primary-dark);border-radius:6px;padding:2px 7px;font-size:10px;font-weight:700}
+.tag{border-radius:8px;padding:3px 9px;font-size:11px;font-weight:700}
+.tag-sm{border-radius:6px;padding:2px 7px;font-size:10px;font-weight:700}
 .log-card-memo{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5}
 .carry-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);border-radius:6px;padding:2px 7px;margin-top:6px;font-weight:700}
-.member-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;background:var(--primary-light);color:var(--primary-dark);border-radius:6px;padding:2px 8px;margin-top:6px;font-weight:700}
-.gear-tension{font-size:22px;font-weight:700;color:var(--primary);margin-top:4px}
-.gear-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);border-radius:6px;padding:2px 7px;font-weight:700}
+.badge-sm{display:inline-flex;align-items:center;gap:3px;font-size:10px;border-radius:6px;padding:2px 8px;font-weight:700}
+.equip-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);border-radius:6px;padding:2px 7px}
 
-/* Empty */
-.empty-state{text-align:center;padding:48px 20px;color:var(--text3)}
+/* ── Goal list ── */
+.goal-list-item{display:flex;align-items:flex-start;gap:10px;padding:12px;background:white;border:1.5px solid var(--card-border);border-radius:12px;margin-bottom:8px}
+.goal-list-item.done-item{opacity:0.6}
+.goal-circle{width:22px;height:22px;border-radius:50%;border:2px solid var(--card-border);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;margin-top:1px}
+.goal-circle.done{background:var(--primary);border-color:var(--primary-dark)}
+.goal-circle svg{width:12px;height:12px;stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.goal-circle.done svg{opacity:1}
+.goal-list-body{flex:1}
+.goal-list-cat{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px}
+.goal-list-text{font-size:13px;color:var(--text2);line-height:1.5;font-weight:500}
+.goal-list-item.done-item .goal-list-text{text-decoration:line-through}
+.goal-list-del{background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;flex-shrink:0;-webkit-appearance:none}
+.goal-list-del svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.goal-list-del:active{color:var(--danger)}
+
+/* ── Empty states ── */
+.empty-state{text-align:center;padding:40px 20px}
 .empty-state svg{width:44px;height:44px;stroke:var(--card-border);fill:none;margin:0 auto 14px;display:block}
 .empty-state p{font-size:14px;line-height:1.7;color:var(--text3)}
 .day-empty{text-align:center;padding:16px;font-size:13px;color:var(--text3)}
 
-/* Log */
+/* ── Log sub-tabs ── */
 .log-tabs{display:flex;padding:12px 16px 0;border-bottom:2px solid var(--card-border)}
 .log-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:all 0.2s}
 .log-tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:700}
-.log-member-bar{padding:12px 16px 0;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.log-member-bar::-webkit-scrollbar{display:none}
+.log-filter-bar{padding:10px 16px 0;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.log-filter-bar::-webkit-scrollbar{display:none}
 .log-list{padding:12px 16px}
 
-/* Modal */
+/* ── Modals ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,50,20,0.3);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s}
 .modal-overlay.open{opacity:1;pointer-events:all}
 .modal{background:white;border-radius:28px 28px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));width:100%;max-height:92dvh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);-webkit-overflow-scrolling:touch;box-shadow:0 -4px 30px rgba(0,0,0,0.1)}
@@ -148,16 +178,16 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .modal-handle{width:40px;height:4px;background:var(--card-border);border-radius:2px;margin:0 auto 20px}
 .modal-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:20px}
 
-/* Form */
+/* ── Forms ── */
 .form-group{margin-bottom:16px}
 .form-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:7px;display:block}
 .form-input,.form-textarea{width:100%;background:var(--bg);border:1.5px solid var(--card-border);border-radius:12px;padding:12px 14px;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s,background 0.2s;-webkit-appearance:none;appearance:none}
 .form-input:focus,.form-textarea:focus{border-color:var(--primary);background:white;box-shadow:0 0 0 3px var(--primary-light)}
 .form-textarea{resize:none;min-height:90px;line-height:1.6}
 .form-input::placeholder,.form-textarea::placeholder{color:var(--text3)}
-.tag-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag-sugs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .tag-sug{background:white;border:1.5px solid var(--card-border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer;transition:all 0.15s;box-shadow:var(--shadow)}
-.tag-sug.selected{background:var(--primary-light);border-color:var(--primary);color:var(--primary-dark);font-weight:700}
+.tag-sug.sel{background:var(--primary-light);border-color:var(--primary);color:var(--primary-dark);font-weight:700}
 .check-row{display:flex;align-items:center;gap:10px;cursor:pointer;padding:4px 0;margin-bottom:14px}
 .check-box{width:24px;height:24px;border-radius:8px;border:2px solid var(--card-border);background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
 .check-box.checked{background:var(--primary);border-color:var(--primary-dark);box-shadow:0 2px 6px rgba(34,165,94,0.35)}
@@ -169,37 +199,45 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 3px 12px rgba(34,165,94,0.38)}
 .btn-secondary{background:var(--bg);border:2px solid var(--card-border);color:var(--text2)}
 .btn:active{transform:scale(0.97)}
-.yt-chip{display:inline-flex;align-items:center;gap:6px;background:#fff5f5;border:1.5px solid #fca5a5;border-radius:10px;padding:6px 10px;font-size:12px;color:#dc4040;margin:4px 4px 0 0;word-break:break-all;font-weight:500}
+.yt-chip{display:inline-flex;align-items:center;gap:6px;background:#fff5f5;border:1.5px solid #fca5a5;border-radius:10px;padding:6px 10px;font-size:12px;color:#dc4040;margin:4px 4px 0 0;font-weight:500}
 
-/* Member selector */
-.member-selector{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.member-sel-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:22px;border:1.5px solid var(--card-border);background:var(--bg);cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.15s;-webkit-appearance:none;font-family:'DM Sans',sans-serif;font-weight:500}
-.member-sel-btn.active{border-color:var(--primary);background:var(--primary);color:white;font-weight:700;box-shadow:0 2px 8px rgba(34,165,94,0.3)}
+/* ── Selectors (form project/member) ── */
+.sel-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.sel-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:22px;border:1.5px solid var(--card-border);background:var(--bg);cursor:pointer;font-size:13px;color:var(--text2);transition:all 0.15s;-webkit-appearance:none;font-family:'DM Sans',sans-serif;font-weight:500}
+.sel-btn.active{color:white;font-weight:700;box-shadow:0 2px 8px rgba(34,165,94,0.25)}
 
-/* Cat presets */
-.cat-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.cat-preset{background:white;border:1.5px solid var(--card-border);border-radius:20px;padding:5px 13px;font-size:12px;color:var(--text2);cursor:pointer;transition:all 0.15s;box-shadow:var(--shadow);font-weight:500}
-.cat-preset.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary-dark);font-weight:700}
+/* ── Project modal UI ── */
+.emoji-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.emoji-btn{font-size:22px;padding:6px;border-radius:8px;cursor:pointer;border:2px solid transparent;background:var(--bg);transition:all 0.15s;-webkit-appearance:none;line-height:1}
+.emoji-btn.sel{border-color:var(--primary);background:var(--primary-light)}
+.color-swatches{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.color-swatch{width:34px;height:34px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all 0.15s;-webkit-appearance:none}
+.color-swatch.sel{border-color:white;box-shadow:0 0 0 3px rgba(0,0,0,0.25)}
+.toggle-wrap{display:flex;align-items:center;justify-content:space-between;padding:10px 0;margin-bottom:4px}
+.toggle-label{font-size:14px;color:var(--text2);font-weight:500}
+.toggle-ui{position:relative;width:44px;height:26px;flex-shrink:0}
+.toggle-ui input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:var(--card-border);border-radius:13px;transition:background 0.2s;cursor:pointer}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:white;border-radius:50%;transition:transform 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.15)}
+.toggle-ui input:checked+.toggle-slider{background:var(--primary)}
+.toggle-ui input:checked+.toggle-slider::before{transform:translateX(18px)}
 
-/* Skill goal */
-.skill-goal-item{display:flex;align-items:flex-start;justify-content:space-between;background:var(--bg);border:1.5px solid var(--card-border);border-radius:12px;padding:12px;margin-bottom:8px}
-.skill-goal-item:last-child{margin-bottom:0}
-.skill-goal-text{font-size:13px;color:var(--text2);line-height:1.6;font-weight:500}
-.skill-del-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:2px;flex-shrink:0;-webkit-appearance:none}
-.skill-del-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-.skill-del-btn:active{color:var(--danger)}
-.skill-detail-overlay{position:fixed;inset:0;z-index:250;background:rgba(0,50,20,0.3);opacity:0;pointer-events:none;transition:opacity 0.25s;display:flex;align-items:flex-end}
-.skill-detail-overlay.open{opacity:1;pointer-events:all}
-.skill-detail-sheet{background:white;border-radius:28px 28px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));width:100%;max-height:80dvh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);-webkit-overflow-scrolling:touch;box-shadow:0 -4px 30px rgba(0,0,0,0.1)}
-.skill-detail-overlay.open .skill-detail-sheet{transform:translateY(0)}
-.skill-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.skill-detail-title{font-size:19px;font-weight:700;color:var(--text)}
-.skill-detail-close{background:var(--bg);border:1.5px solid var(--card-border);border-radius:10px;padding:7px 12px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:600;-webkit-appearance:none}
+/* ── Goal detail sheet ── */
+.sheet-overlay{position:fixed;inset:0;z-index:250;background:rgba(0,50,20,0.3);opacity:0;pointer-events:none;transition:opacity 0.25s;display:flex;align-items:flex-end}
+.sheet-overlay.open{opacity:1;pointer-events:all}
+.sheet{background:white;border-radius:28px 28px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));width:100%;max-height:82dvh;overflow-y:auto;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);-webkit-overflow-scrolling:touch;box-shadow:0 -4px 30px rgba(0,0,0,0.1)}
+.sheet-overlay.open .sheet{transform:translateY(0)}
+.sheet-handle{width:40px;height:4px;background:var(--card-border);border-radius:2px;margin:0 auto 16px}
+.sheet-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sheet-title{font-size:18px;font-weight:700;color:var(--text)}
+.sheet-close{background:var(--bg);border:1.5px solid var(--card-border);border-radius:10px;padding:7px 12px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:600;-webkit-appearance:none}
+.sheet-section{margin-bottom:20px}
+.sheet-section-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
 
-/* Detail */
+/* ── Detail overlays ── */
 .detail-overlay{position:fixed;inset:0;z-index:300;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1)}
 .detail-overlay.open{transform:translateX(0)}
-.detail-header{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1.5px solid var(--card-border);position:sticky;top:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);z-index:10}
+.detail-hd{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1.5px solid var(--card-border);position:sticky;top:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);z-index:10}
 .back-btn{background:var(--bg);border:1.5px solid var(--card-border);border-radius:10px;padding:8px 10px;cursor:pointer;display:flex;align-items:center;color:var(--text2);-webkit-appearance:none;transition:background 0.15s}
 .back-btn:active{background:var(--primary-light)}
 .back-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -207,26 +245,32 @@ body{font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-
 .detail-title{font-size:17px;font-weight:700;color:var(--text)}
 .detail-date{font-size:12px;color:var(--text3);margin-top:2px;font-weight:500}
 .detail-body{padding:16px}
-.detail-section{margin-bottom:22px}
-.detail-section-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
+.detail-sec{margin-bottom:22px}
+.detail-sec-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
 .detail-text{font-size:14px;color:var(--text2);line-height:1.7}
 
-/* Settings */
+/* ── Settings ── */
 .settings-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1.5px solid var(--card-border);cursor:pointer}
 .settings-row-label{font-size:14px;color:var(--text);font-weight:500}
 .settings-row-value{font-size:13px;color:var(--text3)}
 .settings-section-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1.2px;text-transform:uppercase;margin:22px 0 10px}
-.member-name-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1.5px solid var(--card-border)}
-.member-name-emoji{font-size:20px;width:32px;text-align:center}
-.member-name-input{flex:1;background:var(--bg);border:1.5px solid var(--card-border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;font-weight:500}
-.member-name-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
+.mn-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1.5px solid var(--card-border)}
+.mn-emoji{font-size:20px;width:32px;text-align:center}
+.mn-input{flex:1;background:var(--bg);border:1.5px solid var(--card-border);border-radius:10px;padding:9px 12px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;font-weight:500}
+.mn-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
+.proj-settings-item{display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg);border-radius:12px;margin-bottom:8px;border:1.5px solid var(--card-border)}
+.proj-settings-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.proj-action-btn{background:white;border:1.5px solid var(--card-border);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;font-weight:600;color:var(--text2);-webkit-appearance:none;font-family:'DM Sans',sans-serif}
+.proj-action-btn:active{background:var(--primary-light)}
+.proj-action-btn.del{color:var(--danger)}
+.proj-action-btn.del:active{background:#fef2f2}
 
-/* Toast */
+/* ── Toast ── */
 #toast{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);border-radius:22px;padding:10px 20px;font-size:13px;color:white;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;z-index:999;max-width:90%;font-weight:600;box-shadow:var(--shadow-md)}
 
 .page-title-area{padding:max(16px,calc(env(safe-area-inset-top)+12px)) 16px 10px}
 .page-title{font-size:24px;font-weight:700;color:var(--text);margin-bottom:2px}
-.page-subtitle{font-size:13px;color:var(--text3);font-weight:500}
+.page-sub{font-size:13px;color:var(--text3);font-weight:500}
 input[type=date]{color-scheme:light}
 </style>
 </head>
@@ -234,76 +278,68 @@ input[type=date]{color-scheme:light}
 <div class="app-wrap" id="app">
 <div class="screen" id="screen">
 
-<!-- HOME -->
+<!-- ========== HOME TAB ========== -->
 <div class="tab active" id="tab-home">
-  <!-- Member filter bar -->
-  <div class="member-filter-bar">
-    <div class="member-filter-scroll" id="home-member-filter"></div>
+  <div class="filter-area">
+    <div class="filter-scroll" id="home-proj-filter"></div>
+    <div class="filter-scroll" id="home-member-filter"></div>
   </div>
-
-  <!-- Skill goal -->
-  <div class="skill-summary" onclick="openSkillDetail()">
-    <div class="skill-summary-header">
-      <div class="skill-summary-title">
-        <svg viewBox="0 0 24 24"><polygon points="12,2,15.09,8.26,22,9.27,17,14.14,18.18,21.02,12,17.77,5.82,21.02,7,14.14,2,9.27,8.91,8.26"/></svg>
-        スキル目標
-      </div>
-      <div class="skill-summary-hint">タップで確認 ›</div>
-    </div>
-    <div id="skill-summary-body"></div>
-  </div>
-
-  <!-- Calendar -->
-  <div class="calendar-wrap">
-    <div class="cal-header">
+  <div id="home-stats-area"></div>
+  <div id="home-goal-summary"></div>
+  <div class="cal-wrap">
+    <div class="cal-hd">
       <button class="cal-nav" onclick="calPrev()"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
       <div class="cal-month" id="cal-month-label"></div>
       <button class="cal-nav" onclick="calNext()"><svg viewBox="0 0 24 24"><polyline points="9,18,15,12,9,6"/></svg></button>
     </div>
-    <div class="cal-weekdays">
+    <div class="cal-wds">
       <div class="cal-wd">日</div><div class="cal-wd">月</div><div class="cal-wd">火</div>
       <div class="cal-wd">水</div><div class="cal-wd">木</div><div class="cal-wd">金</div><div class="cal-wd">土</div>
     </div>
     <div class="cal-grid" id="cal-grid"></div>
   </div>
   <div id="day-panel" style="display:none">
-    <div class="day-panel-header">
+    <div class="day-panel-hd">
       <div class="day-panel-date" id="day-panel-date"></div>
       <button class="day-panel-close" onclick="closeDayPanel()">×</button>
     </div>
     <div class="day-panel-body" id="day-panel-body"></div>
   </div>
   <div class="section">
-    <div class="section-title">最近の練習</div>
+    <div class="section-title">最近の記録</div>
     <div id="home-recent"></div>
   </div>
 </div>
 
-<!-- LOG -->
+<!-- ========== LOG TAB ========== -->
 <div class="tab" id="tab-log">
   <div class="page-title-area">
     <div class="page-title">ログ</div>
-    <div class="page-subtitle">練習と用具の記録</div>
+    <div class="page-sub">活動と目標の記録</div>
   </div>
   <div class="log-tabs">
-    <div class="log-tab active" id="log-tab-practice" onclick="switchLogTab('practice')">練習記録</div>
-    <div class="log-tab" id="log-tab-gear" onclick="switchLogTab('gear')">用具・ガット</div>
+    <div class="log-tab active" id="log-tab-activity" onclick="switchLogSub('activity')">活動記録</div>
+    <div class="log-tab" id="log-tab-goal" onclick="switchLogSub('goal')">目標</div>
   </div>
-  <!-- Member filter -->
-  <div class="log-member-bar" id="log-member-filter"></div>
-  <div class="log-list" id="log-practice-list"></div>
-  <div class="log-list" id="log-gear-list" style="display:none"></div>
+  <div class="log-filter-bar" id="log-proj-filter"></div>
+  <div class="log-filter-bar" id="log-member-filter"></div>
+  <div class="log-list" id="log-activity-list"></div>
+  <div class="log-list" id="log-goal-list" style="display:none"></div>
 </div>
 
-<!-- SETTINGS -->
+<!-- ========== SETTINGS TAB ========== -->
 <div class="tab" id="tab-settings">
   <div class="page-title-area">
     <div class="page-title">設定</div>
   </div>
   <div style="padding:0 16px">
+    <div class="settings-section-title">プロジェクト管理</div>
+    <div id="settings-projects"></div>
+    <button class="btn btn-primary" style="margin-top:8px;width:100%" onclick="openModal('project')">＋ プロジェクトを追加</button>
+
     <div class="settings-section-title">メンバー名の設定</div>
-    <div id="settings-member-names"></div>
-    <button class="btn btn-primary" style="margin-top:12px" onclick="saveMemberNames()">名前を保存</button>
+    <div id="settings-members"></div>
+    <button class="btn btn-primary" style="margin-top:12px;width:100%" onclick="saveMemberNames()">名前を保存</button>
 
     <div class="settings-section-title">データ管理</div>
     <div class="settings-row" onclick="exportData()">
@@ -314,242 +350,246 @@ input[type=date]{color-scheme:light}
       <span class="settings-row-label">データをインポート</span>
       <span class="settings-row-value">JSON ›</span>
     </div>
-    <div style="margin-top:32px;text-align:center">
-      <div style="font-size:11px;color:var(--text3)">テニス練習管理アプリ v2.0</div>
-      <div style="font-size:11px;color:var(--text3);margin-top:4px">データはこの端末に保存されます</div>
+    <div class="settings-row" onclick="importOldTennis()">
+      <span class="settings-row-label">旧テニスアプリから引き継ぐ</span>
+      <span class="settings-row-value">変換 ›</span>
+    </div>
+    <div style="margin-top:32px;text-align:center;padding-bottom:16px">
+      <div style="font-size:14px;font-weight:700;color:var(--primary)">マイログ v1.0</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">データはこの端末のみに保存されます</div>
     </div>
   </div>
 </div>
-
 </div><!-- /screen -->
 
-<!-- FAB -->
+<!-- ========== FAB ========== -->
 <div class="fab">
   <div class="fab-menu" id="fab-menu">
-    <div class="fab-item" onclick="openModal('skill')">
+    <button class="fab-item" onclick="openModal('project')">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      プロジェクト追加
+    </button>
+    <button class="fab-item" onclick="openModal('goal')">
       <svg viewBox="0 0 24 24"><polygon points="12,2,15.09,8.26,22,9.27,17,14.14,18.18,21.02,12,17.77,5.82,21.02,7,14.14,2,9.27,8.91,8.26"/></svg>
-      スキル目標
-    </div>
-    <div class="fab-item" onclick="openModal('practice')">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16"/><polyline points="14,2,14,8,20,8"/><path d="M20 2v16a2 2 0 0 1-2 2H8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-      練習記録
-    </div>
-    <div class="fab-item" onclick="openModal('gear')">
+      目標を追加
+    </button>
+    <button class="fab-item" id="fab-equip-item" onclick="openModal('equipment')">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07,4.93a10,10,0,1,0,0,14.14"/></svg>
-      ガット張替え
-    </div>
+      装備記録
+    </button>
+    <button class="fab-item" onclick="openModal('activity')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16"/><polyline points="14,2,14,8,20,8"/><path d="M20 2v16a2 2 0 0 1-2 2H8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      活動記録
+    </button>
   </div>
-  <button class="fab-ball" id="fab-btn" onclick="toggleFab()">
-    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 2c0 5.52-3.58 10-8 10"/><path d="M12 2c0 5.52 3.58 10 8 10"/><path d="M12 22c0-5.52-3.58-10-8-10"/><path d="M12 22c0-5.52 3.58-10 8-10"/></svg>
+  <button class="fab-ball" id="fab-ball" onclick="toggleFab()">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
   </button>
 </div>
 
-<!-- SKILL MODAL -->
-<div class="modal-overlay" id="modal-skill">
+<!-- ========== ACTIVITY MODAL ========== -->
+<div class="modal-overlay" id="modal-activity">
 <div class="modal">
   <div class="modal-handle"></div>
-  <div class="modal-title" id="modal-skill-title">スキル目標を追加</div>
+  <div class="modal-title" id="modal-activity-title">活動記録を追加</div>
+  <div class="form-group">
+    <label class="form-label">プロジェクト *</label>
+    <div class="sel-wrap" id="a-proj-sel"></div>
+  </div>
   <div class="form-group">
     <label class="form-label">メンバー *</label>
-    <div class="member-selector" id="sk-member-selector"></div>
-  </div>
-  <div class="form-group">
-    <label class="form-label">カテゴリ *</label>
-    <input class="form-input" type="text" id="sk-cat" placeholder="例：サーブ">
-    <div class="cat-presets">
-      <div class="cat-preset" onclick="setSkillCat('サーブ')">サーブ</div>
-      <div class="cat-preset" onclick="setSkillCat('フォアハンド')">フォアハンド</div>
-      <div class="cat-preset" onclick="setSkillCat('バックハンド')">バックハンド</div>
-      <div class="cat-preset" onclick="setSkillCat('ボレー')">ボレー</div>
-      <div class="cat-preset" onclick="setSkillCat('フットワーク')">フットワーク</div>
-      <div class="cat-preset" onclick="setSkillCat('メンタル')">メンタル</div>
-      <div class="cat-preset" onclick="setSkillCat('戦術')">戦術</div>
-      <div class="cat-preset" onclick="setSkillCat('体力')">体力</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="form-label">目標内容 *</label>
-    <textarea class="form-textarea" id="sk-text" placeholder="例：セカンドサーブのスピンをもっと安定させる" style="min-height:80px"></textarea>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-secondary" onclick="closeModal('skill')">キャンセル</button>
-    <button class="btn btn-primary" id="modal-skill-btn" onclick="saveSkillGoal()">追加する</button>
-  </div>
-</div>
-</div>
-
-<!-- PRACTICE MODAL -->
-<div class="modal-overlay" id="modal-practice">
-<div class="modal">
-  <div class="modal-handle"></div>
-  <div class="modal-title" id="modal-practice-title">練習記録を追加</div>
-  <div class="form-group">
-    <label class="form-label">メンバー *</label>
-    <div class="member-selector" id="p-member-selector"></div>
+    <div class="sel-wrap" id="a-member-sel"></div>
   </div>
   <div class="form-group">
     <label class="form-label">日付</label>
-    <input class="form-input" type="date" id="p-date">
+    <input class="form-input" type="date" id="a-date">
   </div>
   <div class="form-group">
     <label class="form-label">タイトル *</label>
-    <input class="form-input" type="text" id="p-title" placeholder="例：フォアハンド集中練習">
+    <input class="form-input" type="text" id="a-title" placeholder="例：フォアハンド集中練習">
   </div>
   <div class="form-group">
     <label class="form-label">タグ（コンマ区切り）</label>
-    <input class="form-input" type="text" id="p-tags" placeholder="例：フォア,クロス,サーブ" oninput="renderTagSuggestions()">
-    <div class="tag-suggestions" id="p-tag-suggestions"></div>
+    <input class="form-input" type="text" id="a-tags" placeholder="例：サーブ,フォア" oninput="renderActTagSugs()">
+    <div class="tag-sugs" id="a-tag-sugs"></div>
   </div>
   <div class="form-group">
     <label class="form-label">振り返り・メモ</label>
-    <textarea class="form-textarea" id="p-memo" placeholder="今日の気づき、課題、良かった点など..."></textarea>
+    <textarea class="form-textarea" id="a-memo" placeholder="今日の気づき、課題、良かった点など..."></textarea>
   </div>
-  <div id="carry-over-section" style="display:none">
+  <div id="a-carry-section" style="display:none">
     <label class="form-label">前回の継続課題</label>
-    <div class="carry-section" id="carry-over-text"></div>
+    <div class="carry-section" id="a-carry-text"></div>
   </div>
   <div class="form-group">
-    <label class="form-label">YouTubeリンクを追加</label>
-    <input class="form-input" type="url" id="p-yt" placeholder="https://youtube.com/watch?v=...">
-    <div id="p-yt-list" style="margin-top:8px"></div>
+    <label class="form-label">YouTube リンク</label>
+    <div style="display:flex;gap:8px">
+      <input class="form-input" type="url" id="a-yt" placeholder="https://youtube.com/watch?v=..." style="flex:1">
+      <button class="btn btn-secondary" style="flex:none;padding:12px 14px;font-size:13px" onclick="addYt()">追加</button>
+    </div>
+    <div id="a-yt-list" style="margin-top:8px"></div>
   </div>
-  <div class="check-row" onclick="toggleCarryCheck()">
-    <div class="check-box" id="carry-check"><svg viewBox="0 0 14 14"><polyline points="2,7,5.5,10.5,12,3"/></svg></div>
+  <div class="check-row" onclick="toggleCarry()">
+    <div class="check-box" id="a-carry-check"><svg viewBox="0 0 14 14"><polyline points="2,7,5.5,10.5,12,3"/></svg></div>
     <div class="check-label">この課題を次回に持ち越す</div>
   </div>
   <div class="btn-row">
-    <button class="btn btn-secondary" onclick="closeModal('practice')">キャンセル</button>
-    <button class="btn btn-primary" id="modal-practice-btn" onclick="savePractice()">保存する</button>
+    <button class="btn btn-secondary" onclick="closeModal('activity')">キャンセル</button>
+    <button class="btn btn-primary" id="modal-activity-btn" onclick="saveActivity()">保存する</button>
   </div>
 </div>
 </div>
 
-<!-- GEAR MODAL -->
-<div class="modal-overlay" id="modal-gear">
+<!-- ========== EQUIPMENT MODAL ========== -->
+<div class="modal-overlay" id="modal-equipment">
 <div class="modal">
   <div class="modal-handle"></div>
-  <div class="modal-title" id="modal-gear-title">ガット張替えを記録</div>
+  <div class="modal-title" id="modal-equipment-title">装備記録を追加</div>
+  <div class="form-group">
+    <label class="form-label">プロジェクト *</label>
+    <div class="sel-wrap" id="e-proj-sel"></div>
+  </div>
   <div class="form-group">
     <label class="form-label">メンバー *</label>
-    <div class="member-selector" id="g-member-selector"></div>
+    <div class="sel-wrap" id="e-member-sel"></div>
   </div>
   <div class="form-group">
     <label class="form-label">日付</label>
-    <input class="form-input" type="date" id="g-date">
+    <input class="form-input" type="date" id="e-date">
   </div>
   <div class="form-group">
-    <label class="form-label">ガットの種類 *</label>
-    <input class="form-input" type="text" id="g-gut" placeholder="例：ポリツアープロ 125">
-    <div class="tag-suggestions" id="g-gut-suggestions"></div>
+    <label class="form-label">品名 *</label>
+    <input class="form-input" type="text" id="e-item" placeholder="例：ポリツアープロ 125">
+    <div class="tag-sugs" id="e-item-sugs"></div>
   </div>
   <div class="form-group">
-    <label class="form-label">ラケットの種類</label>
-    <input class="form-input" type="text" id="g-racket" placeholder="例：Yonex Vcore 98">
-    <div class="tag-suggestions" id="g-racket-suggestions"></div>
+    <label class="form-label">関連機材・道具</label>
+    <input class="form-input" type="text" id="e-sub" placeholder="例：Yonex Vcore 98">
+    <div class="tag-sugs" id="e-sub-sugs"></div>
   </div>
-  <div class="form-group">
-    <label class="form-label">テンション（ポンド）</label>
-    <input class="form-input" type="number" id="g-tension" placeholder="例：50" min="20" max="80">
+  <div style="display:flex;gap:10px" class="form-group">
+    <div style="flex:2">
+      <label class="form-label">数値</label>
+      <input class="form-input" type="number" id="e-val" placeholder="例：50" min="0">
+    </div>
+    <div style="flex:1">
+      <label class="form-label">単位</label>
+      <input class="form-input" type="text" id="e-unit" placeholder="lbs">
+    </div>
   </div>
   <div class="form-group">
     <label class="form-label">メモ</label>
-    <textarea class="form-textarea" id="g-memo" placeholder="打球感、弾き、スピン性能など..." style="min-height:70px"></textarea>
+    <textarea class="form-textarea" id="e-memo" placeholder="使用感、特記事項など..." style="min-height:70px"></textarea>
   </div>
   <div class="btn-row">
-    <button class="btn btn-secondary" onclick="closeModal('gear')">キャンセル</button>
-    <button class="btn btn-primary" id="modal-gear-btn" onclick="saveGear()">保存する</button>
+    <button class="btn btn-secondary" onclick="closeModal('equipment')">キャンセル</button>
+    <button class="btn btn-primary" id="modal-equipment-btn" onclick="saveEquipment()">保存する</button>
   </div>
 </div>
 </div>
 
-<!-- SKILL DETAIL -->
-<div class="skill-detail-overlay" id="skill-detail-overlay" onclick="closeSkillDetail(event)">
-<div class="skill-detail-sheet">
-  <div class="skill-detail-header">
-    <div class="skill-detail-title">⭐ スキル目標</div>
-    <button class="skill-detail-close" onclick="closeSkillDetail()">閉じる</button>
+<!-- ========== GOAL MODAL ========== -->
+<div class="modal-overlay" id="modal-goal">
+<div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title" id="modal-goal-title">目標を追加</div>
+  <div class="form-group">
+    <label class="form-label">プロジェクト *</label>
+    <div class="sel-wrap" id="g-proj-sel"></div>
   </div>
-  <div id="skill-detail-body"></div>
+  <div class="form-group">
+    <label class="form-label">メンバー *</label>
+    <div class="sel-wrap" id="g-member-sel"></div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">カテゴリ *</label>
+    <input class="form-input" type="text" id="g-cat" placeholder="例：技術、体力、メンタル">
+  </div>
+  <div class="form-group">
+    <label class="form-label">目標内容 *</label>
+    <textarea class="form-textarea" id="g-text" placeholder="具体的な目標を入力..." style="min-height:80px"></textarea>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="closeModal('goal')">キャンセル</button>
+    <button class="btn btn-primary" id="modal-goal-btn" onclick="saveGoal()">追加する</button>
+  </div>
 </div>
 </div>
 
-<!-- PRACTICE DETAIL -->
-<div class="detail-overlay" id="detail-practice">
-<div class="detail-header">
-  <button class="back-btn" onclick="closeDetail('practice')"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
+<!-- ========== PROJECT MODAL ========== -->
+<div class="modal-overlay" id="modal-project">
+<div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title" id="modal-project-title">プロジェクトを追加</div>
+  <div class="form-group">
+    <label class="form-label">プロジェクト名 *</label>
+    <input class="form-input" type="text" id="proj-name" placeholder="例：読書、筋トレ、料理">
+  </div>
+  <div class="form-group">
+    <label class="form-label">絵文字アイコン</label>
+    <div class="emoji-grid" id="proj-emoji-grid"></div>
+  </div>
+  <div class="form-group">
+    <label class="form-label">テーマカラー</label>
+    <div class="color-swatches" id="proj-colors"></div>
+  </div>
+  <div class="toggle-wrap">
+    <span class="toggle-label">装備・道具の記録を使う</span>
+    <label class="toggle-ui">
+      <input type="checkbox" id="proj-equip">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="closeModal('project')">キャンセル</button>
+    <button class="btn btn-primary" id="modal-project-btn" onclick="saveProject()">追加する</button>
+  </div>
+</div>
+</div>
+
+<!-- ========== GOAL DETAIL SHEET ========== -->
+<div class="sheet-overlay" id="goal-sheet" onclick="closeGoalSheet(event)">
+<div class="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-hd">
+    <div class="sheet-title">🎯 目標</div>
+    <button class="sheet-close" onclick="closeGoalSheet()">閉じる</button>
+  </div>
+  <div id="goal-sheet-body"></div>
+</div>
+</div>
+
+<!-- ========== ACTIVITY DETAIL ========== -->
+<div class="detail-overlay" id="detail-activity">
+<div class="detail-hd">
+  <button class="back-btn" onclick="closeDetail('activity')"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
   <div class="detail-title-wrap">
-    <div class="detail-title" id="detail-p-title"></div>
-    <div class="detail-date" id="detail-p-date"></div>
+    <div class="detail-title" id="detail-a-title"></div>
+    <div class="detail-date" id="detail-a-meta"></div>
   </div>
-  <button class="back-btn" onclick="editItem('practice')" style="color:var(--green3)">
-    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-  </button>
-  <button class="back-btn" onclick="deleteItem('practice')" style="color:var(--danger)">
-    <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
-  </button>
+  <button class="back-btn" onclick="editDetail('activity')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+  <button class="back-btn" onclick="deleteDetail('activity')" style="color:var(--danger)"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg></button>
 </div>
-<div class="detail-body">
-  <div class="detail-section" id="detail-p-member-sec">
-    <div class="detail-section-label">メンバー</div>
-    <div id="detail-p-member"></div>
-  </div>
-  <div class="detail-section" id="detail-p-tags-sec">
-    <div class="detail-section-label">タグ</div>
-    <div id="detail-p-tags" style="display:flex;flex-wrap:wrap;gap:6px"></div>
-  </div>
-  <div class="detail-section" id="detail-p-carry-sec" style="display:none">
-    <div class="detail-section-label">前回の継続課題</div>
-    <div class="carry-section" id="detail-p-carry"></div>
-  </div>
-  <div class="detail-section" id="detail-p-memo-sec" style="display:none">
-    <div class="detail-section-label">振り返り・メモ</div>
-    <div class="detail-text" id="detail-p-memo"></div>
-  </div>
-  <div class="detail-section" id="detail-p-yt-sec" style="display:none">
-    <div class="detail-section-label">YouTube動画</div>
-    <div id="detail-p-yt"></div>
-  </div>
-</div>
+<div class="detail-body" id="detail-a-body"></div>
 </div>
 
-<!-- GEAR DETAIL -->
-<div class="detail-overlay" id="detail-gear">
-<div class="detail-header">
-  <button class="back-btn" onclick="closeDetail('gear')"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
+<!-- ========== EQUIPMENT DETAIL ========== -->
+<div class="detail-overlay" id="detail-equipment">
+<div class="detail-hd">
+  <button class="back-btn" onclick="closeDetail('equipment')"><svg viewBox="0 0 24 24"><polyline points="15,18,9,12,15,6"/></svg></button>
   <div class="detail-title-wrap">
-    <div class="detail-title" id="detail-g-title"></div>
-    <div class="detail-date" id="detail-g-date"></div>
+    <div class="detail-title" id="detail-e-title"></div>
+    <div class="detail-date" id="detail-e-meta"></div>
   </div>
-  <button class="back-btn" onclick="editItem('gear')" style="color:var(--green3)">
-    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-  </button>
-  <button class="back-btn" onclick="deleteItem('gear')" style="color:var(--danger)">
-    <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
-  </button>
+  <button class="back-btn" onclick="editDetail('equipment')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+  <button class="back-btn" onclick="deleteDetail('equipment')" style="color:var(--danger)"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg></button>
 </div>
-<div class="detail-body">
-  <div class="detail-section" id="detail-g-member-sec">
-    <div class="detail-section-label">メンバー</div>
-    <div id="detail-g-member"></div>
-  </div>
-  <div class="detail-section">
-    <div class="detail-section-label">テンション</div>
-    <div style="font-size:36px;font-weight:600;color:var(--green3)" id="detail-g-tension"></div>
-  </div>
-  <div class="detail-section" id="detail-g-racket-sec" style="display:none">
-    <div class="detail-section-label">ラケット</div>
-    <div class="detail-text" id="detail-g-racket"></div>
-  </div>
-  <div class="detail-section" id="detail-g-memo-sec" style="display:none">
-    <div class="detail-section-label">メモ</div>
-    <div class="detail-text" id="detail-g-memo"></div>
-  </div>
-</div>
+<div class="detail-body" id="detail-e-body"></div>
 </div>
 
 <div id="toast"></div>
 
-<!-- BOTTOM NAV -->
+<!-- ========== BOTTOM NAV ========== -->
 <div class="bottom-nav">
   <button class="nav-btn active" id="nav-home" onclick="switchTab('home')">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22,9,12,15,12,15,22"/></svg>
@@ -564,557 +604,952 @@ input[type=date]{color-scheme:light}
     <span class="nav-label">設定</span><div class="nav-dot"></div>
   </button>
 </div>
-
 </div>
 <input type="file" id="import-input" accept=".json" style="display:none" onchange="handleImport(event)">
 
 <script>
-const STORAGE_KEY='tennis_app_v3';
+// ════════════════════════════════════════════
+//  CONSTANTS
+// ════════════════════════════════════════════
+const STORAGE_KEY = 'mylog_v1';
+const OLD_KEY     = 'tennis_app_v3';
 
-// デフォルトメンバー（固定4人、名前だけ変更可）
-const DEFAULT_MEMBERS=[
-  {id:'m1',name:'メンバー1',emoji:'🎾'},
-  {id:'m2',name:'メンバー2',emoji:'👦'},
-  {id:'m3',name:'メンバー3',emoji:'👧'},
-  {id:'m4',name:'メンバー4',emoji:'👩'},
+const PROJ_COLORS = ['#22a55e','#3b82f6','#8b5cf6','#f97316','#ef4444','#ec4899','#14b8a6','#d97706'];
+const EMOJIS = ['🎾','⚽','🏀','🏊','🚴','🏃','📚','✏️','🎸','🎨','💪','🧘','🍳','💻','🌱','🎯','✈️','🎭','🏔️','💰','🎮','🐕','🎻','🎬','🍜','🏋️','🤸','🎪'];
+
+const DEF_MEMBERS = [
+  {id:'m1',emoji:'😊',defName:'メンバー1'},
+  {id:'m2',emoji:'👦',defName:'メンバー2'},
+  {id:'m3',emoji:'👧',defName:'メンバー3'},
+  {id:'m4',emoji:'👩',defName:'メンバー4'},
 ];
 
-let db={memberNames:{},practices:[],gears:[],skillGoals:[]};
-// memberNames: {m1:'お父さん', m2:'太郎', ...}
+// ════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════
+let db = {
+  memberNames: {},
+  projects: [{id:'p_tennis',name:'テニス',emoji:'🎾',color:'#22a55e',enableEquipment:true}],
+  activities: [], // {id, type:'activity'|'equipment', projectId, memberId, date, title, tags, memo, carryOver, ytLinks, item, sub, val, unit}
+  goals: []       // {id, projectId, memberId, cat, text, done}
+};
 
-let homeMemberFilter='all'; // 'all' or member id
-let logMemberFilter='all';
-let logSubTab='practice';
-let carryChecked=false,ytLinks=[],toastTimer=null;
-let currentDetailId=null,selectedDate=null,calYear=0,calMonth=0;
-let editMode=false,editingId=null,currentSkillEditId=null;
-let formPMember='m1', formGMember='m1', formSkillMember='m1';
+// Filter state
+let hProjF = 'all', hMembF = 'all'; // home
+let lProjF = 'all', lMembF = 'all'; // log
+let lSubTab = 'activity';
+// Calendar
+let calY = 0, calM = 0, selDate = null;
+// FAB
+let fabOpen = false;
+// Form state
+let carryChk = false, ytArr = [];
+let editMode = false, editId = null;
+let detailType = null, detailId = null;
+let fAPrj = '', fAMbr = 'm1'; // activity form
+let fEPrj = '', fEMbr = 'm1'; // equipment form
+let fGPrj = '', fGMbr = 'm1'; // goal form
+let fPjEmoji = '🎯', fPjColor = PROJ_COLORS[0], editProjId = null;
 
-// ===== HELPERS =====
-function getMembers(){
-  return DEFAULT_MEMBERS.map(m=>({...m,name:db.memberNames[m.id]||m.name}));
+// ════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════
+function esc(s){ return s==null?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function rgba(hex, a){
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
 }
-function getMemberById(id){return getMembers().find(m=>m.id===id);}
-function getMemberName(id){const m=getMemberById(id);return m?m.name:'';}
-function getMemberEmoji(id){const m=getMemberById(id);return m?m.emoji:'🎾';}
 
-function filteredPractices(filterId){
-  const f=filterId||homeMemberFilter;
-  return f==='all'?db.practices:[...db.practices].filter(p=>p.memberId===f);
-}
-function filteredGears(filterId){
-  const f=filterId||logMemberFilter;
-  return f==='all'?db.gears:[...db.gears].filter(g=>g.memberId===f);
-}
+function today(){ const n=new Date(); return `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`; }
+function pad(n){ return String(n).padStart(2,'0'); }
+function dayKey(y,m,d){ return `${y}-${pad(m+1)}-${pad(d)}`; }
+function fmtDate(s){ if(!s)return''; const d=new Date(s+'T00:00:00'); return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`; }
+function thisYM(){ const n=new Date(); return `${n.getFullYear()}-${pad(n.getMonth()+1)}`; }
+function thisY(){ return String(new Date().getFullYear()); }
 
-// ===== STORAGE =====
-function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(db));}catch(e){showToast('保存容量が不足しています');}}
-function loadStorage(){
-  try{const d=localStorage.getItem(STORAGE_KEY);if(d)db=JSON.parse(d);}catch(e){}
-  if(!db.memberNames)db.memberNames={};
-  if(!db.practices)db.practices=[];
-  if(!db.gears)db.gears=[];
-  if(!db.skillGoals)db.skillGoals=[];
+// ════════════════════════════════════════════
+//  STORAGE
+// ════════════════════════════════════════════
+function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }catch(e){ toast('保存容量が不足しています'); } }
+function load(){
+  try{ const d=localStorage.getItem(STORAGE_KEY); if(d) db=JSON.parse(d); }catch(e){}
+  db.memberNames  = db.memberNames  || {};
+  db.projects     = db.projects     || [{id:'p_tennis',name:'テニス',emoji:'🎾',color:'#22a55e',enableEquipment:true}];
+  db.activities   = db.activities   || [];
+  db.goals        = db.goals        || [];
+  if(!db.projects.length) db.projects=[{id:'p_tennis',name:'テニス',emoji:'🎾',color:'#22a55e',enableEquipment:true}];
 }
 
-// ===== MEMBER FILTER RENDER =====
-function renderMemberFilterChips(containerId, current, onSelect){
-  const el=document.getElementById(containerId);
-  const members=getMembers();
-  let html=`<button class="member-chip${current==='all'?' active':''}" onclick="${onSelect}('all')">
-    <span class="member-chip-emoji">🎾</span>
-    <span class="member-chip-name">全員</span>
-  </button>`;
-  members.forEach(m=>{
-    html+=`<button class="member-chip${current===m.id?' active':''}" onclick="${onSelect}('${m.id}')">
-      <span class="member-chip-emoji">${m.emoji}</span>
-      <span class="member-chip-name">${esc(m.name)}</span>
-    </button>`;
+// ════════════════════════════════════════════
+//  MEMBERS
+// ════════════════════════════════════════════
+function members(){ return DEF_MEMBERS.map(m=>({...m, name: db.memberNames[m.id]||m.defName})); }
+function mbr(id){ return members().find(m=>m.id===id)||{name:'',emoji:'😊'}; }
+function mbrName(id){ return mbr(id).name; }
+function mbrEmoji(id){ return mbr(id).emoji; }
+
+// ════════════════════════════════════════════
+//  PROJECTS
+// ════════════════════════════════════════════
+function proj(id){ return db.projects.find(p=>p.id===id)||null; }
+function projColor(id){ const p=proj(id); return p?p.color:'#22a55e'; }
+
+function defPrj(){
+  if(hProjF!=='all') return hProjF;
+  return db.projects[0]?.id||'';
+}
+
+// ════════════════════════════════════════════
+//  FILTER CHIP RENDERERS
+// ════════════════════════════════════════════
+function renderProjChips(id, cur, fn){
+  const el=document.getElementById(id); if(!el)return;
+  let h = `<button class="proj-chip${cur==='all'?' active':''}" style="${cur==='all'?'background:#22a55e;border-color:#22a55e;':''}" onclick="${fn}('all')">🌐 全プロジェクト</button>`;
+  db.projects.forEach(p=>{
+    const a=cur===p.id;
+    h+=`<button class="proj-chip${a?' active':''}" style="${a?`background:${p.color};border-color:${p.color};`:`border-color:${rgba(p.color,0.4)};`}" onclick="${fn}('${p.id}')">${p.emoji} ${esc(p.name)}</button>`;
   });
-  el.innerHTML=html;
+  el.innerHTML=h;
 }
 
-function setHomeFilter(id){
-  homeMemberFilter=id;
-  renderMemberFilterChips('home-member-filter','setHomeFilter');
-  // re-render with correct current value
-  const el=document.getElementById('home-member-filter');
-  const members=getMembers();
-  let html=`<button class="member-chip${homeMemberFilter==='all'?' active':''}" onclick="setHomeFilter('all')">
-    <span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
-  members.forEach(m=>{
-    html+=`<button class="member-chip${homeMemberFilter===m.id?' active':''}" onclick="setHomeFilter('${m.id}')">
-      <span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;
+function renderMembChips(id, cur, fn){
+  const el=document.getElementById(id); if(!el)return;
+  let h=`<div class="member-chip${cur==='all'?' active':''}" onclick="${fn}('all')"><span>🌐</span><span>全員</span></div>`;
+  members().forEach(m=>{
+    h+=`<div class="member-chip${cur===m.id?' active':''}" onclick="${fn}('${m.id}')"><span>${m.emoji}</span><span>${esc(m.name)}</span></div>`;
   });
-  el.innerHTML=html;
-  renderHome();renderCalendar();renderSkillSummary();
+  el.innerHTML=h;
 }
 
-function setLogFilter(id){
-  logMemberFilter=id;
-  const el=document.getElementById('log-member-filter');
-  const members=getMembers();
-  let html=`<button class="member-chip${logMemberFilter==='all'?' active':''}" onclick="setLogFilter('all')">
-    <span class="member-chip-emoji">🎾</span><span class="member-chip-name">全員</span></button>`;
-  members.forEach(m=>{
-    html+=`<button class="member-chip${logMemberFilter===m.id?' active':''}" onclick="setLogFilter('${m.id}')">
-      <span class="member-chip-emoji">${m.emoji}</span><span class="member-chip-name">${esc(m.name)}</span></button>`;
-  });
-  el.innerHTML=html;
-  renderLog();
+function setHProjF(id){ hProjF=id; renderProjChips('home-proj-filter',hProjF,'setHProjF'); renderMembChips('home-member-filter',hMembF,'setHMembF'); renderHome(); renderCalendar(); renderGoalSummary(); updateFabEquip(); }
+function setHMembF(id){ hMembF=id; renderMembChips('home-member-filter',hMembF,'setHMembF'); renderHome(); renderCalendar(); renderGoalSummary(); }
+function setLProjF(id){ lProjF=id; renderProjChips('log-proj-filter',lProjF,'setLProjF'); renderLog(); }
+function setLMembF(id){ lMembF=id; renderMembChips('log-member-filter',lMembF,'setLMembF'); renderLog(); }
+
+function initFilters(){
+  renderProjChips('home-proj-filter',hProjF,'setHProjF');
+  renderMembChips('home-member-filter',hMembF,'setHMembF');
+  renderProjChips('log-proj-filter',lProjF,'setLProjF');
+  renderMembChips('log-member-filter',lMembF,'setLMembF');
 }
 
-function initMemberFilters(){
-  setHomeFilter(homeMemberFilter);
-  setLogFilter(logMemberFilter);
-}
-
-// ===== MEMBER SELECTOR IN FORM =====
-function renderFormMemberSelector(containerId, current, setter){
-  const members=getMembers();
-  document.getElementById(containerId).innerHTML=members.map(m=>`
-    <button class="member-sel-btn${current===m.id?' active':''}" onclick="${setter}('${m.id}')">
-      ${m.emoji} ${esc(m.name)}
-    </button>`).join('');
-}
-function setPMember(id){formPMember=id;renderFormMemberSelector('p-member-selector',formPMember,'setPMember');renderTagSuggestions();}
-function setGMember(id){formGMember=id;renderFormMemberSelector('g-member-selector',formGMember,'setGMember');renderGearSuggestions();}
-function setSkillMember(id){formSkillMember=id;renderFormMemberSelector('sk-member-selector',formSkillMember,'setSkillMember');}
-
-// ===== SETTINGS MEMBER NAMES =====
-function renderSettingsMemberNames(){
-  const members=getMembers();
-  document.getElementById('settings-member-names').innerHTML=members.map(m=>`
-    <div class="member-name-row">
-      <div class="member-name-emoji">${m.emoji}</div>
-      <input class="member-name-input" type="text" id="mn-${m.id}" value="${esc(m.name)}" placeholder="${m.name}">
-    </div>`).join('');
-}
-function saveMemberNames(){
-  DEFAULT_MEMBERS.forEach(m=>{
-    const inp=document.getElementById('mn-'+m.id);
-    if(inp&&inp.value.trim())db.memberNames[m.id]=inp.value.trim();
-  });
-  saveStorage();initMemberFilters();renderAll();showToast('メンバー名を保存しました！');
-}
-
-// ===== TAB =====
+// ════════════════════════════════════════════
+//  TAB SWITCHING
+// ════════════════════════════════════════════
 function switchTab(t){
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
   document.getElementById('nav-'+t).classList.add('active');
-  if(t==='home'){renderHome();renderCalendar();}
-  if(t==='log'){setLogFilter(logMemberFilter);}
-  if(t==='settings'){renderSettingsMemberNames();}
+  if(t==='home'){ renderHome(); renderCalendar(); renderGoalSummary(); }
+  if(t==='log'){ renderProjChips('log-proj-filter',lProjF,'setLProjF'); renderMembChips('log-member-filter',lMembF,'setLMembF'); renderLog(); }
+  if(t==='settings'){ renderSettingsMembers(); renderSettingsProjects(); }
   closeFab();
 }
-function renderAll(){renderHome();renderCalendar();renderLog();renderSkillSummary();}
 
-// ===== FAB =====
-function toggleFab(){document.getElementById('fab-menu').classList.toggle('open');}
-function closeFab(){document.getElementById('fab-menu').classList.remove('open');}
+function renderAll(){
+  initFilters();
+  renderStatsArea();
+  renderGoalSummary();
+  renderRecentActivities();
+  renderCalendar();
+  renderLog();
+  updateFabEquip();
+}
 
-// ===== CALENDAR =====
-function getDayKey(y,m,d){return`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-function initCal(){const n=new Date();calYear=n.getFullYear();calMonth=n.getMonth();}
-function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
-function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();}
+// ════════════════════════════════════════════
+//  FAB
+// ════════════════════════════════════════════
+function toggleFab(){
+  fabOpen=!fabOpen;
+  document.getElementById('fab-menu').classList.toggle('open',fabOpen);
+  document.getElementById('fab-ball').classList.toggle('open',fabOpen);
+}
+function closeFab(){
+  fabOpen=false;
+  document.getElementById('fab-menu').classList.remove('open');
+  document.getElementById('fab-ball').classList.remove('open');
+}
+function updateFabEquip(){
+  const el=document.getElementById('fab-equip-item'); if(!el)return;
+  const show = hProjF==='all'
+    ? db.projects.some(p=>p.enableEquipment)
+    : (proj(hProjF)||{}).enableEquipment||false;
+  el.style.display = show?'':'none';
+}
+
+// ════════════════════════════════════════════
+//  CALENDAR
+// ════════════════════════════════════════════
+function initCal(){ const n=new Date(); calY=n.getFullYear(); calM=n.getMonth(); }
+function calPrev(){ calM--; if(calM<0){calM=11;calY--;} renderCalendar(); }
+function calNext(){ calM++; if(calM>11){calM=0;calY++;} renderCalendar(); }
 
 function renderCalendar(){
   const months=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-  document.getElementById('cal-month-label').textContent=`${calYear}年 ${months[calMonth]}`;
-  const firstDay=new Date(calYear,calMonth,1).getDay();
-  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
-  const today=new Date();
-  const todayKey=getDayKey(today.getFullYear(),today.getMonth(),today.getDate());
-  const ps=homeMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===homeMemberFilter);
-  const gs=homeMemberFilter==='all'?db.gears:db.gears.filter(g=>g.memberId===homeMemberFilter);
-  const practiceMap={};ps.forEach(p=>{if(p.date)practiceMap[p.date]=(practiceMap[p.date]||0)+1;});
-  const gearMap={};gs.forEach(g=>{if(g.date)gearMap[g.date]=(gearMap[g.date]||0)+1;});
-  let html='';
-  for(let i=0;i<firstDay;i++)html+=`<div class="cal-day empty"></div>`;
-  for(let d=1;d<=daysInMonth;d++){
-    const key=getDayKey(calYear,calMonth,d);
-    const dow=(firstDay+d-1)%7;
+  document.getElementById('cal-month-label').textContent=`${calY}年 ${months[calM]}`;
+  const fd=new Date(calY,calM,1).getDay();
+  const dim=new Date(calY,calM+1,0).getDate();
+  const tk=dayKey(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+
+  // Build dot map per day
+  const dotMap={};
+  db.activities.filter(a=>{
+    if(hProjF!=='all'&&a.projectId!==hProjF)return false;
+    if(hMembF!=='all'&&a.memberId!==hMembF)return false;
+    return a.date;
+  }).forEach(a=>{
+    if(!dotMap[a.date])dotMap[a.date]=new Set();
+    dotMap[a.date].add(projColor(a.projectId));
+  });
+
+  let h='';
+  for(let i=0;i<fd;i++) h+='<div class="cal-day empty"></div>';
+  for(let d=1;d<=dim;d++){
+    const k=dayKey(calY,calM,d);
+    const dow=(fd+d-1)%7;
     let cls='cal-day';
-    if(dow===0)cls+=' sunday';if(dow===6)cls+=' saturday';
-    if(key===todayKey)cls+=' today';if(key===selectedDate)cls+=' selected';
-    let dots='';
-    if(practiceMap[key])dots+=`<div class="cal-dot practice"></div>`;
-    if(gearMap[key])dots+=`<div class="cal-dot gear"></div>`;
-    html+=`<div class="${cls}" onclick="selectDay('${key}')"><div class="cal-day-num">${d}</div><div class="cal-dots">${dots}</div></div>`;
+    if(dow===0)cls+=' sunday'; if(dow===6)cls+=' saturday';
+    if(k===tk)cls+=' today'; if(k===selDate)cls+=' selected';
+    const dots=[...(dotMap[k]||[])].slice(0,4).map(c=>`<div class="cal-dot" style="background:${c}"></div>`).join('');
+    h+=`<div class="${cls}" onclick="selectDay('${k}')"><div class="cal-day-num">${d}</div><div class="cal-dots">${dots}</div></div>`;
   }
-  document.getElementById('cal-grid').innerHTML=html;
+  document.getElementById('cal-grid').innerHTML=h;
 }
 
-function selectDay(key){
-  if(selectedDate===key){selectedDate=null;closeDayPanel();renderCalendar();return;}
-  selectedDate=key;renderCalendar();showDayPanel(key);
-  setTimeout(()=>{document.getElementById('day-panel').scrollIntoView({behavior:'smooth',block:'nearest'});},50);
+function selectDay(k){
+  if(selDate===k){ selDate=null; closeDayPanel(); renderCalendar(); return; }
+  selDate=k; renderCalendar(); showDayPanel(k);
+  setTimeout(()=>{ const el=document.getElementById('day-panel'); el&&el.scrollIntoView({behavior:'smooth',block:'nearest'}); },50);
 }
-function showDayPanel(key){
-  const ps=(homeMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===homeMemberFilter)).filter(p=>p.date===key);
-  const gs=(homeMemberFilter==='all'?db.gears:db.gears.filter(g=>g.memberId===homeMemberFilter)).filter(g=>g.date===key);
-  const dt=new Date(key+'T00:00:00');
-  document.getElementById('day-panel-date').textContent=`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;
-  let html='';
-  if(!ps.length&&!gs.length){html='<div class="day-empty">この日の記録はありません</div>';}
+
+function showDayPanel(k){
+  const acts=db.activities.filter(a=>{
+    if(a.date!==k)return false;
+    if(hProjF!=='all'&&a.projectId!==hProjF)return false;
+    if(hMembF!=='all'&&a.memberId!==hMembF)return false;
+    return true;
+  });
+  const d=new Date(k+'T00:00:00');
+  document.getElementById('day-panel-date').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  let h='';
+  if(!acts.length){ h='<div class="day-empty">この日の記録はありません</div>'; }
   else{
-    ps.forEach(p=>{
-      const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="tag-sm">${esc(t)}</span>`).join('');
-      html+=`<div class="log-card-sm" onclick="openDetail('practice',${p.id})">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
-          <span style="font-size:11px">${getMemberEmoji(p.memberId)}</span>
-          <div class="log-card-title-sm" style="flex:1">${esc(p.title)}</div>
-          ${p.carryOver?'<span style="font-size:10px;color:var(--amber)">⚑</span>':''}
+    acts.forEach(a=>{
+      const p=proj(a.projectId), c=p?p.color:'#22a55e';
+      const isE=a.type==='equipment';
+      const tags=(a.tags||[]).slice(0,3).map(t=>`<span class="tag-sm" style="background:${rgba(c,0.15)};color:${c}">${esc(t)}</span>`).join('');
+      h+=`<div class="log-card-sm" onclick="openDetail('${isE?'equipment':'activity'}',${a.id})">
+        <div class="log-card-sm-accent" style="background:${c}"></div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span>${mbrEmoji(a.memberId)}</span>
+          ${p?`<span class="badge-sm" style="background:${rgba(c,0.15)};color:${c}">${p.emoji} ${esc(p.name)}</span>`:''}
+          ${isE?`<span class="equip-badge">⚙ 装備</span>`:''}
+          <span class="log-card-title-sm">${esc(a.title||a.item||'')}</span>
+          ${a.carryOver?'<span style="color:var(--amber);font-size:11px">⚑</span>':''}
         </div>
         ${tags?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px">${tags}</div>`:''}
-        ${p.memo?`<div style="font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4">${esc(p.memo).slice(0,60)}${p.memo.length>60?'…':''}</div>`:''}
-      </div>`;
-    });
-    gs.forEach(g=>{
-      html+=`<div class="log-card-sm" onclick="openDetail('gear',${g.id})">
-        <div style="display:flex;align-items:center;gap:6px">
-          <span style="font-size:11px">${getMemberEmoji(g.memberId)}</span>
-          <span class="gear-badge">ガット</span>
-          <div class="log-card-title-sm">${esc(g.gut)}${g.tension?' — '+g.tension+'lbs':''}</div>
-        </div>
       </div>`;
     });
   }
-  document.getElementById('day-panel-body').innerHTML=html;
+  document.getElementById('day-panel-body').innerHTML=h;
   document.getElementById('day-panel').style.display='block';
 }
-function closeDayPanel(){selectedDate=null;document.getElementById('day-panel').style.display='none';renderCalendar();}
+function closeDayPanel(){ selDate=null; document.getElementById('day-panel').style.display='none'; renderCalendar(); }
 
-// ===== SKILL GOALS =====
-function setSkillCat(val){
-  document.getElementById('sk-cat').value=val;
-  document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===val));
-}
-document.getElementById('sk-cat').addEventListener('input',function(){
-  document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===this.value.trim()));
-});
+// ════════════════════════════════════════════
+//  HOME
+// ════════════════════════════════════════════
+function renderHome(){ renderStatsArea(); renderRecentActivities(); }
 
-function getSkillGoals(){
-  return homeMemberFilter==='all'
-    ? db.skillGoals
-    : db.skillGoals.filter(s=>s.memberId===homeMemberFilter);
-}
-function saveSkillGoal(){
-  const cat=document.getElementById('sk-cat').value.trim();
-  const text=document.getElementById('sk-text').value.trim();
-  if(!cat){showToast('カテゴリを入力してください');return;}
-  if(!text){showToast('目標内容を入力してください');return;}
-  if(editMode&&currentSkillEditId){
-    const s=db.skillGoals.find(x=>x.id===currentSkillEditId);
-    if(s){s.memberId=formSkillMember;s.cat=cat;s.text=text;}currentSkillEditId=null;showToast('スキル目標を更新しました！');
-  }else{
-    db.skillGoals.push({id:Date.now(),memberId:formSkillMember,cat,text});showToast('スキル目標を追加しました！');
-  }
-  saveStorage();closeModal('skill');renderSkillSummary();
-}
-function deleteSkillGoal(id){
-  db.skillGoals=db.skillGoals.filter(s=>s.id!==id);
-  saveStorage();renderSkillSummary();renderSkillDetail();
-  if(!getSkillGoals().length)closeSkillDetail();showToast('削除しました');
-}
-function renderSkillSummary(){
-  const goals=getSkillGoals();
-  const el=document.getElementById('skill-summary-body');
-  if(!goals.length){el.innerHTML='<div class="skill-empty-hint">右下のボタンからスキル目標を追加できます</div>';return;}
-  const grouped={};goals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
-  el.innerHTML=`<div class="skill-chips">${Object.entries(grouped).map(([cat,items])=>`
-    <div class="skill-chip-item"><span class="skill-chip-cat">${esc(cat)}</span><span class="skill-chip-count">${items.length}件</span></div>`).join('')}</div>`;
-}
-function renderSkillDetail(){
-  const goals=getSkillGoals();const el=document.getElementById('skill-detail-body');
-  if(!goals.length){el.innerHTML='<div style="text-align:center;padding:30px 0;color:var(--text3);font-size:13px">スキル目標がまだありません</div>';return;}
-  const grouped={};goals.forEach(s=>{if(!grouped[s.cat])grouped[s.cat]=[];grouped[s.cat].push(s);});
-  let html='';
-  Object.entries(grouped).forEach(([cat,items],idx)=>{
-    if(idx>0)html+='<hr style="border:none;border-top:1px solid var(--glass-border);margin:14px 0">';
-    html+=`<div style="font-size:11px;font-weight:600;color:var(--green3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">${esc(cat)}</div>`;
-    items.forEach(s=>{
-      html+=`<div class="skill-goal-item">
-        <div style="flex:1">
-          ${homeMemberFilter==='all'?`<div style="font-size:10px;color:var(--text3);margin-bottom:3px">${getMemberEmoji(s.memberId)} ${esc(getMemberName(s.memberId))}</div>`:''}
-          <div class="skill-goal-text">${esc(s.text)}</div>
-        </div>
-        <div style="display:flex;gap:6px;flex-shrink:0">
-          <button class="skill-del-btn" style="color:var(--green3)" onclick="editSkillGoal(${s.id})">
-            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-          </button>
-          <button class="skill-del-btn" onclick="deleteSkillGoal(${s.id})">
-            <svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"/></svg>
-          </button>
+function renderStatsArea(){
+  const el=document.getElementById('home-stats-area');
+  const ym=thisYM(), yr=thisY();
+  if(hProjF==='all'){
+    // Project cards
+    let h='<div style="padding:12px 16px 0">';
+    if(!db.projects.length){ h+='<div class="day-empty">プロジェクトを追加してください</div>'; }
+    else{
+      db.projects.forEach(p=>{
+        const acts=db.activities.filter(a=>a.projectId===p.id&&(hMembF==='all'||a.memberId===hMembF));
+        const mon=acts.filter(a=>a.type!=='equipment'&&a.date&&a.date.startsWith(ym)).length;
+        const gl=db.goals.filter(g=>g.projectId===p.id&&(hMembF==='all'||g.memberId===hMembF));
+        h+=`<div class="proj-home-card" onclick="setHProjF('${p.id}')">
+          <div class="proj-home-accent" style="background:${p.color}"></div>
+          <div class="proj-home-emoji">${p.emoji}</div>
+          <div class="proj-home-info">
+            <div class="proj-home-name">${esc(p.name)}</div>
+            <div class="proj-home-stats">今月${mon}回 · 目標${gl.filter(g=>g.done).length}/${gl.length}達成</div>
+          </div>
+          <div class="proj-home-arrow">›</div>
+        </div>`;
+      });
+      // Add project button card
+      h+=`<div class="proj-home-card" onclick="openModal('project')" style="border-style:dashed;background:var(--bg);box-shadow:none">
+        <div class="proj-home-emoji" style="opacity:0.4">＋</div>
+        <div class="proj-home-info">
+          <div class="proj-home-name" style="color:var(--text3)">プロジェクトを追加</div>
         </div>
       </div>`;
-    });
-  });
-  html+=`<button class="btn btn-secondary" style="width:100%;margin-top:16px" onclick="closeSkillDetail();openModal('skill')">+ 目標を追加する</button>`;
-  el.innerHTML=html;
-}
-function openSkillDetail(){renderSkillDetail();document.getElementById('skill-detail-overlay').classList.add('open');document.getElementById('screen').style.overflow='hidden';}
-function closeSkillDetail(e){
-  if(e&&e.target!==document.getElementById('skill-detail-overlay'))return;
-  document.getElementById('skill-detail-overlay').classList.remove('open');document.getElementById('screen').style.overflow='';
-}
-function editSkillGoal(id){currentSkillEditId=id;closeSkillDetail();setTimeout(()=>openModal('skill',id),80);}
-
-// ===== MODAL =====
-function openModal(type,id){
-  closeFab();editMode=!!id;editingId=id||null;
-  const today=new Date().toISOString().slice(0,10);
-  if(type==='skill'){
-    document.getElementById('sk-cat').value='';document.getElementById('sk-text').value='';
-    document.querySelectorAll('.cat-preset').forEach(el=>el.classList.remove('active'));
-    if(id){
-      const s=db.skillGoals.find(x=>x.id===id);
-      if(s){
-        formSkillMember=s.memberId||'m1';
-        document.getElementById('sk-cat').value=s.cat;
-        document.getElementById('sk-text').value=s.text;
-        document.querySelectorAll('.cat-preset').forEach(el=>el.classList.toggle('active',el.textContent===s.cat));
-      }
-      document.getElementById('modal-skill-title').textContent='スキル目標を編集';
-      document.getElementById('modal-skill-btn').textContent='更新する';
-    }else{
-      currentSkillEditId=null;
-      formSkillMember=homeMemberFilter!=='all'?homeMemberFilter:'m1';
-      document.getElementById('modal-skill-title').textContent='スキル目標を追加';
-      document.getElementById('modal-skill-btn').textContent='追加する';
     }
-    renderFormMemberSelector('sk-member-selector',formSkillMember,'setSkillMember');
-  }else if(type==='practice'){
-    const p=id?db.practices.find(x=>x.id===id):null;
-    formPMember=p?p.memberId:'m1';
-    renderFormMemberSelector('p-member-selector',formPMember,'setPMember');
-    document.getElementById('p-date').value=p?p.date:(selectedDate||today);
-    document.getElementById('p-title').value=p?p.title:'';
-    document.getElementById('p-tags').value=p?(p.tags||[]).join(', '):'';
-    document.getElementById('p-memo').value=p?p.memo:'';
-    document.getElementById('p-yt').value='';document.getElementById('p-yt-list').innerHTML='';
-    ytLinks=p?[...(p.youtube||[])]:[];renderYtList();
-    carryChecked=p?p.carryOver:false;
-    document.getElementById('carry-check').classList.toggle('checked',carryChecked);
-    if(!id){
-      const co=getCarryOver(formPMember);const cosec=document.getElementById('carry-over-section');
-      if(co){cosec.style.display='block';document.getElementById('carry-over-text').textContent=co;}else cosec.style.display='none';
-    }else document.getElementById('carry-over-section').style.display='none';
-    renderTagSuggestions();
-    document.getElementById('modal-practice-title').textContent=id?'練習記録を編集':'練習記録を追加';
-    document.getElementById('modal-practice-btn').textContent=id?'更新する':'保存する';
-  }else{
-    const g=id?db.gears.find(x=>x.id===id):null;
-    formGMember=g?g.memberId:'m1';
-    renderFormMemberSelector('g-member-selector',formGMember,'setGMember');
-    document.getElementById('g-date').value=g?g.date:(selectedDate||today);
-    document.getElementById('g-gut').value=g?g.gut:'';
-    document.getElementById('g-racket').value=g?g.racket:'';
-    document.getElementById('g-tension').value=g?g.tension:'';
-    document.getElementById('g-memo').value=g?g.memo:'';
-    renderGearSuggestions();
-    document.getElementById('modal-gear-title').textContent=id?'ガット記録を編集':'ガット張替えを記録';
-    document.getElementById('modal-gear-btn').textContent=id?'更新する':'保存する';
+    el.innerHTML=h+'</div>';
+  } else {
+    // Stats strip for selected project
+    const acts=db.activities.filter(a=>{
+      if(a.type==='equipment')return false;
+      if(a.projectId!==hProjF)return false;
+      if(hMembF!=='all'&&a.memberId!==hMembF)return false;
+      return true;
+    });
+    const mon=acts.filter(a=>a.date&&a.date.startsWith(ym)).length;
+    const yrc=acts.filter(a=>a.date&&a.date.startsWith(yr)).length;
+    const gl=db.goals.filter(g=>g.projectId===hProjF&&(hMembF==='all'||g.memberId===hMembF));
+    const carries=acts.filter(a=>a.carryOver).length;
+    el.innerHTML=`<div class="stats-strip">
+      <div class="stat-chip">📅 今月 <b>${mon}回</b></div>
+      <div class="stat-chip">📊 今年 <b>${yrc}回</b></div>
+      <div class="stat-chip">🎯 目標 <b>${gl.filter(g=>g.done).length}/${gl.length}</b></div>
+      ${carries?`<div class="stat-chip">⚑ 継続中 <b>${carries}件</b></div>`:''}
+    </div>`;
+  }
+}
+
+function renderGoalSummary(){
+  const el=document.getElementById('home-goal-summary');
+  const goals=db.goals.filter(g=>{
+    if(hProjF!=='all'&&g.projectId!==hProjF)return false;
+    if(hMembF!=='all'&&g.memberId!==hMembF)return false;
+    return true;
+  });
+  if(!goals.length){ el.innerHTML=''; return; }
+  const byP={};
+  goals.forEach(g=>{ (byP[g.projectId]=byP[g.projectId]||[]).push(g); });
+  let chips='';
+  Object.entries(byP).forEach(([pid,gs])=>{
+    const p=proj(pid);
+    chips+=`<div class="g-chip">${p?p.emoji:''} ${p?esc(p.name):'?'} <span class="g-chip-sub">${gs.filter(g=>g.done).length}/${gs.length}</span></div>`;
+  });
+  el.innerHTML=`<div class="goal-summary-card" onclick="openGoalSheet()">
+    <div class="goal-summary-hd">
+      <div class="goal-summary-ttl"><svg viewBox="0 0 24 24"><polygon points="12,2,15.09,8.26,22,9.27,17,14.14,18.18,21.02,12,17.77,5.82,21.02,7,14.14,2,9.27,8.91,8.26"/></svg>目標</div>
+      <div class="goal-summary-hint">タップで確認 ›</div>
+    </div>
+    <div class="goal-chips-wrap">${chips}</div>
+  </div>`;
+}
+
+function renderRecentActivities(){
+  const el=document.getElementById('home-recent');
+  const acts=db.activities.filter(a=>{
+    if(a.type==='equipment')return false;
+    if(hProjF!=='all'&&a.projectId!==hProjF)return false;
+    if(hMembF!=='all'&&a.memberId!==hMembF)return false;
+    return true;
+  }).sort((a,b)=>b.id-a.id).slice(0,5);
+  if(!acts.length){
+    el.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>まだ記録がありません<br>FABボタン（＋）から追加しましょう</p></div>`;
+    return;
+  }
+  el.innerHTML=acts.map(actCard).join('');
+}
+
+// ════════════════════════════════════════════
+//  CARD RENDERERS
+// ════════════════════════════════════════════
+function actCard(a){
+  const p=proj(a.projectId), c=p?p.color:'#22a55e';
+  const tags=(a.tags||[]).slice(0,4).map(t=>`<span class="tag" style="background:${rgba(c,0.15)};color:${c}">${esc(t)}</span>`).join('');
+  const pBadge=p?`<span class="badge-sm" style="background:${rgba(c,0.15)};color:${c}">${p.emoji} ${esc(p.name)}</span>`:'';
+  const mBadge=`<span class="badge-sm" style="background:var(--primary-light);color:var(--primary-dark)">${mbrEmoji(a.memberId)} ${esc(mbrName(a.memberId))}</span>`;
+  return `<div class="log-card" onclick="openDetail('activity',${a.id})">
+    <div class="log-card-accent" style="background:${c}"></div>
+    <div class="log-card-hd"><div class="log-card-title">${esc(a.title)}</div><div class="log-card-date">${fmtDate(a.date)}</div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${pBadge}${mBadge}</div>
+    ${tags?`<div class="log-card-tags">${tags}</div>`:''}
+    ${a.memo?`<div class="log-card-memo">${esc(a.memo).slice(0,80)}${a.memo.length>80?'…':''}</div>`:''}
+    ${a.carryOver?'<div><span class="carry-badge">⚑ 次回に継続</span></div>':''}
+  </div>`;
+}
+
+function equipCard(a){
+  const p=proj(a.projectId), c=p?p.color:'#d97706';
+  const pBadge=p?`<span class="badge-sm" style="background:${rgba(c,0.15)};color:${c}">${p.emoji} ${esc(p.name)}</span>`:'';
+  const mBadge=`<span class="badge-sm" style="background:var(--primary-light);color:var(--primary-dark)">${mbrEmoji(a.memberId)} ${esc(mbrName(a.memberId))}</span>`;
+  return `<div class="log-card" onclick="openDetail('equipment',${a.id})">
+    <div class="log-card-accent" style="background:${c}"></div>
+    <div class="log-card-hd"><div class="log-card-title">${esc(a.item||a.title||'')}</div><div class="log-card-date">${fmtDate(a.date)}</div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><span class="equip-badge">⚙ 装備</span>${pBadge}${mBadge}</div>
+    ${(a.val||a.value)?`<div style="font-size:22px;font-weight:700;color:${c};margin-top:6px">${esc(a.val||a.value)} <span style="font-size:12px;font-weight:500;color:var(--text3)">${esc(a.unit||'')}</span></div>`:''}
+    ${a.sub?`<div class="log-card-memo">${esc(a.sub)}</div>`:''}
+  </div>`;
+}
+
+// ════════════════════════════════════════════
+//  GOAL SHEET
+// ════════════════════════════════════════════
+function openGoalSheet(){
+  renderGoalSheetBody();
+  document.getElementById('goal-sheet').classList.add('open');
+}
+function closeGoalSheet(e){
+  if(e&&e.target!==document.getElementById('goal-sheet'))return;
+  document.getElementById('goal-sheet').classList.remove('open');
+}
+function renderGoalSheetBody(){
+  const goals=db.goals.filter(g=>{
+    if(hProjF!=='all'&&g.projectId!==hProjF)return false;
+    if(hMembF!=='all'&&g.memberId!==hMembF)return false;
+    return true;
+  });
+  let h='';
+  if(!goals.length){ h='<div class="day-empty">目標がありません</div>'; }
+  else{
+    const byP={};
+    goals.forEach(g=>{ (byP[g.projectId]=byP[g.projectId]||[]).push(g); });
+    Object.entries(byP).forEach(([pid,gs])=>{
+      const p=proj(pid);
+      h+=`<div class="sheet-section"><div class="sheet-section-title">${p?p.emoji+' '+esc(p.name):'?'}</div>`;
+      const byCat={};
+      gs.forEach(g=>{ (byCat[g.cat]=byCat[g.cat]||[]).push(g); });
+      Object.entries(byCat).forEach(([cat,items])=>{
+        h+=`<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px">${esc(cat)}</div>`;
+        items.forEach(g=>{
+          h+=`<div class="goal-list-item${g.done?' done-item':''}">
+            <div class="goal-circle${g.done?' done':''}" onclick="toggleGoalHome(${g.id})">
+              <svg viewBox="0 0 14 14"><polyline points="2,7,5.5,10.5,12,3"/></svg>
+            </div>
+            <div class="goal-list-body">
+              <div class="goal-list-text">${esc(g.text)}</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:4px">${mbrEmoji(g.memberId)} ${esc(mbrName(g.memberId))}</div>
+            </div>
+            <button class="goal-list-del" onclick="deleteGoalHome(${g.id})"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6"/></svg></button>
+          </div>`;
+        });
+        h+='</div>';
+      });
+      h+='</div>';
+    });
+  }
+  document.getElementById('goal-sheet-body').innerHTML=h;
+}
+function toggleGoalHome(id){
+  const g=db.goals.find(x=>x.id===id); if(!g)return;
+  g.done=!g.done; save(); renderGoalSheetBody(); renderGoalSummary(); renderStatsArea();
+}
+function deleteGoalHome(id){
+  if(!confirm('この目標を削除しますか？'))return;
+  db.goals=db.goals.filter(g=>g.id!==id); save();
+  renderGoalSheetBody(); renderGoalSummary(); renderStatsArea(); toast('削除しました');
+}
+
+// ════════════════════════════════════════════
+//  LOG TAB
+// ════════════════════════════════════════════
+function switchLogSub(t){
+  lSubTab=t;
+  ['activity','goal'].forEach(x=>{
+    document.getElementById('log-tab-'+x).classList.toggle('active',x===t);
+    document.getElementById('log-'+x+'-list').style.display=x===t?'block':'none';
+  });
+  renderLog();
+}
+
+function renderLog(){
+  if(lSubTab==='activity') renderLogActs();
+  else renderLogGoals();
+}
+
+function renderLogActs(){
+  const el=document.getElementById('log-activity-list');
+  const acts=db.activities.filter(a=>{
+    if(lProjF!=='all'&&a.projectId!==lProjF)return false;
+    if(lMembF!=='all'&&a.memberId!==lMembF)return false;
+    return true;
+  }).sort((a,b)=>b.id-a.id);
+  if(!acts.length){
+    el.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>記録がありません</p></div>`;
+    return;
+  }
+  el.innerHTML=acts.map(a=>a.type==='equipment'?equipCard(a):actCard(a)).join('');
+}
+
+function renderLogGoals(){
+  const el=document.getElementById('log-goal-list');
+  const goals=db.goals.filter(g=>{
+    if(lProjF!=='all'&&g.projectId!==lProjF)return false;
+    if(lMembF!=='all'&&g.memberId!==lMembF)return false;
+    return true;
+  });
+  if(!goals.length){
+    el.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24"><polygon points="12,2,15.09,8.26,22,9.27,17,14.14,18.18,21.02,12,17.77,5.82,21.02,7,14.14,2,9.27,8.91,8.26"/></svg><p>目標がありません</p></div>`;
+    return;
+  }
+  const sorted=[...goals.filter(g=>!g.done),...goals.filter(g=>g.done)];
+  el.innerHTML=sorted.map(g=>{
+    const p=proj(g.projectId), c=p?p.color:'#22a55e';
+    return `<div class="goal-list-item${g.done?' done-item':''}">
+      <div class="goal-circle${g.done?' done':''}" onclick="toggleGoalLog(${g.id})" style="${!g.done?'border-color:'+c:''}">
+        <svg viewBox="0 0 14 14"><polyline points="2,7,5.5,10.5,12,3"/></svg>
+      </div>
+      <div class="goal-list-body">
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+          ${p?`<span class="badge-sm" style="background:${rgba(c,0.15)};color:${c}">${p.emoji} ${esc(p.name)}</span>`:''}
+          <span style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px">${esc(g.cat)}</span>
+        </div>
+        <div class="goal-list-text">${esc(g.text)}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:4px">${mbrEmoji(g.memberId)} ${esc(mbrName(g.memberId))}</div>
+      </div>
+      <button class="goal-list-del" onclick="deleteGoalLog(${g.id})"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6"/></svg></button>
+    </div>`;
+  }).join('');
+}
+
+function toggleGoalLog(id){ const g=db.goals.find(x=>x.id===id); if(!g)return; g.done=!g.done; save(); renderLogGoals(); renderGoalSummary(); renderStatsArea(); }
+function deleteGoalLog(id){ if(!confirm('この目標を削除しますか？'))return; db.goals=db.goals.filter(g=>g.id!==id); save(); renderLogGoals(); renderGoalSummary(); renderStatsArea(); toast('削除しました'); }
+
+// ════════════════════════════════════════════
+//  DETAIL OVERLAYS
+// ════════════════════════════════════════════
+function openDetail(type, id){
+  detailType=type; detailId=id;
+  const a=db.activities.find(x=>x.id===id); if(!a)return;
+  const p=proj(a.projectId), c=p?p.color:'#22a55e';
+
+  if(type==='activity'){
+    document.getElementById('detail-a-title').textContent=a.title||'';
+    document.getElementById('detail-a-meta').textContent=`${fmtDate(a.date)} · ${mbrEmoji(a.memberId)} ${mbrName(a.memberId)}`;
+    const tags=(a.tags||[]).map(t=>`<span class="tag" style="background:${rgba(c,0.15)};color:${c}">${esc(t)}</span>`).join('');
+    let b='';
+    if(p) b+=`<div class="detail-sec"><div class="detail-sec-label">プロジェクト</div><span class="badge-sm" style="background:${rgba(c,0.15)};color:${c};font-size:13px;padding:4px 12px">${p.emoji} ${esc(p.name)}</span></div>`;
+    if(tags) b+=`<div class="detail-sec"><div class="detail-sec-label">タグ</div><div style="display:flex;flex-wrap:wrap;gap:6px">${tags}</div></div>`;
+    if(a.carryOver&&a.carryText) b+=`<div class="detail-sec"><div class="detail-sec-label">前回の継続課題</div><div class="carry-section">${esc(a.carryText)}</div></div>`;
+    if(a.memo) b+=`<div class="detail-sec"><div class="detail-sec-label">振り返り・メモ</div><div class="detail-text">${esc(a.memo).replace(/\n/g,'<br>')}</div></div>`;
+    if(a.carryOver) b+=`<div style="margin-top:8px"><span class="carry-badge">⚑ 次回に継続</span></div>`;
+    if(a.ytLinks&&a.ytLinks.length) b+=`<div class="detail-sec"><div class="detail-sec-label">YouTube動画</div>${a.ytLinks.map(u=>`<a href="${esc(u)}" target="_blank" style="display:block;font-size:13px;color:#dc4040;word-break:break-all;margin-bottom:6px">${esc(u)}</a>`).join('')}</div>`;
+    document.getElementById('detail-a-body').innerHTML=b;
+    document.getElementById('detail-activity').classList.add('open');
+  } else {
+    document.getElementById('detail-e-title').textContent=a.item||a.title||'';
+    document.getElementById('detail-e-meta').textContent=`${fmtDate(a.date)} · ${mbrEmoji(a.memberId)} ${mbrName(a.memberId)}`;
+    let b='';
+    if(p) b+=`<div class="detail-sec"><div class="detail-sec-label">プロジェクト</div><span class="badge-sm" style="background:${rgba(c,0.15)};color:${c};font-size:13px;padding:4px 12px">${p.emoji} ${esc(p.name)}</span></div>`;
+    if(a.val||a.value) b+=`<div class="detail-sec"><div class="detail-sec-label">数値</div><div style="font-size:36px;font-weight:700;color:${c}">${esc(a.val||a.value||'')} <span style="font-size:14px;font-weight:500;color:var(--text3)">${esc(a.unit||'')}</span></div></div>`;
+    if(a.sub) b+=`<div class="detail-sec"><div class="detail-sec-label">関連機材</div><div class="detail-text">${esc(a.sub)}</div></div>`;
+    if(a.memo) b+=`<div class="detail-sec"><div class="detail-sec-label">メモ</div><div class="detail-text">${esc(a.memo).replace(/\n/g,'<br>')}</div></div>`;
+    document.getElementById('detail-e-body').innerHTML=b;
+    document.getElementById('detail-equipment').classList.add('open');
+  }
+}
+
+function closeDetail(type){ document.getElementById('detail-'+type).classList.remove('open'); detailType=null; detailId=null; }
+
+function editDetail(type){
+  if(!detailId)return;
+  const a=db.activities.find(x=>x.id===detailId); if(!a)return;
+  closeDetail(type);
+  editMode=true; editId=detailId;
+  openModal(type,a);
+}
+function deleteDetail(type){
+  if(!confirm('この記録を削除しますか？'))return;
+  db.activities=db.activities.filter(x=>x.id!==detailId);
+  save(); closeDetail(type); renderAll(); toast('削除しました');
+}
+
+// ════════════════════════════════════════════
+//  FORM SELECTOR RENDERERS
+// ════════════════════════════════════════════
+function renderProjSel(id, cur, fn){
+  document.getElementById(id).innerHTML=db.projects.map(p=>`
+    <button class="sel-btn${cur===p.id?' active':''}" style="${cur===p.id?`background:${p.color};border-color:${p.color}`:''}" onclick="${fn}('${p.id}')">${p.emoji} ${esc(p.name)}</button>`).join('');
+}
+function renderMembSel(id, cur, fn){
+  document.getElementById(id).innerHTML=members().map(m=>`
+    <button class="sel-btn${cur===m.id?' active':''}" style="${cur===m.id?'background:var(--primary);border-color:var(--primary-dark)':''}" onclick="${fn}('${m.id}')">${m.emoji} ${esc(m.name)}</button>`).join('');
+}
+
+// Activity form selectors
+function setAPrj(id){ fAPrj=id; renderProjSel('a-proj-sel',fAPrj,'setAPrj'); updateCarrySection(); renderActTagSugs(); }
+function setAMbr(id){ fAMbr=id; renderMembSel('a-member-sel',fAMbr,'setAMbr'); updateCarrySection(); }
+// Equipment form selectors
+function setEPrj(id){ fEPrj=id; renderProjSel('e-proj-sel',fEPrj,'setEPrj'); renderEquipSugs(); }
+function setEMbr(id){ fEMbr=id; renderMembSel('e-member-sel',fEMbr,'setEMbr'); }
+// Goal form selectors
+function setGPrj(id){ fGPrj=id; renderProjSel('g-proj-sel',fGPrj,'setGPrj'); }
+function setGMbr(id){ fGMbr=id; renderMembSel('g-member-sel',fGMbr,'setGMbr'); }
+
+// ════════════════════════════════════════════
+//  CARRY-OVER
+// ════════════════════════════════════════════
+function updateCarrySection(){
+  const prev=db.activities.filter(a=>a.type==='activity'&&a.projectId===fAPrj&&a.memberId===fAMbr&&a.carryOver).sort((a,b)=>b.id-a.id)[0];
+  const sec=document.getElementById('a-carry-section');
+  if(prev&&!editMode){ document.getElementById('a-carry-text').textContent=`【${prev.title}】からの継続`; sec.style.display='block'; }
+  else{ sec.style.display='none'; }
+}
+function toggleCarry(){ carryChk=!carryChk; document.getElementById('a-carry-check').classList.toggle('checked',carryChk); }
+
+// ════════════════════════════════════════════
+//  TAG SUGGESTIONS
+// ════════════════════════════════════════════
+function renderActTagSugs(){
+  const inp=document.getElementById('a-tags'), el=document.getElementById('a-tag-sugs');
+  const freq={};
+  db.activities.filter(a=>a.type==='activity'&&a.projectId===fAPrj).forEach(a=>{ (a.tags||[]).forEach(t=>{ freq[t]=(freq[t]||0)+1; }); });
+  const top=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>x[0]);
+  const typed=(inp.value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const cur=typed[typed.length-1]||'';
+  const show=top.filter(t=>!typed.includes(t)&&(!cur||t.toLowerCase().includes(cur.toLowerCase())));
+  el.innerHTML=show.map(t=>`<div class="tag-sug" onclick="addActTag('${esc(t)}')">${esc(t)}</div>`).join('');
+}
+function addActTag(t){
+  const inp=document.getElementById('a-tags');
+  const parts=(inp.value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  if(!parts.includes(t)) parts.push(t);
+  inp.value=parts.join(','); renderActTagSugs();
+}
+
+function renderEquipSugs(){
+  const items={},subs={};
+  db.activities.filter(a=>a.type==='equipment'&&a.projectId===fEPrj).forEach(a=>{
+    if(a.item) items[a.item]=(items[a.item]||0)+1;
+    if(a.sub)  subs[a.sub]=(subs[a.sub]||0)+1;
+  });
+  document.getElementById('e-item-sugs').innerHTML=Object.entries(items).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([t])=>`<div class="tag-sug" onclick="document.getElementById('e-item').value='${esc(t)}'">${esc(t)}</div>`).join('');
+  document.getElementById('e-sub-sugs').innerHTML=Object.entries(subs).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([t])=>`<div class="tag-sug" onclick="document.getElementById('e-sub').value='${esc(t)}'">${esc(t)}</div>`).join('');
+}
+
+// ════════════════════════════════════════════
+//  YOUTUBE LINKS
+// ════════════════════════════════════════════
+function addYt(){
+  const inp=document.getElementById('a-yt'), url=inp.value.trim();
+  if(!url||!url.startsWith('http'))return;
+  ytArr.push(url); inp.value=''; renderYtList();
+}
+function removeYt(i){ ytArr.splice(i,1); renderYtList(); }
+function renderYtList(){
+  document.getElementById('a-yt-list').innerHTML=ytArr.map((u,i)=>
+    `<div class="yt-chip">${esc(u.slice(0,45))}… <span onclick="removeYt(${i})" style="cursor:pointer;font-weight:700;margin-left:4px">×</span></div>`
+  ).join('');
+}
+
+// ════════════════════════════════════════════
+//  MODAL OPEN / CLOSE
+// ════════════════════════════════════════════
+function openModal(type, prefill){
+  closeFab();
+  editMode=!!prefill&&!!editId;
+  const dp=defPrj();
+
+  if(type==='activity'){
+    if(prefill){
+      fAPrj=prefill.projectId||dp; fAMbr=prefill.memberId||'m1';
+      document.getElementById('a-date').value=prefill.date||today();
+      document.getElementById('a-title').value=prefill.title||'';
+      document.getElementById('a-tags').value=(prefill.tags||[]).join(',');
+      document.getElementById('a-memo').value=prefill.memo||'';
+      ytArr=[...(prefill.ytLinks||[])]; carryChk=!!prefill.carryOver;
+      document.getElementById('modal-activity-title').textContent='活動記録を編集';
+      document.getElementById('modal-activity-btn').textContent='更新する';
+    } else {
+      fAPrj=dp; fAMbr='m1';
+      document.getElementById('a-date').value=today();
+      document.getElementById('a-title').value=''; document.getElementById('a-tags').value=''; document.getElementById('a-memo').value='';
+      document.getElementById('a-yt').value=''; ytArr=[]; carryChk=false;
+      document.getElementById('modal-activity-title').textContent='活動記録を追加';
+      document.getElementById('modal-activity-btn').textContent='保存する';
+    }
+    renderProjSel('a-proj-sel',fAPrj,'setAPrj'); renderMembSel('a-member-sel',fAMbr,'setAMbr');
+    document.getElementById('a-carry-check').classList.toggle('checked',carryChk);
+    updateCarrySection(); renderActTagSugs(); renderYtList();
+
+  } else if(type==='equipment'){
+    if(prefill){
+      fEPrj=prefill.projectId||dp; fEMbr=prefill.memberId||'m1';
+      document.getElementById('e-date').value=prefill.date||today();
+      document.getElementById('e-item').value=prefill.item||prefill.title||'';
+      document.getElementById('e-sub').value=prefill.sub||'';
+      document.getElementById('e-val').value=prefill.val||prefill.value||'';
+      document.getElementById('e-unit').value=prefill.unit||'';
+      document.getElementById('e-memo').value=prefill.memo||'';
+      document.getElementById('modal-equipment-title').textContent='装備記録を編集';
+      document.getElementById('modal-equipment-btn').textContent='更新する';
+    } else {
+      // For equipment, prefer an equipment-enabled project
+      fEPrj = (hProjF!=='all'&&(proj(hProjF)||{}).enableEquipment) ? hProjF
+             : (db.projects.find(p=>p.enableEquipment)||db.projects[0]||{}).id||dp;
+      fEMbr='m1';
+      document.getElementById('e-date').value=today();
+      ['e-item','e-sub','e-memo'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('e-val').value='';
+      document.getElementById('e-unit').value=fEPrj==='p_tennis'?'lbs':'';
+      document.getElementById('modal-equipment-title').textContent='装備記録を追加';
+      document.getElementById('modal-equipment-btn').textContent='保存する';
+    }
+    renderProjSel('e-proj-sel',fEPrj,'setEPrj'); renderMembSel('e-member-sel',fEMbr,'setEMbr');
+    renderEquipSugs();
+
+  } else if(type==='goal'){
+    if(prefill){
+      fGPrj=prefill.projectId||dp; fGMbr=prefill.memberId||'m1';
+      document.getElementById('g-cat').value=prefill.cat||''; document.getElementById('g-text').value=prefill.text||'';
+      document.getElementById('modal-goal-title').textContent='目標を編集';
+      document.getElementById('modal-goal-btn').textContent='更新する';
+    } else {
+      fGPrj=dp; fGMbr='m1';
+      document.getElementById('g-cat').value=''; document.getElementById('g-text').value='';
+      document.getElementById('modal-goal-title').textContent='目標を追加';
+      document.getElementById('modal-goal-btn').textContent='追加する';
+    }
+    renderProjSel('g-proj-sel',fGPrj,'setGPrj'); renderMembSel('g-member-sel',fGMbr,'setGMbr');
+
+  } else if(type==='project'){
+    if(prefill){
+      editProjId=prefill.id;
+      document.getElementById('proj-name').value=prefill.name||'';
+      fPjEmoji=prefill.emoji||'🎯'; fPjColor=prefill.color||PROJ_COLORS[0];
+      document.getElementById('proj-equip').checked=!!prefill.enableEquipment;
+      document.getElementById('modal-project-title').textContent='プロジェクトを編集';
+      document.getElementById('modal-project-btn').textContent='更新する';
+    } else {
+      editProjId=null;
+      document.getElementById('proj-name').value='';
+      fPjEmoji=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+      fPjColor=PROJ_COLORS[db.projects.length%PROJ_COLORS.length];
+      document.getElementById('proj-equip').checked=false;
+      document.getElementById('modal-project-title').textContent='プロジェクトを追加';
+      document.getElementById('modal-project-btn').textContent='追加する';
+    }
+    renderEmojiGrid(); renderColorSwatches();
   }
   document.getElementById('modal-'+type).classList.add('open');
-  document.getElementById('screen').style.overflow='hidden';
 }
-function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');document.getElementById('screen').style.overflow='';editMode=false;editingId=null;}
-function editItem(type){const id=currentDetailId;if(!id)return;closeDetail(type);setTimeout(()=>openModal(type,id),80);}
 
-// ===== CARRY / YT / TAGS =====
-function getCarryOver(memberId){const p=db.practices.filter(x=>x.memberId===memberId).find(x=>x.carryOver);return p?p.carryOverMemo:'';}
-function toggleCarryCheck(){carryChecked=!carryChecked;document.getElementById('carry-check').classList.toggle('checked',carryChecked);}
-function addYtLink(){const v=document.getElementById('p-yt').value.trim();if(!v||!v.startsWith('http'))return;if(!ytLinks.includes(v))ytLinks.push(v);document.getElementById('p-yt').value='';renderYtList();}
-document.getElementById('p-yt').addEventListener('blur',addYtLink);
-document.getElementById('p-yt').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addYtLink();}});
-function renderYtList(){document.getElementById('p-yt-list').innerHTML=ytLinks.map((l,i)=>`<div class="yt-chip">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}<span style="margin-left:6px;cursor:pointer;color:var(--text3)" onclick="removeYt(${i})">×</span></div>`).join('');}
-function removeYt(i){ytLinks.splice(i,1);renderYtList();}
-function getAllTags(){return[...new Set(db.practices.filter(p=>p.memberId===formPMember).flatMap(p=>p.tags||[]))];}
-function renderTagSuggestions(){
-  const tags=getAllTags();const el=document.getElementById('p-tag-suggestions');
-  if(!tags.length){el.innerHTML='';return;}
-  const cur=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
-  el.innerHTML=tags.map(t=>`<div class="tag-sug${cur.includes(t)?' selected':''}" onclick="addTag('${esc(t)}')">${esc(t)}</div>`).join('');
+function closeModal(type){
+  document.getElementById('modal-'+type).classList.remove('open');
+  editMode=false; editId=null;
 }
-function addTag(t){const inp=document.getElementById('p-tags');const cur=inp.value.split(',').map(x=>x.trim()).filter(Boolean);if(!cur.includes(t))cur.push(t);else cur.splice(cur.indexOf(t),1);inp.value=cur.join(', ');renderTagSuggestions();}
-function renderGearSuggestions(){
-  const memberGears=db.gears.filter(g=>g.memberId===formGMember);
-  const guts=[...new Set(memberGears.map(g=>g.gut).filter(Boolean))];
-  const rackets=[...new Set(memberGears.map(g=>g.racket).filter(Boolean))];
-  document.getElementById('g-gut-suggestions').innerHTML=guts.map(g=>`<div class="tag-sug" onclick="setVal('g-gut','${esc(g)}')">${esc(g)}</div>`).join('');
-  document.getElementById('g-racket-suggestions').innerHTML=rackets.map(r=>`<div class="tag-sug" onclick="setVal('g-racket','${esc(r)}')">${esc(r)}</div>`).join('');
-}
-function setVal(id,v){document.getElementById(id).value=v;}
 
-// ===== SAVE =====
-function savePractice(){
-  const title=document.getElementById('p-title').value.trim();
-  const date=document.getElementById('p-date').value;
-  if(!title){showToast('タイトルを入力してください');return;}
-  if(!date){showToast('日付を入力してください');return;}
-  const tags=document.getElementById('p-tags').value.split(',').map(x=>x.trim()).filter(Boolean);
-  const memo=document.getElementById('p-memo').value.trim();
-  const memberId=formPMember;
-  if(editMode&&editingId){
-    const idx=db.practices.findIndex(p=>p.id===editingId);
-    if(idx!==-1){const old=db.practices[idx];db.practices[idx]={...old,memberId,date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:old.carryOverMemo,youtube:[...ytLinks]};}
-    const savedId=editingId;
-    saveStorage();closeModal('practice');renderCalendar();renderHome();renderLog();
-    if(selectedDate)showDayPanel(selectedDate);openDetail('practice',savedId);showToast('練習記録を更新しました！');
-  }else{
-    const co=getCarryOver(memberId);
-    db.practices.filter(p=>p.memberId===memberId).forEach(p=>{if(p.carryOver)p.carryOver=false;});
-    db.practices.unshift({id:Date.now(),memberId,date,title,tags,memo,carryOver:carryChecked,carryOverMemo:carryChecked?memo:'',inheritedCarry:co||'',youtube:[...ytLinks]});
-    saveStorage();closeModal('practice');renderCalendar();renderHome();renderLog();
-    if(selectedDate===date)showDayPanel(date);showToast('練習記録を保存しました！');
+// ════════════════════════════════════════════
+//  SAVE FUNCTIONS
+// ════════════════════════════════════════════
+function saveActivity(){
+  if(!fAPrj){ toast('プロジェクトを選択してください'); return; }
+  const title=document.getElementById('a-title').value.trim();
+  if(!title){ toast('タイトルを入力してください'); return; }
+  addYt();
+  const tags=document.getElementById('a-tags').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const date=document.getElementById('a-date').value||today();
+  const memo=document.getElementById('a-memo').value.trim();
+  const prev=db.activities.filter(a=>a.type==='activity'&&a.projectId===fAPrj&&a.memberId===fAMbr&&a.carryOver).sort((a,b)=>b.id-a.id)[0];
+  const carryText=prev?`【${prev.title}】からの継続`:'';
+  if(editMode&&editId){
+    const a=db.activities.find(x=>x.id===editId);
+    if(a) Object.assign(a,{projectId:fAPrj,memberId:fAMbr,date,title,tags,memo,carryOver:carryChk,ytLinks:[...ytArr]});
+    toast('更新しました！');
+  } else {
+    db.activities.push({id:Date.now(),type:'activity',projectId:fAPrj,memberId:fAMbr,date,title,tags,memo,carryOver:carryChk,ytLinks:[...ytArr],carryText});
+    toast('記録を追加しました！');
   }
+  save(); closeModal('activity'); renderAll();
 }
-function saveGear(){
-  const date=document.getElementById('g-date').value;
-  const gut=document.getElementById('g-gut').value.trim();
-  if(!gut){showToast('ガットの種類を入力してください');return;}
-  if(!date){showToast('日付を入力してください');return;}
-  const racket=document.getElementById('g-racket').value.trim();
-  const tension=document.getElementById('g-tension').value;
-  const memo=document.getElementById('g-memo').value.trim();
-  const memberId=formGMember;
-  if(editMode&&editingId){
-    const idx=db.gears.findIndex(g=>g.id===editingId);
-    if(idx!==-1)db.gears[idx]={...db.gears[idx],memberId,date,gut,racket,tension,memo};
-    const savedId=editingId;
-    saveStorage();closeModal('gear');renderCalendar();renderLog();
-    if(selectedDate)showDayPanel(selectedDate);openDetail('gear',savedId);showToast('ガット記録を更新しました！');
-  }else{
-    db.gears.unshift({id:Date.now(),memberId,date,gut,racket,tension,memo});
-    saveStorage();closeModal('gear');renderCalendar();renderLog();
-    if(selectedDate===date)showDayPanel(date);showToast('ガット張替えを記録しました！');
+
+function saveEquipment(){
+  if(!fEPrj){ toast('プロジェクトを選択してください'); return; }
+  const item=document.getElementById('e-item').value.trim();
+  if(!item){ toast('品名を入力してください'); return; }
+  const date=document.getElementById('e-date').value||today();
+  const sub=document.getElementById('e-sub').value.trim();
+  const val=document.getElementById('e-val').value.trim();
+  const unit=document.getElementById('e-unit').value.trim();
+  const memo=document.getElementById('e-memo').value.trim();
+  if(editMode&&editId){
+    const a=db.activities.find(x=>x.id===editId);
+    if(a) Object.assign(a,{projectId:fEPrj,memberId:fEMbr,date,title:item,item,sub,val,unit,memo});
+    toast('更新しました！');
+  } else {
+    db.activities.push({id:Date.now(),type:'equipment',projectId:fEPrj,memberId:fEMbr,date,title:item,item,sub,val,unit,memo});
+    toast('装備記録を追加しました！');
   }
+  save(); closeModal('equipment'); renderAll();
 }
 
-// ===== DELETE =====
-function deleteItem(type){
-  if(!currentDetailId)return;
-  if(!confirm('この記録を削除しますか？'))return;
-  if(type==='practice')db.practices=db.practices.filter(p=>p.id!==currentDetailId);
-  else db.gears=db.gears.filter(g=>g.id!==currentDetailId);
-  saveStorage();closeDetail(type);renderCalendar();renderHome();renderLog();
-  if(selectedDate)showDayPanel(selectedDate);showToast('削除しました');
-}
-
-// ===== CARDS =====
-function memberTag(memberId){
-  const m=getMemberById(memberId);
-  if(!m)return'';
-  return`<span class="member-badge">${m.emoji} ${esc(m.name)}</span>`;
-}
-function practiceCard(p,showMember){
-  return`<div class="log-card" onclick="openDetail('practice',${p.id})">
-    <div class="log-card-header"><div class="log-card-title">${esc(p.title)}</div><div class="log-card-date">${fmtDate(p.date)}</div></div>
-    ${p.tags&&p.tags.length?`<div class="log-card-tags">${p.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
-    ${p.memo?`<div class="log-card-memo">${esc(p.memo).slice(0,90)}${p.memo.length>90?'…':''}</div>`:''}
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-      ${showMember?memberTag(p.memberId):''}
-      ${p.carryOver?`<span class="carry-badge">⚑ 課題持ち越し</span>`:''}
-    </div>
-  </div>`;
-}
-function gearCard(g,showMember){
-  return`<div class="log-card" onclick="openDetail('gear',${g.id})">
-    <div class="log-card-header"><div class="log-card-title">${esc(g.gut)}</div><div class="log-card-date">${fmtDate(g.date)}</div></div>
-    ${g.racket?`<div style="font-size:12px;color:var(--text2);margin-top:4px">${esc(g.racket)}</div>`:''}
-    ${g.tension?`<div class="gear-tension">${g.tension} lbs</div>`:''}
-    ${g.memo?`<div class="log-card-memo">${esc(g.memo).slice(0,60)}${g.memo.length>60?'…':''}</div>`:''}
-    ${showMember?`<div style="margin-top:4px">${memberTag(g.memberId)}</div>`:''}
-  </div>`;
-}
-
-function renderHome(){
-  const showMember=homeMemberFilter==='all';
-  const ps=(homeMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===homeMemberFilter));
-  const el=document.getElementById('home-recent');
-  if(!ps.length){el.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>まだ練習記録がありません<br>右下のボタンから追加しましょう</p></div>';return;}
-  el.innerHTML=ps.slice(0,3).map(p=>practiceCard(p,showMember)).join('');
-}
-
-function switchLogTab(t){
-  logSubTab=t;
-  document.getElementById('log-tab-practice').classList.toggle('active',t==='practice');
-  document.getElementById('log-tab-gear').classList.toggle('active',t==='gear');
-  document.getElementById('log-practice-list').style.display=t==='practice'?'':'none';
-  document.getElementById('log-gear-list').style.display=t==='gear'?'':'none';
-}
-function renderLog(){
-  const showMember=logMemberFilter==='all';
-  const ps=logMemberFilter==='all'?db.practices:db.practices.filter(p=>p.memberId===logMemberFilter);
-  const gs=logMemberFilter==='all'?db.gears:db.gears.filter(g=>g.memberId===logMemberFilter);
-  document.getElementById('log-practice-list').innerHTML=ps.length?ps.map(p=>practiceCard(p,showMember)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2,14,8,20,8"/></svg><p>練習記録がまだありません</p></div>';
-  document.getElementById('log-gear-list').innerHTML=gs.length?gs.map(g=>gearCard(g,showMember)).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2c0 5.52-3.58 10-8 10"/></svg><p>ガット記録がまだありません</p></div>';
-}
-
-// ===== DETAIL =====
-function openDetail(type,id){
-  currentDetailId=id;
-  if(type==='practice'){
-    const p=db.practices.find(x=>x.id===id);if(!p)return;
-    document.getElementById('detail-p-title').textContent=p.title;
-    document.getElementById('detail-p-date').textContent=fmtDate(p.date);
-    document.getElementById('detail-p-member').innerHTML=memberTag(p.memberId)||'—';
-    document.getElementById('detail-p-tags').innerHTML=(p.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('');
-    document.getElementById('detail-p-tags-sec').style.display=p.tags&&p.tags.length?'':'none';
-    const cs=document.getElementById('detail-p-carry-sec');
-    if(p.inheritedCarry){cs.style.display='';document.getElementById('detail-p-carry').textContent=p.inheritedCarry;}else cs.style.display='none';
-    const memoSec=document.getElementById('detail-p-memo-sec');
-    if(p.memo){memoSec.style.display='';document.getElementById('detail-p-memo').textContent=p.memo;}else memoSec.style.display='none';
-    const ys=document.getElementById('detail-p-yt-sec');
-    if(p.youtube&&p.youtube.length){ys.style.display='';document.getElementById('detail-p-yt').innerHTML=p.youtube.map(l=>`<div class="yt-chip" style="cursor:pointer" onclick="openLink('${esc(l)}')">▶ ${esc(l.length>40?l.slice(0,40)+'...':l)}</div>`).join('');}else ys.style.display='none';
-  }else{
-    const g=db.gears.find(x=>x.id===id);if(!g)return;
-    document.getElementById('detail-g-title').textContent=g.gut;
-    document.getElementById('detail-g-date').textContent=fmtDate(g.date);
-    document.getElementById('detail-g-member').innerHTML=memberTag(g.memberId)||'—';
-    document.getElementById('detail-g-tension').textContent=g.tension?g.tension+' lbs':'未設定';
-    const rs=document.getElementById('detail-g-racket-sec');
-    if(g.racket){rs.style.display='';document.getElementById('detail-g-racket').textContent=g.racket;}else rs.style.display='none';
-    const ms=document.getElementById('detail-g-memo-sec');
-    if(g.memo){ms.style.display='';document.getElementById('detail-g-memo').textContent=g.memo;}else ms.style.display='none';
+function saveGoal(){
+  if(!fGPrj){ toast('プロジェクトを選択してください'); return; }
+  const cat=document.getElementById('g-cat').value.trim();
+  const text=document.getElementById('g-text').value.trim();
+  if(!cat){ toast('カテゴリを入力してください'); return; }
+  if(!text){ toast('目標内容を入力してください'); return; }
+  if(editMode&&editId){
+    const g=db.goals.find(x=>x.id===editId);
+    if(g) Object.assign(g,{projectId:fGPrj,memberId:fGMbr,cat,text});
+    toast('目標を更新しました！');
+  } else {
+    db.goals.push({id:Date.now(),projectId:fGPrj,memberId:fGMbr,cat,text,done:false});
+    toast('目標を追加しました！');
   }
-  document.getElementById('detail-'+type).classList.add('open');
+  save(); closeModal('goal'); renderGoalSummary(); renderLogGoals(); renderStatsArea();
 }
-function closeDetail(type){document.getElementById('detail-'+type).classList.remove('open');currentDetailId=null;}
 
-// ===== EXPORT / IMPORT =====
-function exportData(){const data=JSON.stringify(db,null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='tennis_data_'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);showToast('エクスポートしました！');}
-function importData(){document.getElementById('import-input').click();}
+// ════════════════════════════════════════════
+//  PROJECT MODAL UI
+// ════════════════════════════════════════════
+function renderEmojiGrid(){
+  document.getElementById('proj-emoji-grid').innerHTML=EMOJIS.map(e=>
+    `<button class="emoji-btn${e===fPjEmoji?' sel':''}" onclick="pickEmoji('${e}')">${e}</button>`).join('');
+}
+function pickEmoji(e){ fPjEmoji=e; renderEmojiGrid(); }
+function renderColorSwatches(){
+  document.getElementById('proj-colors').innerHTML=PROJ_COLORS.map(c=>
+    `<button class="color-swatch${c===fPjColor?' sel':''}" style="background:${c}" onclick="pickColor('${c}')"></button>`).join('');
+}
+function pickColor(c){ fPjColor=c; renderColorSwatches(); }
+
+function saveProject(){
+  const name=document.getElementById('proj-name').value.trim();
+  if(!name){ toast('プロジェクト名を入力してください'); return; }
+  const enableEquipment=document.getElementById('proj-equip').checked;
+  if(editProjId){
+    const p=db.projects.find(x=>x.id===editProjId);
+    if(p) Object.assign(p,{name,emoji:fPjEmoji,color:fPjColor,enableEquipment});
+    toast('プロジェクトを更新しました！');
+  } else {
+    db.projects.push({id:'p_'+Date.now(),name,emoji:fPjEmoji,color:fPjColor,enableEquipment});
+    toast('プロジェクトを追加しました！');
+  }
+  save(); closeModal('project'); renderAll(); renderSettingsProjects();
+}
+
+function editProj(id){ const p=db.projects.find(x=>x.id===id); if(!p)return; editId=id; editMode=true; openModal('project',p); }
+function deleteProj(id){
+  if(!confirm('このプロジェクトを削除しますか？\n関連する記録と目標もすべて削除されます。'))return;
+  db.projects=db.projects.filter(p=>p.id!==id);
+  db.activities=db.activities.filter(a=>a.projectId!==id);
+  db.goals=db.goals.filter(g=>g.projectId!==id);
+  if(hProjF===id) hProjF='all';
+  if(lProjF===id) lProjF='all';
+  save(); renderAll(); renderSettingsProjects(); toast('削除しました');
+}
+
+// ════════════════════════════════════════════
+//  SETTINGS
+// ════════════════════════════════════════════
+function renderSettingsMembers(){
+  document.getElementById('settings-members').innerHTML=members().map(m=>`
+    <div class="mn-row">
+      <div class="mn-emoji">${m.emoji}</div>
+      <input class="mn-input" type="text" id="mn-${m.id}" value="${esc(m.name)}" placeholder="${esc(m.defName)}">
+    </div>`).join('');
+}
+function saveMemberNames(){
+  DEF_MEMBERS.forEach(m=>{ const el=document.getElementById('mn-'+m.id); if(el&&el.value.trim()) db.memberNames[m.id]=el.value.trim(); });
+  save(); initFilters(); renderAll(); toast('メンバー名を保存しました！');
+}
+
+function renderSettingsProjects(){
+  const el=document.getElementById('settings-projects'); if(!el)return;
+  if(!db.projects.length){ el.innerHTML='<div class="day-empty">プロジェクトがありません</div>'; return; }
+  el.innerHTML=db.projects.map(p=>`
+    <div class="proj-settings-item">
+      <div class="proj-settings-dot" style="background:${p.color}"></div>
+      <div style="font-size:20px">${p.emoji}</div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--text)">${esc(p.name)}</div>${p.enableEquipment?'<div style="font-size:11px;color:var(--text3)">装備記録あり</div>':''}</div>
+      <div style="display:flex;gap:6px">
+        <button class="proj-action-btn" onclick="editProj('${p.id}')">編集</button>
+        ${p.id==='p_tennis'?'':`<button class="proj-action-btn del" onclick="deleteProj('${p.id}')">削除</button>`}
+      </div>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════════════
+//  EXPORT / IMPORT
+// ════════════════════════════════════════════
+function exportData(){
+  const b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+  a.download=`mylog_${today()}.json`; a.click();
+}
+function importData(){ document.getElementById('import-input').click(); }
 function handleImport(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
+  const file=e.target.files[0]; if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{
     try{
-      const d=JSON.parse(ev.target.result);
-      if(d.practices)db.practices=[...d.practices,...db.practices.filter(p=>!d.practices.find(x=>x.id===p.id))];
-      if(d.gears)db.gears=[...d.gears,...db.gears.filter(g=>!d.gears.find(x=>x.id===g.id))];
-      if(d.skillGoals)db.skillGoals=[...d.skillGoals,...db.skillGoals.filter(s=>!d.skillGoals.find(x=>x.id===s.id))];
-      if(d.memberNames)db.memberNames={...d.memberNames,...db.memberNames};
-      saveStorage();renderAll();initMemberFilters();showToast('インポートしました！');
-    }catch{showToast('ファイルの形式が正しくありません');}
+      const data=JSON.parse(ev.target.result);
+      if(data.projects&&data.activities!=null&&data.goals!=null){ db=data; save(); renderAll(); toast('インポート完了！'); }
+      else if(data.practices||data.gears||data.skillGoals){ convertOld(data); }
+      else{ toast('不正なファイル形式です'); }
+    }catch{ toast('ファイルの読み込みに失敗しました'); }
+    e.target.value='';
   };
-  reader.readAsText(file);e.target.value='';
+  r.readAsText(file);
 }
 
-// ===== UTILS =====
-function openLink(url){window.open(url,'_blank');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2500);}
-function fmtDate(d){if(!d)return'';const dt=new Date(d+'T00:00:00');return`${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;}
-function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function importOldTennis(){
+  try{
+    const raw=localStorage.getItem(OLD_KEY);
+    if(!raw){ toast('旧テニスアプリのデータが見つかりません'); return; }
+    convertOld(JSON.parse(raw));
+  }catch{ toast('変換に失敗しました'); }
+}
 
-document.addEventListener('click',e=>{const fab=document.getElementById('fab-btn');const menu=document.getElementById('fab-menu');if(!fab.contains(e.target)&&!menu.contains(e.target))closeFab();});
+function convertOld(old){
+  if(!db.projects.find(p=>p.id==='p_tennis'))
+    db.projects.unshift({id:'p_tennis',name:'テニス',emoji:'🎾',color:'#22a55e',enableEquipment:true});
+  if(old.memberNames) Object.assign(db.memberNames,old.memberNames);
+  (old.practices||[]).forEach(p=>{
+    if(!db.activities.find(a=>a.id===p.id))
+      db.activities.push({id:p.id,type:'activity',projectId:'p_tennis',memberId:p.memberId||'m1',date:p.date,title:p.title,tags:p.tags||[],memo:p.memo||'',carryOver:!!p.carryOver,ytLinks:p.ytLinks||[],carryText:''});
+  });
+  (old.gears||[]).forEach(g=>{
+    if(!db.activities.find(a=>a.id===g.id))
+      db.activities.push({id:g.id,type:'equipment',projectId:'p_tennis',memberId:g.memberId||'m1',date:g.date,title:g.gut||'',item:g.gut||'',sub:g.racket||'',val:g.tension?String(g.tension):'',unit:'lbs',memo:g.memo||''});
+  });
+  (old.skillGoals||[]).forEach(sg=>{
+    if(!db.goals.find(x=>x.id===sg.id))
+      db.goals.push({id:sg.id,projectId:'p_tennis',memberId:sg.memberId||'m1',cat:sg.cat||'',text:sg.text||'',done:false});
+  });
+  save(); renderAll(); toast('旧テニスアプリのデータを引き継ぎました！');
+}
 
-// ===== INIT =====
-loadStorage();initCal();initMemberFilters();renderAll();
+// ════════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════════
+let toastTimer=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.style.opacity='1'; el.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateX(-50%) translateY(20px)'; },2500);
+}
+
+// ════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════
+function init(){
+  load(); initCal(); initFilters();
+  renderHome(); renderCalendar(); renderGoalSummary();
+  renderSettingsMembers(); updateFabEquip();
+
+  // Close modals on backdrop click
+  ['activity','equipment','goal','project'].forEach(t=>{
+    document.getElementById('modal-'+t).addEventListener('click',e=>{
+      if(e.target.classList.contains('modal-overlay')) closeModal(t);
+    });
+  });
+
+  // Close FAB on outside click
+  document.getElementById('app').addEventListener('click',e=>{
+    if(fabOpen&&!e.target.closest('.fab')) closeFab();
+  });
+
+  // YT input: add on Enter
+  document.getElementById('a-yt').addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();addYt();} });
+}
+
+init();
 </script>
 </body>
 </html>
