@@ -1023,7 +1023,10 @@ function renderGoalSheetBody(){
               <div class="goal-list-text">${esc(g.text)}</div>
               <div style="font-size:10px;color:var(--text3);margin-top:4px">${mbrEmoji(g.memberId)} ${esc(mbrName(g.memberId))}</div>
             </div>
-            <button class="goal-list-del" onclick="deleteGoalHome(${g.id})"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6"/></svg></button>
+            <div style="display:flex;gap:4px">
+              <button class="goal-list-del" onclick="editGoalSheet(${g.id})" style="color:var(--primary)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="goal-list-del" onclick="deleteGoalHome(${g.id})"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6"/></svg></button>
+            </div>
           </div>`;
         });
         h+='</div>';
@@ -1041,6 +1044,12 @@ function deleteGoalHome(id){
   if(!confirm('この目標を削除しますか？'))return;
   db.goals=db.goals.filter(g=>g.id!==id); save();
   renderGoalSheetBody(); renderGoalSummary(); renderStatsArea(); toast('削除しました');
+}
+function editGoalSheet(id){
+  const g=db.goals.find(x=>x.id===id); if(!g)return;
+  document.getElementById('goal-sheet').classList.remove('open');
+  editMode=true; editId=id;
+  openModal('goal',g);
 }
 
 // ════════════════════════════════════════════
@@ -1100,13 +1109,21 @@ function renderLogGoals(){
         <div class="goal-list-text">${esc(g.text)}</div>
         <div style="font-size:10px;color:var(--text3);margin-top:4px">${mbrEmoji(g.memberId)} ${esc(mbrName(g.memberId))}</div>
       </div>
-      <button class="goal-list-del" onclick="deleteGoalLog(${g.id})"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6"/></svg></button>
+      <div style="display:flex;gap:4px">
+        <button class="goal-list-del" onclick="editGoal(${g.id})" style="color:var(--primary)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="goal-list-del" onclick="deleteGoalLog(${g.id})"><svg viewBox="0 0 24 24"><polyline points="3,6,5,6,21,6"/><path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6"/></svg></button>
+      </div>
     </div>`;
   }).join('');
 }
 
 function toggleGoalLog(id){ const g=db.goals.find(x=>x.id===id); if(!g)return; g.done=!g.done; save(); renderLogGoals(); renderGoalSummary(); renderStatsArea(); }
 function deleteGoalLog(id){ if(!confirm('この目標を削除しますか？'))return; db.goals=db.goals.filter(g=>g.id!==id); save(); renderLogGoals(); renderGoalSummary(); renderStatsArea(); toast('削除しました'); }
+function editGoal(id){
+  const g=db.goals.find(x=>x.id===id); if(!g)return;
+  editMode=true; editId=id;
+  openModal('goal',g);
+}
 
 // ════════════════════════════════════════════
 //  DETAIL OVERLAYS
@@ -1147,8 +1164,9 @@ function closeDetail(type){ document.getElementById('detail-'+type).classList.re
 function editDetail(type){
   if(!detailId)return;
   const a=db.activities.find(x=>x.id===detailId); if(!a)return;
+  const savedId=detailId; // closeDetail sets detailId=null なので先に保存
   closeDetail(type);
-  editMode=true; editId=detailId;
+  editMode=true; editId=savedId;
   openModal(type,a);
 }
 function deleteDetail(type){
